@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/services/services.dart';
+import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class DownloadsPage extends StatelessWidget {
-  final YouTubeService _yt = Get.find();
+  final AudiosViewModel _modelView = Get.find();
 
   DownloadsPage({super.key});
 
@@ -13,14 +14,32 @@ class DownloadsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Downloads'),
       ),
-      body: Center(
-        child: TextButton(
-          child: const Text('Download'),
-          onPressed: () async {
-            await _yt.getInfo('https://www.youtube.com/watch?v=5qap5aO4i9A');
-          },
-        ),
-      ),
+      body: AudiosAndDownloadsList(),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add), onPressed: () => _openDownloadDialog()),
     );
+  }
+
+  void _openDownloadDialog() {
+    final TextEditingController input = TextEditingController();
+    Get.defaultDialog(
+        title: 'Download',
+        content: TextFormField(
+          controller: input,
+        ),
+        actions: <TextButton>[
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('Undo'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (input.value.text == '') return;
+              _modelView.download(input.value.text);
+              Get.back();
+            },
+            child: const Text('Save'),
+          )
+        ]);
   }
 }
