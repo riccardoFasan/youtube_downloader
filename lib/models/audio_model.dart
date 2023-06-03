@@ -1,14 +1,13 @@
 import 'package:yuotube_downloader/models/audio_info_model.dart';
 
 class Audio extends AudioInfo {
-  String fileUri;
+  Uri fileUri;
 
   Audio({
     required String id,
     required String url,
     required String title,
     required String channel,
-    required int duration,
     String? thumbnailUrl,
     required this.fileUri,
   }) : super(
@@ -16,7 +15,6 @@ class Audio extends AudioInfo {
           url: url,
           title: title,
           channel: channel,
-          duration: duration,
           thumbnailUrl: thumbnailUrl,
         );
 
@@ -27,7 +25,6 @@ class Audio extends AudioInfo {
       url: json['url'],
       title: json['title'],
       channel: json['channel'],
-      duration: json['duration'],
       thumbnailUrl: json['thumbnailUrl'],
       fileUri: json['fileUri'],
     );
@@ -40,7 +37,6 @@ class Audio extends AudioInfo {
       'url': url,
       'title': title,
       'channel': channel,
-      'duration': duration,
       'thumbnailUrl': thumbnailUrl,
       'fileUri': fileUri,
     };

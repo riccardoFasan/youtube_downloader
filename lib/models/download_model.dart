@@ -2,11 +2,11 @@ import 'package:yuotube_downloader/models/audio_info_model.dart';
 
 class Download {
   String url;
-  AudioInfo info;
+  AudioInfo? info;
 
   Download({
     required this.url,
-    required this.info,
+    this.info,
   });
 
   factory Download.fromJson(Map<String, dynamic> json) {
@@ -19,7 +19,7 @@ class Download {
   Map<String, dynamic> toJson() {
     return {
       'url': url,
-      'info': info.toJson(),
+      'info': info?.toJson(),
     };
   }
 }

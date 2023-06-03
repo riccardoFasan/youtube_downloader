@@ -3,7 +3,6 @@ class AudioInfo {
   String url;
   String title;
   String channel;
-  int duration;
   String? thumbnailUrl;
 
   AudioInfo({
@@ -11,7 +10,6 @@ class AudioInfo {
     required this.url,
     required this.title,
     required this.channel,
-    required this.duration,
     this.thumbnailUrl,
   });
 
@@ -21,7 +19,6 @@ class AudioInfo {
       url: json['url'],
       title: json['title'],
       channel: json['channel'],
-      duration: json['duration'],
       thumbnailUrl: json['thumbnailUrl'],
     );
   }
@@ -32,7 +29,6 @@ class AudioInfo {
       'url': url,
       'title': title,
       'channel': channel,
-      'duration': duration,
       'thumbnailUrl': thumbnailUrl,
     };
   }
