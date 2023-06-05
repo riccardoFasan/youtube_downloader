@@ -12,7 +12,7 @@ class DownloadsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Downloads'),
+        title: const Text('YouTube Downloader'),
       ),
       body: AudiosAndDownloadsList(),
       floatingActionButton: FloatingActionButton(

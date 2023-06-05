@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class AudioTile extends StatelessWidget {
   final Audio _audio;
@@ -27,7 +28,19 @@ class AudioTile extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        title: Text(_audio.title),
+        leading: VideoThumbnail(url: _audio.thumbnailUrl),
+        title: Text(
+          _audio.title,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          _audio.channel,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.play_arrow),
+          onPressed: () => _tapCallback(_audio),
+        ),
         onTap: () => _tapCallback(_audio),
       ),
     );

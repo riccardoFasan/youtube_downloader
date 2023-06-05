@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/view_models/view_models.dart';
-import 'package:yuotube_downloader/widgets/download_tile.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class AudiosAndDownloadsList extends StatelessWidget {
@@ -13,8 +12,22 @@ class AudiosAndDownloadsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => ListView(children: [
+          if (_viewModel.downloads.isNotEmpty)
+            const ListTile(
+              title: Text('Current Downloads'),
+            ),
           ..._viewModel.downloads
               .map((Download download) => _generateDownloadTile(download)),
+          if (_viewModel.downloads.isNotEmpty && _viewModel.audios.isNotEmpty)
+            const Divider(
+              height: 40,
+              indent: 20,
+              endIndent: 20,
+            ),
+          if (_viewModel.audios.isNotEmpty)
+            const ListTile(
+              title: Text('Your Audios'),
+            ),
           ..._viewModel.audios.map((Audio todo) => _generateAudioTile(todo))
         ]));
   }

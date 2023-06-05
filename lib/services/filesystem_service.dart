@@ -23,9 +23,7 @@ class FileSystemService {
 
   void openAudioFile(Audio audio) async {
     final String path = await _getFilePath(audio.id);
-    final bool exists = await File(path).exists();
-    final result = await OpenFile.open(path);
-    print([exists, result]);
+    await OpenFile.open(path);
   }
 
   Future<String> get _localPath async {

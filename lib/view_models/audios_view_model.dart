@@ -18,7 +18,7 @@ class AudiosViewModel extends GetxController {
   }
 
   Future<void> download(String url) async {
-    // TODO: verify it's a valid url and not already downloaded
+    // TODO: verify it's a valid url (e.g. not a live) and not already downloaded
     _addDownload(Download(url: url));
     final AudioInfo info = await _yt.getInfo(url);
     _addInfoToDownload(info);
@@ -46,13 +46,14 @@ class AudiosViewModel extends GetxController {
   }
 
   void _addDownload(Download download) {
-    _downloads.add(download);
+    _downloads.value = [download, ..._downloads];
   }
 
   void _addInfoToDownload(AudioInfo info) {
     final Download download =
         _downloads.firstWhere((Download d) => d.url == info.url);
-    download.info = info;
+    _removeDownload(info.url);
+    _downloads.value = [..._downloads, download];
   }
 
   void _removeDownload(String url) {
@@ -60,7 +61,7 @@ class AudiosViewModel extends GetxController {
   }
 
   void _addAudio(Audio audio) {
-    _audios.add(audio);
+    _audios.value = [audio, ..._audios];
     _updateStore();
   }
 
