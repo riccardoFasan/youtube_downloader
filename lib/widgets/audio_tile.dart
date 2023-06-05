@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/models/models.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class AudioTile extends StatelessWidget {

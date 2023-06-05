@@ -11,6 +11,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
       title: 'Flutter YouTube Downloader & Converter',
       theme: ThemeData(
         useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
       home: DownloadsPage(),
     );

@@ -36,6 +36,7 @@ class AudiosAndDownloadsList extends StatelessWidget {
     return DownloadTile(
       key: ValueKey(download.url),
       download: download,
+      cancelCallback: _viewModel.cancelDownload,
     );
   }
 

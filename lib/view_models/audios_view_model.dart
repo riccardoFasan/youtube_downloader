@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
@@ -13,27 +14,49 @@ class AudiosViewModel extends GetxController {
   final RxList<Download> _downloads = <Download>[].obs;
   List<Download> get downloads => _downloads;
 
+  final Map<String, StreamSubscription<List<int>>> _subscriptions = {};
+
   AudiosViewModel() {
     _init();
   }
 
   Future<void> download(String url) async {
     // TODO: verify it's a valid url (e.g. not a live) and not already downloaded
+
     _addDownload(Download(url: url));
     final AudioInfo info = await _yt.getInfo(url);
-    _addInfoToDownload(info);
+    _addDownloadInfo(info);
     final Stream<List<int>> stream = await _yt.download(info.id);
-    final String path = await _fs.saveAudioFile(info, stream);
-    final Audio audio = Audio(
-      id: info.id,
-      url: info.url,
-      title: info.title,
-      channel: info.channel,
-      thumbnailUrl: info.thumbnailUrl,
-      path: path,
+
+    List<int> bytes = [];
+
+    _subscriptions[url] = stream.listen(
+      (List<int> chunk) {
+        bytes = [...bytes, ...chunk];
+      },
+      onDone: () async {
+        final String path = await _fs.saveAudioFileFromBytes(info, bytes);
+        final Audio audio = Audio(
+          id: info.id,
+          url: info.url,
+          title: info.title,
+          channel: info.channel,
+          thumbnailUrl: info.thumbnailUrl,
+          path: path,
+        );
+        _removeDownload(url);
+        _addAudio(audio);
+      },
     );
+  }
+
+  void cancelDownload(Download download) {
+    final String url = download.url;
+    if (!_subscriptions.containsKey(url)) return;
+    final StreamSubscription<List<int>> subscription = _subscriptions[url]!;
+    subscription.cancel();
+    _subscriptions.remove(url);
     _removeDownload(url);
-    _addAudio(audio);
   }
 
   Future<void> delete(Audio audio) async {
@@ -49,11 +72,11 @@ class AudiosViewModel extends GetxController {
     _downloads.value = [download, ..._downloads];
   }
 
-  void _addInfoToDownload(AudioInfo info) {
+  void _addDownloadInfo(AudioInfo info) {
     final Download download =
         _downloads.firstWhere((Download d) => d.url == info.url);
     _removeDownload(info.url);
-    _downloads.value = [..._downloads, download];
+    _downloads.value = [..._downloads, Download(url: download.url, info: info)];
   }
 
   void _removeDownload(String url) {

@@ -16,30 +16,33 @@ class DownloadsPage extends StatelessWidget {
       ),
       body: AudiosAndDownloadsList(),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add), onPressed: () => _openDownloadDialog()),
+        child: const Icon(Icons.download),
+        onPressed: () => _openDownloadDialog(),
+      ),
     );
   }
 
   void _openDownloadDialog() {
     final TextEditingController input = TextEditingController();
     Get.defaultDialog(
-        title: 'Download',
-        content: TextFormField(
-          controller: input,
+      title: 'Download',
+      content: TextFormField(
+        controller: input,
+      ),
+      actions: <TextButton>[
+        TextButton(
+          onPressed: () => Get.back(),
+          child: const Text('Undo'),
         ),
-        actions: <TextButton>[
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Undo'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (input.value.text == '') return;
-              _modelView.download(input.value.text);
-              Get.back();
-            },
-            child: const Text('Save'),
-          )
-        ]);
+        TextButton(
+          onPressed: () {
+            if (input.value.text == '') return;
+            _modelView.download(input.value.text);
+            Get.back();
+          },
+          child: const Text('Save'),
+        )
+      ],
+    );
   }
 }

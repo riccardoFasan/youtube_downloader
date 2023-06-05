@@ -1,5 +1,5 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:yuotube_downloader/models/audio_info_model.dart';
+import 'package:yuotube_downloader/models/models.dart';
 
 class YouTubeService {
   final YoutubeExplode yte = YoutubeExplode();

@@ -6,13 +6,10 @@ import 'package:yuotube_downloader/models/models.dart';
 class FileSystemService {
   static const String fileExtension = 'mp3';
 
-  Future<String> saveAudioFile(AudioInfo info, Stream<List<int>> stream) async {
+  Future<String> saveAudioFileFromBytes(AudioInfo info, List<int> bytes) async {
     final String path = await _getFilePath(info.id);
     final File file = File(path);
-    final IOSink fileStream = file.openWrite();
-    await stream.pipe(fileStream);
-    await fileStream.flush();
-    await fileStream.close();
+    await file.writeAsBytes(bytes);
     return path;
   }
 
