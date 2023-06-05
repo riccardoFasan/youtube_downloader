@@ -14,7 +14,7 @@ class AudiosViewModel extends GetxController {
   final RxList<Download> _downloads = <Download>[].obs;
   List<Download> get downloads => _downloads;
 
-  final Map<String, StreamSubscription<List<int>>> _subscriptions = {};
+  final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   AudiosViewModel() {
     _init();
@@ -22,41 +22,36 @@ class AudiosViewModel extends GetxController {
 
   Future<void> download(String url) async {
     // TODO: verify it's a valid url (e.g. not a live) and not already downloaded
-
-    _addDownload(Download(url: url));
-    final AudioInfo info = await _yt.getInfo(url);
-    _addDownloadInfo(info);
-    final Stream<List<int>> stream = await _yt.download(info.id);
-
-    List<int> bytes = [];
-
-    _subscriptions[url] = stream.listen(
-      (List<int> chunk) {
-        bytes = [...bytes, ...chunk];
-      },
-      onDone: () async {
-        final String path = await _fs.saveAudioFileFromBytes(info, bytes);
-        final Audio audio = Audio(
-          id: info.id,
-          url: info.url,
-          title: info.title,
-          channel: info.channel,
-          thumbnailUrl: info.thumbnailUrl,
-          path: path,
-        );
-        _removeDownload(url);
-        _addAudio(audio);
-      },
-    );
+    _subscriptions[url] = _getAudioAndSave(url).asStream().listen((_) {
+      _subscriptions.remove(url);
+    });
   }
 
   void cancelDownload(Download download) {
     final String url = download.url;
     if (!_subscriptions.containsKey(url)) return;
-    final StreamSubscription<List<int>> subscription = _subscriptions[url]!;
+    final StreamSubscription<void> subscription = _subscriptions[url]!;
     subscription.cancel();
     _subscriptions.remove(url);
     _removeDownload(url);
+  }
+
+  Future<void> _getAudioAndSave(String url) async {
+    _addDownload(Download(url: url));
+    final AudioInfo info = await _yt.getInfo(url);
+    _addDownloadInfo(info);
+    final List<int> bytes = await _yt.download(info.id);
+    final String path = await _fs.saveAudioFileFromBytes(info, bytes);
+    final Audio audio = Audio(
+      id: info.id,
+      url: info.url,
+      title: info.title,
+      channel: info.channel,
+      thumbnailUrl: info.thumbnailUrl,
+      path: path,
+    );
+    _removeDownload(url);
+    _addAudio(audio);
   }
 
   Future<void> delete(Audio audio) async {

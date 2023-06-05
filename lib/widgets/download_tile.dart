@@ -14,7 +14,6 @@ class DownloadTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      enabled: _download.info != null,
       endActionPane: ActionPane(
         motion: const StretchMotion(),
         children: <SlidableAction>[
