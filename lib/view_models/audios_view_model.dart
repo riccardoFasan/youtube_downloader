@@ -36,6 +36,15 @@ class AudiosViewModel extends GetxController {
     _removeDownload(url);
   }
 
+  Future<void> delete(Audio audio) async {
+    await _fs.removeAudioFile(audio);
+    _removeAudio(audio);
+  }
+
+  void open(Audio audio) {
+    _fs.openAudioFile(audio);
+  }
+
   Future<void> _getAudioAndSave(String url) async {
     _addDownload(Download(url: url));
     final AudioInfo info = await _yt.getInfo(url);
@@ -52,15 +61,6 @@ class AudiosViewModel extends GetxController {
     );
     _removeDownload(url);
     _addAudio(audio);
-  }
-
-  Future<void> delete(Audio audio) async {
-    await _fs.removeAudioFile(audio);
-    _removeAudio(audio);
-  }
-
-  void open(Audio audio) {
-    _fs.openAudioFile(audio);
   }
 
   void _addDownload(Download download) {

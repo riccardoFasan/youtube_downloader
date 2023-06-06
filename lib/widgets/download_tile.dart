@@ -26,19 +26,26 @@ class DownloadTile extends StatelessWidget {
       ),
       child: ListTile(
         leading: VideoThumbnail(url: _download.info?.thumbnailUrl),
-        title: _download.info == null
-            ? const Text('')
-            : Text(
-                _download.info!.title,
-                overflow: TextOverflow.ellipsis,
-              ),
-        subtitle: _download.info == null
-            ? const Text('')
-            : Text(
-                _download.info!.channel,
-                overflow: TextOverflow.ellipsis,
-              ),
-        trailing: const CircularProgressIndicator(),
+        title: Text(
+          _download.info?.title ?? '',
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.white),
+        ),
+        subtitle: Text(
+          _download.info?.channel ?? '',
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Color.fromARGB(185, 255, 255, 255)),
+        ),
+        trailing: const SizedBox(
+          width: 25.0,
+          height: 25.0,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Color(0xFFff0000),
+              strokeWidth: 2.75,
+            ),
+          ),
+        ),
       ),
     );
   }

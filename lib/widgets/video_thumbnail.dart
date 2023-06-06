@@ -12,17 +12,27 @@ class VideoThumbnail extends StatelessWidget {
     return AspectRatio(
       aspectRatio: _aspectRatio,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: _url != null
-            ? Image(
-                image: NetworkImage(_url!),
-                fit: BoxFit.cover,
-              )
-            : const Image(
-                image: AssetImage(_placeholderPath),
-                fit: BoxFit.cover,
-              ),
-      ),
+          borderRadius: BorderRadius.circular(8.0), child: _buildImage()),
+    );
+  }
+
+  Image _buildImage() {
+    if (_url == null) return _buildPlaceholderImage();
+    return _buildNetworkImage();
+  }
+
+  Image _buildNetworkImage() {
+    return Image(
+      image: NetworkImage(_url!),
+      errorBuilder: (context, error, stackTrace) => _buildPlaceholderImage(),
+      fit: BoxFit.cover,
+    );
+  }
+
+  Image _buildPlaceholderImage() {
+    return const Image(
+      image: AssetImage(_placeholderPath),
+      fit: BoxFit.cover,
     );
   }
 }

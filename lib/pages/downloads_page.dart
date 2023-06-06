@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
@@ -12,12 +13,23 @@ class DownloadsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('YouTube Downloader'),
+        title: Text(
+          'YouTube Downloader',
+          style: GoogleFonts.lato(
+            textStyle: const TextStyle(fontWeight: FontWeight.w900),
+          ),
+        ),
       ),
       body: AudiosAndDownloadsList(),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.download),
+        elevation: 0,
+        backgroundColor: const Color.fromARGB(255, 156, 0, 0),
         onPressed: () => _openDownloadDialog(),
+        shape: const CircleBorder(),
+        child: const Icon(
+          Icons.download,
+          color: Colors.white,
+        ),
       ),
     );
   }

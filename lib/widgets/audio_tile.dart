@@ -16,7 +16,6 @@ class AudioTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      // key: ValueKey(_todo.description),
       endActionPane: ActionPane(
         motion: const StretchMotion(),
         children: <SlidableAction>[
@@ -32,14 +31,12 @@ class AudioTile extends StatelessWidget {
         title: Text(
           _audio.title,
           overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.white),
         ),
         subtitle: Text(
           _audio.channel,
           overflow: TextOverflow.ellipsis,
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.play_arrow),
-          onPressed: () => _tapCallback(_audio),
+          style: const TextStyle(color: Color.fromARGB(185, 255, 255, 255)),
         ),
         onTap: () => _tapCallback(_audio),
       ),

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
@@ -11,25 +11,37 @@ class AudiosAndDownloadsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ListView(children: [
+    return Obx(
+      () => ListView(
+        children: [
           if (_viewModel.downloads.isNotEmpty)
             const ListTile(
-              title: Text('Current Downloads'),
+              title: Text(
+                'Current Downloads',
+                style: TextStyle(color: Color.fromARGB(185, 255, 255, 255)),
+              ),
             ),
           ..._viewModel.downloads
               .map((Download download) => _generateDownloadTile(download)),
-          if (_viewModel.downloads.isNotEmpty && _viewModel.audios.isNotEmpty)
-            const Divider(
-              height: 40,
-              indent: 20,
-              endIndent: 20,
-            ),
           if (_viewModel.audios.isNotEmpty)
-            const ListTile(
-              title: Text('Your Audios'),
-            ),
+            Container(
+                margin: EdgeInsets.only(
+                    top: _viewModel.audios.isNotEmpty &&
+                            _viewModel.downloads.isNotEmpty
+                        ? 20
+                        : 0),
+                child: const ListTile(
+                  title: Text(
+                    'Your Audios',
+                    style: TextStyle(
+                      color: Color.fromARGB(185, 255, 255, 255),
+                    ),
+                  ),
+                )),
           ..._viewModel.audios.map((Audio todo) => _generateAudioTile(todo))
-        ]));
+        ],
+      ),
+    );
   }
 
   DownloadTile _generateDownloadTile(Download download) {
