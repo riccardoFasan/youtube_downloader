@@ -37,22 +37,71 @@ class DownloadsPage extends StatelessWidget {
   void _openDownloadDialog() {
     final TextEditingController input = TextEditingController();
     Get.defaultDialog(
-      title: 'Download',
+      title: 'Paste YouTube URL here',
+      contentPadding: const EdgeInsets.all(16),
+      titlePadding: const EdgeInsets.all(16),
+      backgroundColor: const Color(0xFF222222),
+      titleStyle: GoogleFonts.lato(
+        color: Colors.white,
+        fontSize: 16,
+        textStyle: const TextStyle(fontWeight: FontWeight.w500),
+      ),
       content: TextFormField(
         controller: input,
+        style: GoogleFonts.lato(
+          color: Colors.white,
+        ),
+        cursorColor: const Color.fromARGB(255, 156, 0, 0),
+        decoration: const InputDecoration(
+          label: Text('YouTube URL'),
+          labelStyle: TextStyle(
+            color: Color.fromARGB(255, 156, 0, 0),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: Color.fromARGB(255, 156, 0, 0),
+            ),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Color.fromARGB(255, 156, 0, 0),
+            ),
+          ),
+        ),
       ),
       actions: <TextButton>[
         TextButton(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(
+              const Color.fromARGB(20, 156, 0, 0),
+            ),
+          ),
           onPressed: () => Get.back(),
-          child: const Text('Undo'),
+          child: const Text(
+            'Undo',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ),
         TextButton(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(
+              const Color.fromARGB(20, 156, 0, 0),
+            ),
+          ),
           onPressed: () {
             if (input.value.text == '') return;
             _modelView.download(input.value.text);
             Get.back();
           },
-          child: const Text('Save'),
+          child: const Text(
+            'Download',
+            style: TextStyle(
+              color: Color.fromARGB(255, 224, 3, 3),
+            ),
+          ),
         )
       ],
     );
