@@ -5,6 +5,7 @@ import 'package:yuotube_downloader/services/services.dart';
 
 class AudiosViewModel extends GetxController {
   final StorageService _storage = Get.find();
+  final SnackbarService _snackbar = Get.find();
   final YouTubeService _yt = Get.find();
   final FileSystemService _fs = Get.find();
 
@@ -47,20 +48,25 @@ class AudiosViewModel extends GetxController {
 
   Future<void> _getAudioAndSave(String url) async {
     _addDownload(Download(url: url));
-    final AudioInfo info = await _yt.getInfo(url);
-    _addDownloadInfo(info);
-    final List<int> bytes = await _yt.download(info.id);
-    final String path = await _fs.saveAudioFileFromBytes(info, bytes);
-    final Audio audio = Audio(
-      id: info.id,
-      url: info.url,
-      title: info.title,
-      channel: info.channel,
-      thumbnailUrl: info.thumbnailUrl,
-      path: path,
-    );
-    _removeDownload(url);
-    _addAudio(audio);
+    try {
+      final AudioInfo info = await _yt.getInfo(url);
+      _addDownloadInfo(info);
+      final List<int> bytes = await _yt.download(info.id);
+      final String path = await _fs.saveAudioFileFromBytes(info, bytes);
+      final Audio audio = Audio(
+        id: info.id,
+        url: info.url,
+        title: info.title,
+        channel: info.channel,
+        thumbnailUrl: info.thumbnailUrl,
+        path: path,
+      );
+      _addAudio(audio);
+    } catch (e) {
+      _snackbar.showError();
+    } finally {
+      _removeDownload(url);
+    }
   }
 
   void _addDownload(Download download) {

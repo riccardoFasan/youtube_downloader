@@ -13,6 +13,7 @@ void _injectServices() {
   Get.put(YouTubeService());
   Get.put(StorageService());
   Get.put(FileSystemService());
+  Get.put(SnackbarService());
   Get.put(AudiosViewModel());
 }
 
