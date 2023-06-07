@@ -15,5 +15,6 @@ void _injectServices() {
   Get.put(FileSystemService());
   Get.put(SnackbarService());
   Get.put(SponsorblockService());
+  Get.put(TrimmerService());
   Get.put(AudiosViewModel());
 }

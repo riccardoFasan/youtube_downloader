@@ -39,6 +39,7 @@ dependencies:
   google_fonts: 4.0.4
   cupertino_icons: 1.0.5
   http: ^0.13.6
+  ffmpeg_kit_flutter_full_gpl: ^5.1.0
 
 dev_dependencies:
   flutter_test:
