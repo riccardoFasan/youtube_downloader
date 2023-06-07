@@ -38,6 +38,7 @@ dependencies:
   open_file_safe: ^3.2.3
   google_fonts: 4.0.4
   cupertino_icons: 1.0.5
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:

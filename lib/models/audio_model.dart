@@ -1,7 +1,8 @@
-import 'package:yuotube_downloader/models/audio_info_model.dart';
+import 'package:yuotube_downloader/models/models.dart';
 
 class Audio extends AudioInfo {
   String path;
+  List<Segment> sponsorships = [];
 
   Audio({
     required String id,
@@ -10,13 +11,13 @@ class Audio extends AudioInfo {
     required String channel,
     String? thumbnailUrl,
     required this.path,
+    required this.sponsorships,
   }) : super(
-          id: id,
-          url: url,
-          title: title,
-          channel: channel,
-          thumbnailUrl: thumbnailUrl,
-        );
+            id: id,
+            url: url,
+            title: title,
+            channel: channel,
+            thumbnailUrl: thumbnailUrl);
 
   @override
   factory Audio.fromJson(Map<String, dynamic> json) {
@@ -27,6 +28,7 @@ class Audio extends AudioInfo {
       channel: json['channel'],
       thumbnailUrl: json['thumbnailUrl'],
       path: json['path'],
+      sponsorships: json['sponsorships'],
     );
   }
 
@@ -39,6 +41,7 @@ class Audio extends AudioInfo {
       'channel': channel,
       'thumbnailUrl': thumbnailUrl,
       'path': path,
+      'sponsorships': sponsorships,
     };
   }
 }

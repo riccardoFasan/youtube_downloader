@@ -8,6 +8,7 @@ class AudiosViewModel extends GetxController {
   final SnackbarService _snackbar = Get.find();
   final YouTubeService _yt = Get.find();
   final FileSystemService _fs = Get.find();
+  final SponsorblockService _sponsorblock = Get.find();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -52,6 +53,8 @@ class AudiosViewModel extends GetxController {
       final AudioInfo info = await _yt.getInfo(url);
       _addDownloadInfo(info);
       final List<int> bytes = await _yt.download(info.id);
+      final Sponsorships sponsorships =
+          await _sponsorblock.getSponsorships(info.id);
       final String path = await _fs.saveAudioFileFromBytes(info, bytes);
       final Audio audio = Audio(
         id: info.id,
@@ -60,6 +63,7 @@ class AudiosViewModel extends GetxController {
         channel: info.channel,
         thumbnailUrl: info.thumbnailUrl,
         path: path,
+        sponsorships: sponsorships.segments,
       );
       _addAudio(audio);
     } catch (e) {

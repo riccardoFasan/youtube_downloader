@@ -14,7 +14,6 @@ void _injectServices() {
   Get.put(StorageService());
   Get.put(FileSystemService());
   Get.put(SnackbarService());
+  Get.put(SponsorblockService());
   Get.put(AudiosViewModel());
 }
-
-// TODO: close yt explode client
