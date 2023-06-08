@@ -10,6 +10,8 @@ class TrimmerService {
     Audio audio,
     List<Segment> segmentsToRemove,
   ) async {
+    if (segmentsToRemove.isEmpty) return;
+
     final List<Segment> segmentsToSave = _getSegmentsToSave(segmentsToRemove);
 
     String command = '';

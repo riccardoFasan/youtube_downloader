@@ -7,29 +7,29 @@ class SponsorblockService {
   static const String _endpoint = 'https://sponsor.ajay.app';
 
   Future<Sponsorships> getSponsorships(String videoId) async {
-    try {
-      final response = await http
-          .get(Uri.parse('$_endpoint/api/skipSegments?videoID=$videoId'));
+    final response = await http
+        .get(Uri.parse('$_endpoint/api/skipSegments?videoID=$videoId'));
 
-      final List<SkipSegmentDTO> segments = _parseBody(response.body);
-
-      return Sponsorships(
-        videoId: videoId,
-        segments: segments
-            .map(
-              (SkipSegmentDTO segment) => Segment(
-                start: segment.segment[0].toInt(),
-                end: segment.segment[1].toInt(),
-              ),
-            )
-            .toList(),
-      );
-    } catch (e) {
+    if (response.statusCode == 404) {
       return Sponsorships(
         videoId: videoId,
         segments: [],
       );
     }
+
+    final List<SkipSegmentDTO> segments = _parseBody(response.body);
+
+    return Sponsorships(
+      videoId: videoId,
+      segments: segments
+          .map(
+            (SkipSegmentDTO segment) => Segment(
+              start: segment.segment[0].toInt(),
+              end: segment.segment[1].toInt(),
+            ),
+          )
+          .toList(),
+    );
   }
 
   List<SkipSegmentDTO> _parseBody(String body) {
