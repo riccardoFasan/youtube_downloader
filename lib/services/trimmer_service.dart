@@ -14,35 +14,22 @@ class TrimmerService {
 
     final List<Segment> segmentsToSave = _getSegmentsToSave(segmentsToRemove);
 
-    String command = '';
-    String summaryContent = '';
     final String localPath = await _localPath;
-
     final String temporaryDir = "$localPath/ffmpeg_tmp/${audio.id}";
-
     await Directory(temporaryDir).create(recursive: true);
 
-    segmentsToSave.asMap().forEach((int index, Segment segment) async {
-      final String tmpPath = "$temporaryDir/${audio.id}_$index.mp3";
-      if (segment.end == 0) {
-        command += '-ss ${segment.start} $tmpPath ';
-      } else {
-        command += '-ss ${segment.start} -to ${segment.end} $tmpPath ';
-      }
-      summaryContent += 'file \'$tmpPath\'\n';
-    });
+    String command =
+        _buildTrimmingCommand(segmentsToSave, temporaryDir, audio.id);
 
     final FFmpegSession session =
         await FFmpegKit.execute('-i ${audio.path} $command');
     final ReturnCode? code = await session.getReturnCode();
 
     if (ReturnCode.isSuccess(code)) {
-      final String summaryPath = "$temporaryDir/${audio.id}_summary.txt";
-      final File summaryFile = File(summaryPath);
-      await summaryFile.writeAsString(summaryContent);
+      final String summaryPath =
+          await _writeSummary(segmentsToSave, temporaryDir, audio.id);
 
       final String trimmedFilePath = "$temporaryDir/${audio.id}_trimmed.mp3";
-
       final FFmpegSession session = await FFmpegKit.execute(
         '-f concat -safe 0 -i $summaryPath -c copy $trimmedFilePath',
       );
@@ -84,5 +71,32 @@ class TrimmerService {
     segmentsToSave.add(Segment(start: lastSegment.end, end: 0));
 
     return segmentsToSave;
+  }
+
+  String _buildTrimmingCommand(
+      List<Segment> segments, String directory, String audioId) {
+    String command = '';
+    segments.asMap().forEach((int index, Segment segment) async {
+      final String tmpPath = "$directory/${audioId}_$index.mp3";
+      if (segment.end == 0) {
+        command += '-ss ${segment.start} $tmpPath ';
+      } else {
+        command += '-ss ${segment.start} -to ${segment.end} $tmpPath ';
+      }
+    });
+    return command;
+  }
+
+  Future<String> _writeSummary(
+      List<Segment> segments, String directory, String audioId) async {
+    String content = '';
+    segments.asMap().forEach((int index, Segment segment) async {
+      final String tmpPath = "$directory/${audioId}_$index.mp3";
+      content += 'file \'$tmpPath\'\n';
+    });
+    final String summaryPath = "$directory/${audioId}_summary.txt";
+    final File summaryFile = File(summaryPath);
+    await summaryFile.writeAsString(content);
+    return summaryPath;
   }
 }
