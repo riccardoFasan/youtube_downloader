@@ -9,12 +9,14 @@ void main() {
   _injectServices();
 }
 
-void _injectServices() {
+Future<void> _injectServices() async {
   Get.put(YouTubeService());
   Get.put(StorageService());
   Get.put(FileSystemService());
   Get.put(SnackbarService());
   Get.put(SponsorblockService());
   Get.put(TrimmerService());
+  Get.put(PlayerService());
+  Get.put(PlayerViewModel());
   Get.put(AudiosViewModel());
 }

@@ -5,7 +5,7 @@ import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class DownloadsPage extends StatelessWidget {
-  final AudiosViewModel _modelView = Get.find();
+  final AudiosViewModel _modelView = Get.find<AudiosViewModel>();
 
   DownloadsPage({super.key});
 
@@ -19,17 +19,22 @@ class DownloadsPage extends StatelessWidget {
             textStyle: const TextStyle(fontWeight: FontWeight.w900),
           ),
         ),
+        actions: [
+          IconButton(
+            color: const Color.fromARGB(255, 156, 0, 0),
+            onPressed: () => _openDownloadDialog(),
+            icon: const Icon(
+              Icons.download,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
-      body: AudiosAndDownloadsList(),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 156, 0, 0),
-        onPressed: () => _openDownloadDialog(),
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.download,
-          color: Colors.white,
-        ),
+      body: Column(
+        children: <Widget>[
+          Expanded(child: AudiosAndDownloadsList()),
+          SizedBox(width: double.maxFinite, child: Player()),
+        ],
       ),
     );
   }

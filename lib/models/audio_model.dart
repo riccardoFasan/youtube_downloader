@@ -8,6 +8,7 @@ class Audio extends AudioInfo {
       required String url,
       required String title,
       required String channel,
+      required Duration duration,
       String? thumbnailUrl,
       required this.path})
       : super(
@@ -15,6 +16,7 @@ class Audio extends AudioInfo {
           url: url,
           title: title,
           channel: channel,
+          duration: duration,
           thumbnailUrl: thumbnailUrl,
         );
 
@@ -25,9 +27,11 @@ class Audio extends AudioInfo {
       url: json['url'],
       title: json['title'],
       channel: json['channel'],
+      duration: json['duration'] != null
+          ? Duration(milliseconds: json['duration'])
+          : Duration.zero,
       thumbnailUrl: json['thumbnailUrl'],
       path: json['path'],
-      // sponsorships: json['sponsorships'],
     );
   }
 
@@ -38,6 +42,7 @@ class Audio extends AudioInfo {
       'url': url,
       'title': title,
       'channel': channel,
+      'duration': duration.inMilliseconds,
       'thumbnailUrl': thumbnailUrl,
       'path': path,
     };

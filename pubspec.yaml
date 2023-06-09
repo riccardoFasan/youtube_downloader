@@ -35,11 +35,13 @@ dependencies:
   get: ^4.6.5
   youtube_explode_dart: ^1.12.4
   path_provider: ^2.0.15
-  open_file_safe: ^3.2.3
   google_fonts: 4.0.4
   cupertino_icons: 1.0.5
   http: ^0.13.6
   ffmpeg_kit_flutter_full_gpl: ^5.1.0
+  just_audio: ^0.9.34
+  just_audio_background: ^0.0.1-beta.10
+
 
 dev_dependencies:
   flutter_test:

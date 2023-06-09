@@ -2,14 +2,16 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
+import 'package:yuotube_downloader/view_models/player_view_model.dart';
 
 class AudiosViewModel extends GetxController {
-  final StorageService _storage = Get.find();
-  final SnackbarService _snackbar = Get.find();
-  final YouTubeService _yt = Get.find();
-  final FileSystemService _fs = Get.find();
-  final SponsorblockService _sponsorblock = Get.find();
-  final TrimmerService _trimmer = Get.find();
+  final StorageService _storage = Get.find<StorageService>();
+  final SnackbarService _snackbar = Get.find<SnackbarService>();
+  final YouTubeService _yt = Get.find<YouTubeService>();
+  final FileSystemService _fs = Get.find<FileSystemService>();
+  final SponsorblockService _sponsorblock = Get.find<SponsorblockService>();
+  final TrimmerService _trimmer = Get.find<TrimmerService>();
+  final PlayerViewModel _player = Get.find<PlayerViewModel>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -44,8 +46,8 @@ class AudiosViewModel extends GetxController {
     _removeAudio(audio);
   }
 
-  void open(Audio audio) {
-    _fs.openAudioFile(audio);
+  Future<void> play(Audio audio) async {
+    await _player.setCurrentAudioAndPlay(audio);
   }
 
   Future<void> _getAudioAndSave(String url) async {
@@ -62,6 +64,7 @@ class AudiosViewModel extends GetxController {
           url: info.url,
           title: info.title,
           channel: info.channel,
+          duration: info.duration,
           thumbnailUrl: info.thumbnailUrl,
           path: path);
       await _trimmer.removeSegments(audio, sponsorships.segments);
@@ -90,19 +93,19 @@ class AudiosViewModel extends GetxController {
 
   void _addAudio(Audio audio) {
     _audios.value = [audio, ..._audios];
-    _updateStore();
+    _update();
   }
 
   void _removeAudio(Audio audio) {
     _audios.removeWhere((Audio a) => a.id == audio.id);
-    _updateStore();
+    _update();
   }
 
   Future<void> _init() async {
     _audios.value = await _storage.load();
   }
 
-  Future<void> _updateStore() async {
+  Future<void> _update() async {
     await _storage.store(_audios);
   }
 }

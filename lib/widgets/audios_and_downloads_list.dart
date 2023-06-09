@@ -5,7 +5,7 @@ import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class AudiosAndDownloadsList extends StatelessWidget {
-  final AudiosViewModel _viewModel = Get.find();
+  final AudiosViewModel _viewModel = Get.find<AudiosViewModel>();
 
   AudiosAndDownloadsList({super.key});
 
@@ -13,6 +13,8 @@ class AudiosAndDownloadsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
         children: [
           if (_viewModel.downloads.isNotEmpty)
             const ListTile(
@@ -57,7 +59,7 @@ class AudiosAndDownloadsList extends StatelessWidget {
       key: ValueKey(audio.id),
       audio: audio,
       removeCallback: _viewModel.delete,
-      tapCallback: _viewModel.open,
+      tapCallback: _viewModel.play,
     );
   }
 }
