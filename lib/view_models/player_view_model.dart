@@ -28,10 +28,18 @@ class PlayerViewModel extends GetxController {
     path: '',
   );
 
+  static const int _seekDelta = 15000;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _sinkState();
+  }
+
   @override
   void onClose() {
     super.onClose();
-    _dispose();
+    _disposeState();
   }
 
   Future<void> setCurrentAudioAndPlay(Audio audio) async {
@@ -45,60 +53,78 @@ class PlayerViewModel extends GetxController {
   }
 
   void togglePlay() {
+    if (_currentAudio.value.id == '') return;
     _playing.isTrue ? _pause() : _play();
   }
 
-  Future<void> seekForward() async {
-    final int milliseconds = _currentPosition.value.inMilliseconds + 15000;
-    if (milliseconds > _currentAudio.value.duration.inMilliseconds) return;
-    final Duration position = Duration(milliseconds: milliseconds);
-    await _player.seek(position);
+  void seekForward() {
+    if (_currentAudio.value.id == '') return;
+    final int milliseconds = _currentPosition.value.inMilliseconds + _seekDelta;
+    final bool reachEnd =
+        milliseconds > _currentAudio.value.duration.inMilliseconds;
+    final int target =
+        reachEnd ? _currentAudio.value.duration.inMilliseconds : milliseconds;
+    _seek(target);
   }
 
-  Future<void> seekBackward() async {
-    final int milliseconds = _currentPosition.value.inMilliseconds - 15000;
-    if (milliseconds < 0) return;
-    final Duration position = Duration(milliseconds: milliseconds);
-    await _player.seek(position);
+  void seekBackward() {
+    if (_currentAudio.value.id == '') return;
+    final int milliseconds = _currentPosition.value.inMilliseconds - _seekDelta;
+    final bool reachStart = milliseconds < 0;
+    final int target = reachStart ? 0 : milliseconds;
+    _seek(target);
   }
 
-  bool get _shouldStop =>
-      _currentPosition.value.inMilliseconds >=
-      _currentAudio.value.duration.inMilliseconds;
+  Future<void> _seek(int milliseconds) async {
+    final Duration position = Duration(milliseconds: milliseconds);
+    if (_playing.isFalse) _currentPosition.value = position;
+    await _player.seek(position);
+  }
 
   void _play() {
     if (_playing.isTrue) return;
-    _player.play();
     _playing.toggle();
-    _sink();
+    _player.play();
+    _sinkPosition();
   }
 
   void _pause() {
     if (_playing.isFalse) return;
-    _player.pause();
     _playing.toggle();
-    _dispose();
+    _player.pause();
+    _disposePosition();
   }
 
-  void _sink() {
-    _positionSinkSub = _player.position.listen((Duration event) {
-      if (_playing.isTrue) _currentPosition.value = event;
-    });
-    _stateSinkSub = _player.onComplete.listen((PlayerState event) {
+  void _sinkState() {
+    _stateSinkSub = _player.state.listen((PlayerState event) {
+      if (event.processingState != ProcessingState.completed) {
+        _playing.value = event.playing;
+        return;
+      }
+      _disposePosition();
       _playing.value = false;
       _currentAudio.value = _placeholderAudio;
       _currentPosition.value = Duration.zero;
     });
   }
 
-  void _dispose() {
-    if (_positionSinkSub != null) {
-      _positionSinkSub!.cancel();
-      _positionSinkSub = null;
-    }
+  void _sinkPosition() {
+    _positionSinkSub = _player.position.listen((Duration event) {
+      if (_playing.isTrue) _currentPosition.value = event;
+    });
+  }
+
+  void _disposeState() {
     if (_stateSinkSub != null) {
       _stateSinkSub!.cancel();
       _stateSinkSub = null;
+    }
+  }
+
+  void _disposePosition() {
+    if (_positionSinkSub != null) {
+      _positionSinkSub!.cancel();
+      _positionSinkSub = null;
     }
   }
 }

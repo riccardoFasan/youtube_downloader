@@ -10,9 +10,7 @@ class PlayerService {
   }
 
   Stream<Duration> get position => _player.positionStream;
-  Stream<PlayerState> get onComplete =>
-      _player.playerStateStream.where((PlayerState event) =>
-          event.processingState == ProcessingState.completed);
+  Stream<PlayerState> get state => _player.playerStateStream;
 
   void play() {
     _player.play();
@@ -38,6 +36,7 @@ class PlayerService {
       ),
     );
     await _player.setAudioSource(source);
+    await _player.pause(); // ! prevent auto play
   }
 
   Future<void> _init() async {

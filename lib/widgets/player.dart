@@ -32,8 +32,8 @@ class Player extends StatelessWidget {
               child: _buildTimeIndicator(),
             ),
             SizedBox(
-              height: 32,
-              width: 32,
+              height: 38,
+              width: 38,
               child: IconButton(
                 padding: const EdgeInsets.all(0),
                 color: const Color.fromARGB(255, 156, 0, 0),
@@ -45,13 +45,13 @@ class Player extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 32,
-              width: 32,
+              height: 38,
+              width: 38,
               child: _buildPlayPauseButton(),
             ),
             SizedBox(
-              height: 32,
-              width: 32,
+              height: 38,
+              width: 38,
               child: IconButton(
                 padding: const EdgeInsets.all(0),
                 color: const Color.fromARGB(255, 156, 0, 0),
