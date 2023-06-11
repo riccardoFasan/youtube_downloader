@@ -13,8 +13,8 @@ class PlayerViewModel extends GetxController {
   final Rx<bool> _playing = false.obs;
   bool get playing => _playing.value;
 
-  final Rx<Audio> _currentAudio = _placeholderAudio.obs;
-  Audio get audio => _currentAudio.value;
+  final Rx<Audio> _selectedAudio = _placeholderAudio.obs;
+  Audio get audio => _selectedAudio.value;
 
   StreamSubscription<Duration>? _positionSinkSub;
   StreamSubscription<PlayerState>? _stateSinkSub;
@@ -43,36 +43,45 @@ class PlayerViewModel extends GetxController {
   }
 
   Future<void> setCurrentAudioAndPlay(Audio audio) async {
-    if (_currentAudio.value.id != audio.id) {
+    if (_selectedAudio.value.id != audio.id) {
       await _player.setSource(audio);
-      _currentAudio.value = audio;
+      _selectedAudio.value = audio;
     }
-    if (_currentAudio.value.id != audio.id || !_playing.value) {
+    if (_selectedAudio.value.id != audio.id || !_playing.value) {
       _play();
     }
   }
 
   void togglePlay() {
-    if (_currentAudio.value.id == '') return;
+    if (_selectedAudio.value.id == '') return;
     _playing.isTrue ? _pause() : _play();
   }
 
+  void stop() {
+    _player.stop();
+    _afterStopped();
+  }
+
   void seekForward() {
-    if (_currentAudio.value.id == '') return;
+    if (_selectedAudio.value.id == '') return;
     final int milliseconds = _currentPosition.value.inMilliseconds + _seekDelta;
     final bool reachEnd =
-        milliseconds > _currentAudio.value.duration.inMilliseconds;
+        milliseconds > _selectedAudio.value.duration.inMilliseconds;
     final int target =
-        reachEnd ? _currentAudio.value.duration.inMilliseconds : milliseconds;
+        reachEnd ? _selectedAudio.value.duration.inMilliseconds : milliseconds;
     _seek(target);
   }
 
   void seekBackward() {
-    if (_currentAudio.value.id == '') return;
+    if (_selectedAudio.value.id == '') return;
     final int milliseconds = _currentPosition.value.inMilliseconds - _seekDelta;
     final bool reachStart = milliseconds < 0;
     final int target = reachStart ? 0 : milliseconds;
     _seek(target);
+  }
+
+  bool isSelected(Audio audio) {
+    return _selectedAudio.value.id == audio.id;
   }
 
   Future<void> _seek(int milliseconds) async {
@@ -101,10 +110,7 @@ class PlayerViewModel extends GetxController {
         _playing.value = event.playing;
         return;
       }
-      _disposePosition();
-      _playing.value = false;
-      _currentAudio.value = _placeholderAudio;
-      _currentPosition.value = Duration.zero;
+      _afterStopped();
     });
   }
 
@@ -126,5 +132,12 @@ class PlayerViewModel extends GetxController {
       _positionSinkSub!.cancel();
       _positionSinkSub = null;
     }
+  }
+
+  void _afterStopped() {
+    _disposePosition();
+    _playing.value = false;
+    _selectedAudio.value = _placeholderAudio;
+    _currentPosition.value = Duration.zero;
   }
 }

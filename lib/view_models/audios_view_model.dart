@@ -97,6 +97,7 @@ class AudiosViewModel extends GetxController {
   }
 
   void _removeAudio(Audio audio) {
+    if (_player.isSelected(audio)) _player.stop();
     _audios.removeWhere((Audio a) => a.id == audio.id);
     _update();
   }

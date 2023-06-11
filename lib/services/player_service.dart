@@ -20,6 +20,10 @@ class PlayerService {
     _player.pause();
   }
 
+  void stop() {
+    _player.stop();
+  }
+
   Future<void> seek(Duration position) async {
     await _player.seek(position);
   }
