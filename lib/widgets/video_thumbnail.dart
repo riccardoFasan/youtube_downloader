@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class VideoThumbnail extends StatelessWidget {
   static const String _placeholderPath = 'assets/images/placeholder.png';
@@ -16,20 +17,31 @@ class VideoThumbnail extends StatelessWidget {
     );
   }
 
-  Image _buildImage() {
+  Widget _buildImage() {
     if (_url == null) return _buildPlaceholderImage();
     return _buildNetworkImage();
   }
 
-  Image _buildNetworkImage() {
-    return Image(
-      image: NetworkImage(_url!),
-      errorBuilder: (context, error, stackTrace) => _buildPlaceholderImage(),
+  Widget _buildNetworkImage() {
+    return CachedNetworkImage(
+      imageUrl: _url!,
+      placeholder: (BuildContext context, String url) => const Center(
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            color: Color(0xFFff0000),
+            strokeWidth: 2.75,
+          ),
+        ),
+      ),
+      errorWidget: (BuildContext context, String url, dynamic error) =>
+          _buildPlaceholderImage(),
       fit: BoxFit.cover,
     );
   }
 
-  Image _buildPlaceholderImage() {
+  Widget _buildPlaceholderImage() {
     return const Image(
       image: AssetImage(_placeholderPath),
       fit: BoxFit.cover,
