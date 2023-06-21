@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:yuotube_downloader/pages/pages.dart';
+import 'package:yuotube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
   const YouTubeDownloaderApp({super.key});
@@ -11,19 +11,22 @@ class YouTubeDownloaderApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter YouTube Downloader & Converter',
       theme: ThemeData(
+        fontFamily: 'Sofia Sans',
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFF0f0f0f),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF222222),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          surfaceTintColor: Color.fromARGB(255, 156, 0, 0),
+        scaffoldBackgroundColor: AppColors.black,
+        listTileTheme: const ListTileThemeData(
+          tileColor: AppColors.black,
         ),
-        textTheme: GoogleFonts.montserratTextTheme(
-          Theme.of(context).textTheme,
+        appBarTheme: const AppBarTheme(
+          toolbarHeight: 80,
+          backgroundColor: AppColors.black,
+          foregroundColor: AppColors.white,
+          elevation: 0,
+          surfaceTintColor: null,
+          titleTextStyle: TextStyle(fontWeight: FontWeight.w800, fontSize: 27),
         ),
       ),
-      home: DownloadsPage(),
+      home: const DownloadsPage(),
     );
   }
 }

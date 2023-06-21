@@ -35,8 +35,6 @@ dependencies:
   get: ^4.6.5
   youtube_explode_dart: ^1.12.4
   path_provider: ^2.0.15
-  google_fonts: 4.0.4
-  cupertino_icons: 1.0.5
   http: ^0.13.6
   ffmpeg_kit_flutter_full_gpl: ^5.1.0
   just_audio: ^0.9.34
@@ -66,7 +64,27 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/placeholder.png
-    - google_fonts/
+  fonts:
+    - family: Sofia Sans
+      fonts: 
+        - asset: assets/fonts/SofiaSans-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/SofiaSans-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/SofiaSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/SofiaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SofiaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SofiaSans-Semibold.ttf
+          weight: 600
+        - asset: assets/fonts/SofiaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SofiaSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/SofiaSans-Black.ttf
+          weight: 900
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:yuotube_downloader/view_models/player_view_model.dart';
+import 'package:yuotube_downloader/utils/utils.dart';
 
 class Player extends StatelessWidget {
   final PlayerViewModel _viewModel = Get.find<PlayerViewModel>();
@@ -73,11 +73,9 @@ class Player extends StatelessWidget {
       () => Text(
         _viewModel.audio.title,
         overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.lato(
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w900,
-            color: Colors.white,
-          ),
+        style: const TextStyle(
+          fontWeight: FontWeight.w900,
+          color: Colors.white,
         ),
       ),
     );
@@ -88,12 +86,10 @@ class Player extends StatelessWidget {
       () => Text(
         _viewModel.audio.channel,
         overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.lato(
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
-            color: Color.fromARGB(185, 255, 255, 255),
-          ),
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+          color: Color.fromARGB(185, 255, 255, 255),
         ),
       ),
     );
@@ -102,13 +98,11 @@ class Player extends StatelessWidget {
   Widget _buildTimeIndicator() {
     return Obx(
       () => Text(
-        '${_printDuration(_viewModel.audio.id != '' ? _viewModel.currentPosition : Duration.zero)} /\n ${_printDuration(_viewModel.audio.duration)}',
-        style: GoogleFonts.lato(
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
-            color: Color.fromARGB(185, 255, 255, 255),
-          ),
+        '${printDuration(_viewModel.audio.id != '' ? _viewModel.currentPosition : Duration.zero)} /\n ${printDuration(_viewModel.audio.duration)}',
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+          color: Color.fromARGB(185, 255, 255, 255),
         ),
       ),
     );
@@ -126,12 +120,5 @@ class Player extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 }
