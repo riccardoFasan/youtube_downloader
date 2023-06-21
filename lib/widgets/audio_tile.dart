@@ -1,4 +1,3 @@
-import 'package:coolicons/coolicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:yuotube_downloader/models/models.dart';
@@ -25,7 +24,7 @@ class AudioTile extends StatelessWidget {
         children: <SlidableAction>[
           SlidableAction(
             backgroundColor: Colors.red,
-            icon: Coolicons.trash_full,
+            icon: AppIcons.trash,
             onPressed: (BuildContext _) => _removeCallback(_audio),
           )
         ],
@@ -36,7 +35,11 @@ class AudioTile extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
           child: Row(
             children: [
-              VideoThumbnail(url: _audio.thumbnailUrl),
+              SizedBox(
+                height: 65,
+                width: 65,
+                child: VideoThumbnail(url: _audio.thumbnailUrl),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12),

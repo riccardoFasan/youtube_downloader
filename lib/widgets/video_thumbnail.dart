@@ -1,21 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:yuotube_downloader/utils/utils.dart';
 
 class VideoThumbnail extends StatelessWidget {
   static const String _placeholderPath = 'assets/images/placeholder.png';
   final String? _url;
 
-  const VideoThumbnail({super.key, url}) : _url = url;
+  const VideoThumbnail({
+    super.key,
+    String? url,
+  }) : _url = url;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: SizedBox(
-        height: 65,
-        width: 65,
-        child: _buildImage(),
-      ),
+      child: _buildImage(),
     );
   }
 
@@ -32,7 +32,7 @@ class VideoThumbnail extends StatelessWidget {
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
-            color: Color(0xFFff0000),
+            color: AppColors.red,
             strokeWidth: 2.75,
           ),
         ),

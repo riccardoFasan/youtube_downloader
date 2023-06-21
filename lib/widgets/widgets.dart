@@ -4,3 +4,4 @@ export './video_thumbnail.dart';
 export './download_tile.dart';
 export './audio_tile.dart';
 export './player.dart';
+export 'navigation.dart';

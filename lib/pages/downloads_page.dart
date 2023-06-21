@@ -12,10 +12,12 @@ class DownloadsPage extends StatelessWidget {
           'YouTube Downloader',
         ),
       ),
+      bottomNavigationBar: Navigation(),
       body: Column(
         children: <Widget>[
-          Expanded(child: AudiosList()),
-          SizedBox(width: double.maxFinite, child: Player()),
+          Expanded(
+            child: AudiosList(),
+          ),
         ],
       ),
     );

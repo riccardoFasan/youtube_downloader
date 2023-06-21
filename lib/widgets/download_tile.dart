@@ -25,7 +25,11 @@ class DownloadTile extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        leading: VideoThumbnail(url: _download.info?.thumbnailUrl),
+        leading: SizedBox(
+          height: 65,
+          width: 65,
+          child: VideoThumbnail(url: _download.info?.thumbnailUrl),
+        ),
         title: Text(
           _download.info?.title ?? '',
           overflow: TextOverflow.ellipsis,

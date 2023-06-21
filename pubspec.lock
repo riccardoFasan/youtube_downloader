@@ -97,14 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
-  coolicons:
-    dependency: "direct main"
-    description:
-      name: coolicons
-      sha256: eaa782d488e88565ceb4f441af966b22dcd0dc2200b9d3d75e90062f231c8b86
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   crypto:
     dependency: transitive
     description:

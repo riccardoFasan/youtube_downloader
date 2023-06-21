@@ -16,6 +16,8 @@ class PlayerViewModel extends GetxController {
   final Rx<Audio> _selectedAudio = _placeholderAudio.obs;
   Audio get audio => _selectedAudio.value;
 
+  bool get hasAudio => _selectedAudio.value.id != '';
+
   StreamSubscription<Duration>? _positionSinkSub;
   StreamSubscription<PlayerState>? _stateSinkSub;
 
@@ -53,7 +55,7 @@ class PlayerViewModel extends GetxController {
   }
 
   void togglePlay() {
-    if (_selectedAudio.value.id == '') return;
+    if (!hasAudio) return;
     _playing.isTrue ? _pause() : _play();
   }
 
@@ -63,7 +65,7 @@ class PlayerViewModel extends GetxController {
   }
 
   void seekForward() {
-    if (_selectedAudio.value.id == '') return;
+    if (!hasAudio) return;
     final int milliseconds = _currentPosition.value.inMilliseconds + _seekDelta;
     final bool reachEnd =
         milliseconds > _selectedAudio.value.duration.inMilliseconds;
@@ -73,7 +75,7 @@ class PlayerViewModel extends GetxController {
   }
 
   void seekBackward() {
-    if (_selectedAudio.value.id == '') return;
+    if (!hasAudio) return;
     final int milliseconds = _currentPosition.value.inMilliseconds - _seekDelta;
     final bool reachStart = milliseconds < 0;
     final int target = reachStart ? 0 : milliseconds;

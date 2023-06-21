@@ -40,8 +40,6 @@ dependencies:
   just_audio: ^0.9.34
   just_audio_background: ^0.0.1-beta.10
   cached_network_image: ^3.2.3
-  coolicons: ^1.0.0
-
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +84,9 @@ flutter:
           weight: 800
         - asset: assets/fonts/SofiaSans-Black.ttf
           weight: 900
+    - family: Coolicons
+      fonts:
+        - asset: assets/icons/coolicons.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
