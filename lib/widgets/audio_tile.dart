@@ -1,3 +1,4 @@
+import 'package:coolicons/coolicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:yuotube_downloader/models/models.dart';
@@ -24,7 +25,7 @@ class AudioTile extends StatelessWidget {
         children: <SlidableAction>[
           SlidableAction(
             backgroundColor: Colors.red,
-            icon: Icons.delete,
+            icon: Coolicons.trash_full,
             onPressed: (BuildContext _) => _removeCallback(_audio),
           )
         ],

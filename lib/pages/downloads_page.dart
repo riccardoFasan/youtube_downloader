@@ -14,7 +14,7 @@ class DownloadsPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(child: AudiosAndDownloadsList()),
+          Expanded(child: AudiosList()),
           SizedBox(width: double.maxFinite, child: Player()),
         ],
       ),
