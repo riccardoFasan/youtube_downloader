@@ -10,7 +10,7 @@ class SponsorblockService {
     final response = await http
         .get(Uri.parse('$_endpoint/api/skipSegments?videoID=$videoId'));
 
-    if (response.statusCode == 404) {
+    if (response.statusCode != 200) {
       return Sponsorships(
         videoId: videoId,
         segments: [],

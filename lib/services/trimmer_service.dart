@@ -6,11 +6,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:yuotube_downloader/models/models.dart';
 
 class TrimmerService {
-  Future<void> removeSegments(
+  Future<Duration?> removeSegments(
     Audio audio,
     List<Segment> segmentsToRemove,
   ) async {
-    if (segmentsToRemove.isEmpty) return;
+    if (segmentsToRemove.isEmpty) return null;
 
     final List<Segment> segmentsToSave = _getSegmentsToSave(segmentsToRemove);
 
@@ -24,6 +24,8 @@ class TrimmerService {
     final FFmpegSession session =
         await FFmpegKit.execute('-i ${audio.path} $command');
     final ReturnCode? code = await session.getReturnCode();
+
+    Duration? duration;
 
     if (ReturnCode.isSuccess(code)) {
       final String summaryPath =
@@ -41,10 +43,13 @@ class TrimmerService {
         final File originalFile = File(audio.path);
         await originalFile.delete();
         await trimmedFile.rename(audio.path);
+        duration = _getNewDuration(audio, segmentsToRemove);
       }
     }
 
     await Directory(temporaryDir).delete(recursive: true);
+
+    return duration;
   }
 
   Future<String> get _localPath async {
@@ -98,5 +103,14 @@ class TrimmerService {
     final File summaryFile = File(summaryPath);
     await summaryFile.writeAsString(content);
     return summaryPath;
+  }
+
+  Duration _getNewDuration(Audio audio, List<Segment> segments) {
+    final Duration removedDuration = segments.fold(
+      Duration.zero,
+      (Duration previousValue, Segment segment) =>
+          previousValue + Duration(seconds: segment.end - segment.start),
+    );
+    return audio.duration - removedDuration;
   }
 }

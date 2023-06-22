@@ -55,14 +55,20 @@ class AudiosViewModel extends GetxController {
       final Sponsorships sponsorships =
           await _sponsorblock.getSponsorships(info.id);
       final Audio audio = Audio(
-          id: info.id,
-          url: info.url,
-          title: info.title,
-          channel: info.channel,
-          duration: info.duration,
-          thumbnailUrl: info.thumbnailUrl,
-          path: path);
-      await _trimmer.removeSegments(audio, sponsorships.segments);
+        id: info.id,
+        url: info.url,
+        title: info.title,
+        channel: info.channel,
+        duration: info.duration,
+        thumbnailUrl: info.thumbnailUrl,
+        path: path,
+      );
+      final Duration? newDuration =
+          await _trimmer.removeSegments(audio, sponsorships.segments);
+
+      if (newDuration != null) {
+        audio.duration = newDuration;
+      }
 
       _addAudio(audio);
       _snackbar.showDownloadCompletd(audio.title);

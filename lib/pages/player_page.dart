@@ -95,48 +95,26 @@ class PlayerPage extends StatelessWidget {
       margin: const EdgeInsets.only(
         top: 50,
       ),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Obx(
-                  () => _buildDurationText(_viewModel.currentPosition),
-                ),
-              ),
-              Obx(
-                () => _buildDurationText(_viewModel.audio.duration),
-              ),
-            ],
+      child: Obx(
+        () => ProgressBar(
+          timeLabelLocation: TimeLabelLocation.above,
+          timeLabelTextStyle: const TextStyle(
+            color: AppColors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w300,
           ),
-          Obx(
-            () => ProgressBar(
-              barHeight: 8,
-              thumbGlowRadius: 13,
-              thumbGlowColor: Colors.white,
-              progress: _viewModel.currentPosition,
-              total: _viewModel.audio.duration,
-              progressBarColor: Colors.white,
-              thumbColor: Colors.white,
-              baseBarColor: AppColors.mediumGray,
-              onSeek: (Duration duration) =>
-                  _viewModel.seek(duration.inMilliseconds),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDurationText(Duration duration) {
-    return Text(
-      printDuration(duration),
-      style: const TextStyle(
-        color: AppColors.white,
-        fontSize: 12,
-        fontWeight: FontWeight.w300,
+          timeLabelPadding: 10,
+          barHeight: 8,
+          thumbGlowRadius: 13,
+          thumbGlowColor: Colors.white,
+          progress: _viewModel.currentPosition,
+          total: _viewModel.audio.duration,
+          progressBarColor: Colors.white,
+          thumbColor: Colors.white,
+          baseBarColor: AppColors.mediumGray,
+          onSeek: (Duration duration) =>
+              _viewModel.seek(duration.inMilliseconds),
+        ),
       ),
     );
   }
@@ -144,7 +122,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildControls() {
     return Container(
       margin: const EdgeInsets.only(
-        top: 25,
+        top: 35,
       ),
       child: Column(
         children: <Widget>[

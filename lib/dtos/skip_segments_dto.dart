@@ -1,6 +1,6 @@
 class SkipSegmentDTO {
   final String uuid;
-  final List<double> segment;
+  final List<num> segment;
   final String category;
   final double videoDuration;
   final String actionType;
@@ -22,7 +22,7 @@ class SkipSegmentDTO {
   factory SkipSegmentDTO.fromJson(Map<String, dynamic> json) {
     return SkipSegmentDTO(
       uuid: json['UUID'],
-      segment: List<double>.from(json['segment'].map((dynamic x) => x)),
+      segment: List<num>.from(json['segment'].map((dynamic x) => x)),
       category: json['category'],
       videoDuration: json['videoDuration'],
       actionType: json['actionType'],
