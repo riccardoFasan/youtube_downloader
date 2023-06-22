@@ -5,10 +5,12 @@ import 'package:yuotube_downloader/models/models.dart';
 
 class ResultTile extends StatelessWidget {
   final AudioInfo _result;
+  final bool _saved;
   final Function _downloadCallback;
 
-  const ResultTile({super.key, result, downloadCallback})
+  const ResultTile({super.key, result, saved, downloadCallback})
       : _result = result,
+        _saved = saved,
         _downloadCallback = downloadCallback;
 
   @override
@@ -61,15 +63,27 @@ class ResultTile extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            padding: const EdgeInsets.all(0),
-            color: AppColors.white,
-            onPressed: () => _downloadCallback(),
-            icon: const Icon(
-              AppIcons.download,
-              size: 22,
+          if (!_saved)
+            IconButton(
+              padding: const EdgeInsets.all(0),
+              color: AppColors.white,
+              onPressed: () => _downloadCallback(),
+              icon: const Icon(
+                AppIcons.download,
+                size: 22,
+              ),
             ),
-          ),
+          if (_saved)
+            Container(
+              height: 44,
+              width: 44,
+              margin: const EdgeInsets.only(left: 8, right: 2),
+              child: const Icon(
+                AppIcons.cloudCheck,
+                size: 22,
+                color: AppColors.gray,
+              ),
+            ),
         ],
       ),
     );

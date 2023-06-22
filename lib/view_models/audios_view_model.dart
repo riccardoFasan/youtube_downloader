@@ -47,6 +47,10 @@ class AudiosViewModel extends GetxController {
     return _downloads.any((AudioInfo d) => d.id == info.id);
   }
 
+  bool isSaved(AudioInfo info) {
+    return _audios.any((AudioInfo d) => d.id == info.id);
+  }
+
   Future<void> _getAudioAndSave(AudioInfo info) async {
     _addDownload(info);
     try {

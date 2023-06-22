@@ -50,7 +50,8 @@ class SearchPage extends StatelessWidget {
                 if (_audios.isDownloading(result)) {
                   return _buildDownloadTile(result);
                 }
-                return _buildResultTile(result);
+
+                return _buildResultTile(result, _audios.isSaved(result));
               },
             ),
           if (_viewModel.loading) ..._buildSkeletonTiles()
@@ -59,10 +60,11 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  ResultTile _buildResultTile(AudioInfo result) {
+  ResultTile _buildResultTile(AudioInfo result, bool saved) {
     return ResultTile(
       key: ValueKey(result.id),
       result: result,
+      saved: saved,
       downloadCallback: () => _audios.download(result),
     );
   }
