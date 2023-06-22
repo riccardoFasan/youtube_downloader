@@ -4,46 +4,50 @@ import 'package:yuotube_downloader/view_models/player_view_model.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
-class Player extends StatelessWidget {
+class MiniPlayer extends StatelessWidget {
   final PlayerViewModel _viewModel = Get.find<PlayerViewModel>();
 
   static const double _height = 70;
   static const double _padding = 12;
 
-  Player({super.key});
+  MiniPlayer({super.key});
 
   double get _thumbnailSize => _height - (_padding * 2);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: _height,
-      padding: const EdgeInsets.all(_padding),
-      decoration: BoxDecoration(
-        color: AppColors.darkGray,
-        borderRadius: BorderRadius.circular(_padding),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: _thumbnailSize,
-            width: _thumbnailSize,
-            margin: const EdgeInsets.only(right: _padding),
-            child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildAudioTitle(),
-                _buildAudioChannelName(),
-              ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(_padding),
+      onTap: () => Get.toNamed('/player'),
+      child: Ink(
+        height: _height,
+        padding: const EdgeInsets.all(_padding),
+        decoration: BoxDecoration(
+          color: AppColors.darkGray,
+          borderRadius: BorderRadius.circular(_padding),
+        ),
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: _thumbnailSize,
+              width: _thumbnailSize,
+              margin: const EdgeInsets.only(right: _padding),
+              child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
             ),
-          ),
-          _buildPlayPauseButton(),
-          _buildDismissButton(),
-        ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildAudioTitle(),
+                  _buildAudioChannelName(),
+                ],
+              ),
+            ),
+            _buildPlayPauseButton(),
+            _buildDismissButton(),
+          ],
+        ),
       ),
     );
   }

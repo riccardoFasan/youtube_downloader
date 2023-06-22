@@ -12,7 +12,7 @@ class SkeletonTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
       child: Row(
-        children: [
+        children: <Widget>[
           Container(
             height: 65,
             width: 65,
@@ -26,7 +26,7 @@ class SkeletonTile extends StatelessWidget {
               padding: const EdgeInsets.only(left: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   _buildSkeletonText(12, 325, 75, true),
                   _buildSkeletonText(10, 325, 75, true),
                   _buildSkeletonText(10, 75, 50, false)

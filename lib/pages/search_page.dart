@@ -42,7 +42,7 @@ class SearchPage extends StatelessWidget {
       () => ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        children: [
+        children: <Widget>[
           if (!_viewModel.loading)
             ..._viewModel.results.map(
               (AudioInfo result) {

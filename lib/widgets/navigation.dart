@@ -24,8 +24,8 @@ class Navigation extends StatelessWidget {
         height: _barheight,
         padding: const EdgeInsets.all(10),
         child: Column(
-          children: [
-            if (_viewModel.hasAudio) Player(),
+          children: <Widget>[
+            if (_viewModel.hasAudio) MiniPlayer(),
             if (_viewModel.hasAudio)
               Container(
                 margin: const EdgeInsets.only(bottom: _playerMargin),
@@ -42,7 +42,7 @@ class Navigation extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           _buildButton(
             AppIcons.home,
             'Home',

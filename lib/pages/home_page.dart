@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
       () => ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        children: [
+        children: <Widget>[
           ..._viewModel.audios.map(
             (Audio audio) => _buildAudioTile(audio),
           )

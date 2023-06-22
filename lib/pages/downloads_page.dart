@@ -33,7 +33,7 @@ class DownloadsPage extends StatelessWidget {
       () => ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        children: [
+        children: <Widget>[
           ..._viewModel.downloads.map(
             (AudioInfo download) => _buildDownloadTile(download),
           ),

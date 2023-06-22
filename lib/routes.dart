@@ -17,4 +17,9 @@ appRoutes() => [
         page: () => DownloadsPage(),
         transition: Transition.noTransition,
       ),
+      GetPage(
+        name: '/player',
+        page: () => PlayerPage(),
+        transition: Transition.noTransition,
+      ),
     ];

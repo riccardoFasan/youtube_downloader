@@ -18,7 +18,7 @@ class ResultTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
       child: Row(
-        children: [
+        children: <Widget>[
           SizedBox(
             height: 65,
             width: 65,
@@ -29,7 +29,7 @@ class ResultTile extends StatelessWidget {
               padding: const EdgeInsets.only(left: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     _result.title,
                     overflow: TextOverflow.ellipsis,

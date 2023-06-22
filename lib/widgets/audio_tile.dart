@@ -34,7 +34,7 @@ class AudioTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
           child: Row(
-            children: [
+            children: <Widget>[
               SizedBox(
                 height: 65,
                 width: 65,
@@ -45,7 +45,7 @@ class AudioTile extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         _audio.title,
                         overflow: TextOverflow.ellipsis,
