@@ -69,7 +69,7 @@ class TrimmerService {
           ? sortedSegments.elementAt(target).end
           : 0;
       final int end = segment.start;
-      segmentsToSave.add(Segment(start: start, end: end));
+      if (start != end) segmentsToSave.add(Segment(start: start, end: end));
     });
 
     final Segment lastSegment = sortedSegments.last;
