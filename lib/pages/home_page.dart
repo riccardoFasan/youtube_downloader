@@ -48,7 +48,11 @@ class HomePage extends StatelessWidget {
       key: ValueKey(audio.id),
       audio: audio,
       removeCallback: _viewModel.delete,
-      tapCallback: () => _player.setCurrentAudioAndPlay(audio),
+      tapCallback: _playAudio,
     );
+  }
+
+  void _playAudio(Audio audio) {
+    _player.setCurrentAudioAndPlay(audio);
   }
 }

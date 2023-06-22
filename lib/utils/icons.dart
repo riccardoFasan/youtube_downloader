@@ -9,7 +9,9 @@ class AppIcons {
       IconData(0xe92f, fontFamily: _fontFamily);
   static const IconData chewronDown = IconData(0xe97c, fontFamily: _fontFamily);
   static const IconData download = IconData(0xe9af, fontFamily: _fontFamily);
-
+  static const IconData cloudClose = IconData(0xe992, fontFamily: _fontFamily);
+  static const IconData cloudDownload =
+      IconData(0xe993, fontFamily: _fontFamily);
   static const IconData search = IconData(0xea52, fontFamily: _fontFamily);
   static const IconData arrowReload = IconData(0xe920, fontFamily: _fontFamily);
   static const IconData play = IconData(0xea44, fontFamily: _fontFamily);

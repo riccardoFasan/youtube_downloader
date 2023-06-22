@@ -65,7 +65,9 @@ class AudiosViewModel extends GetxController {
           thumbnailUrl: info.thumbnailUrl,
           path: path);
       await _trimmer.removeSegments(audio, sponsorships.segments);
+
       _addAudio(audio);
+      _snackbar.showDownloadCompletd(audio.title);
     } catch (e) {
       _snackbar.showDownloadError();
     } finally {
