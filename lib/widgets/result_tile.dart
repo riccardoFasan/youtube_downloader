@@ -65,7 +65,7 @@ class ResultTile extends StatelessWidget {
           ),
           if (!_saved)
             IconButton(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.only(left: 2),
               color: AppColors.white,
               onPressed: () => _downloadCallback(),
               icon: const Icon(
