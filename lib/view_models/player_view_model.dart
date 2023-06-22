@@ -71,7 +71,7 @@ class PlayerViewModel extends GetxController {
         milliseconds > _selectedAudio.value.duration.inMilliseconds;
     final int target =
         reachEnd ? _selectedAudio.value.duration.inMilliseconds : milliseconds;
-    _seek(target);
+    seek(target);
   }
 
   void seekBackward() {
@@ -79,14 +79,23 @@ class PlayerViewModel extends GetxController {
     final int milliseconds = _currentPosition.value.inMilliseconds - _seekDelta;
     final bool reachStart = milliseconds < 0;
     final int target = reachStart ? 0 : milliseconds;
-    _seek(target);
+    seek(target);
   }
+
+  void playPrevious() {}
+
+  void playNext() {}
+
+  void switchShuffleMode() {}
+
+  void switchLoopMode() {}
 
   bool isSelected(Audio audio) {
     return _selectedAudio.value.id == audio.id;
   }
 
-  Future<void> _seek(int milliseconds) async {
+  Future<void> seek(int milliseconds) async {
+    if (!hasAudio) return;
     final Duration position = Duration(milliseconds: milliseconds);
     if (_playing.isFalse) _currentPosition.value = position;
     await _player.seek(position);

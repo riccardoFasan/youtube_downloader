@@ -45,10 +45,6 @@ class AudiosViewModel extends GetxController {
     _removeAudio(audio);
   }
 
-  Future<void> play(Audio audio) async {
-    await _player.setCurrentAudioAndPlay(audio);
-  }
-
   bool isDownloading(AudioInfo info) {
     return _downloads.any((AudioInfo d) => d.id == info.id);
   }

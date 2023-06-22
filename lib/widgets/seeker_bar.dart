@@ -31,7 +31,7 @@ class SeekerBar extends StatelessWidget {
       leading: const Icon(
         AppIcons.search,
         size: 18,
-        color: AppColors.lightgray,
+        color: AppColors.lightGray,
       ),
       constraints: const BoxConstraints(
         minHeight: 40,

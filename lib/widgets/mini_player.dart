@@ -74,7 +74,7 @@ class MiniPlayer extends StatelessWidget {
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 13,
-          color: AppColors.lightgray,
+          color: AppColors.lightGray,
         ),
       ),
     );

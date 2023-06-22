@@ -43,7 +43,7 @@ class ResultTile extends StatelessWidget {
                     channel,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: AppColors.lightgray,
+                      color: AppColors.lightGray,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
@@ -52,7 +52,7 @@ class ResultTile extends StatelessWidget {
                     duration,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: AppColors.lightgray,
+                      color: AppColors.lightGray,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),

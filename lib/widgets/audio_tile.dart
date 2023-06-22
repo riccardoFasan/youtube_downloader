@@ -59,7 +59,7 @@ class AudioTile extends StatelessWidget {
                         channel,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: AppColors.lightgray,
+                          color: AppColors.lightGray,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -68,7 +68,7 @@ class AudioTile extends StatelessWidget {
                         duration,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: AppColors.lightgray,
+                          color: AppColors.lightGray,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),

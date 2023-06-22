@@ -6,6 +6,7 @@ import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   final AudiosViewModel _viewModel = Get.find<AudiosViewModel>();
+  final PlayerViewModel _player = Get.find<PlayerViewModel>();
 
   HomePage({super.key});
 
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
       key: ValueKey(audio.id),
       audio: audio,
       removeCallback: _viewModel.delete,
-      tapCallback: _viewModel.play,
+      tapCallback: () => _player.setCurrentAudioAndPlay(audio),
     );
   }
 }
