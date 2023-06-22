@@ -46,7 +46,7 @@ class Navigation extends StatelessWidget {
           _buildButton(
             AppIcons.home,
             'Home',
-            '/',
+            '/home',
           ),
           _buildButton(
             AppIcons.search,
@@ -64,9 +64,12 @@ class Navigation extends StatelessWidget {
   }
 
   Widget _buildButton(IconData icon, String label, String path) {
+    final bool current = Get.currentRoute == path;
+    final FontWeight fontWeight = current ? FontWeight.w900 : FontWeight.w300;
+    final Color backgroundColor =
+        current ? AppColors.darkGray : Colors.transparent;
     return TextButton.icon(
-      // onPressed: () => Get.toNamed(path),
-      onPressed: () {},
+      onPressed: () => Get.offAllNamed(path),
       icon: Icon(
         icon,
         color: AppColors.white,
@@ -74,11 +77,15 @@ class Navigation extends StatelessWidget {
       ),
       label: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.white,
           fontSize: 14,
-          fontWeight: FontWeight.w300,
+          fontWeight: fontWeight,
         ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor),
+        overlayColor: const MaterialStatePropertyAll<Color>(AppColors.darkGray),
       ),
     );
   }

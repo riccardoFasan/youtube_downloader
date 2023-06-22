@@ -16,8 +16,8 @@ class AudiosViewModel extends GetxController {
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
 
-  final RxList<Download> _downloads = <Download>[].obs;
-  List<Download> get downloads => _downloads;
+  final RxList<AudioInfo> _downloads = <AudioInfo>[].obs;
+  List<AudioInfo> get downloads => _downloads;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -25,14 +25,13 @@ class AudiosViewModel extends GetxController {
     _init();
   }
 
-  Future<void> download(String url) async {
-    // TODO: verify it's a valid url (e.g. not a live) and not already downloaded
-    _subscriptions[url] = _getAudioAndSave(url).asStream().listen((_) {
-      _subscriptions.remove(url);
+  Future<void> download(AudioInfo info) async {
+    _subscriptions[info.url] = _getAudioAndSave(info).asStream().listen((_) {
+      _subscriptions.remove(info.url);
     });
   }
 
-  void cancelDownload(Download download) {
+  void cancelDownload(AudioInfo download) {
     final String url = download.url;
     if (!_subscriptions.containsKey(url)) return;
     final StreamSubscription<void> subscription = _subscriptions[url]!;
@@ -50,11 +49,13 @@ class AudiosViewModel extends GetxController {
     await _player.setCurrentAudioAndPlay(audio);
   }
 
-  Future<void> _getAudioAndSave(String url) async {
-    _addDownload(Download(url: url));
+  bool isDownloading(AudioInfo info) {
+    return _downloads.any((AudioInfo d) => d.id == info.id);
+  }
+
+  Future<void> _getAudioAndSave(AudioInfo info) async {
+    _addDownload(info);
     try {
-      final AudioInfo info = await _yt.getInfo(url);
-      _addDownloadInfo(info);
       final List<int> bytes = await _yt.download(info.id);
       final String path = await _fs.saveAudioFileFromBytes(info, bytes);
       final Sponsorships sponsorships =
@@ -70,25 +71,18 @@ class AudiosViewModel extends GetxController {
       await _trimmer.removeSegments(audio, sponsorships.segments);
       _addAudio(audio);
     } catch (e) {
-      _snackbar.showError();
+      _snackbar.showDownloadError();
     } finally {
-      _removeDownload(url);
+      _removeDownload(info.url);
     }
   }
 
-  void _addDownload(Download download) {
+  void _addDownload(AudioInfo download) {
     _downloads.value = [download, ..._downloads];
   }
 
-  void _addDownloadInfo(AudioInfo info) {
-    final Download download =
-        _downloads.firstWhere((Download d) => d.url == info.url);
-    _removeDownload(info.url);
-    _downloads.value = [..._downloads, Download(url: download.url, info: info)];
-  }
-
   void _removeDownload(String url) {
-    _downloads.removeWhere((Download d) => d.url == url);
+    _downloads.removeWhere((AudioInfo d) => d.url == url);
   }
 
   void _addAudio(Audio audio) {

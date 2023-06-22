@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/pages/pages.dart';
+import 'package:flutter/material.dart';
+import 'package:yuotube_downloader/routes.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
@@ -14,9 +14,6 @@ class YouTubeDownloaderApp extends StatelessWidget {
         fontFamily: 'Sofia Sans',
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.black,
-        listTileTheme: const ListTileThemeData(
-          tileColor: AppColors.black,
-        ),
         appBarTheme: const AppBarTheme(
           toolbarHeight: 80,
           backgroundColor: AppColors.black,
@@ -25,8 +22,11 @@ class YouTubeDownloaderApp extends StatelessWidget {
           surfaceTintColor: null,
           titleTextStyle: TextStyle(fontWeight: FontWeight.w800, fontSize: 27),
         ),
+        textSelectionTheme:
+            const TextSelectionThemeData(cursorColor: AppColors.red),
       ),
-      home: const DownloadsPage(),
+      initialRoute: '/home',
+      getPages: appRoutes(),
     );
   }
 }

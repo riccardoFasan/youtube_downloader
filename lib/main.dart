@@ -19,4 +19,5 @@ Future<void> _injectServices() async {
   Get.put(PlayerService());
   Get.put(PlayerViewModel());
   Get.put(AudiosViewModel());
+  Get.put(SearchViewModel());
 }

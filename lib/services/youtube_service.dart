@@ -8,14 +8,7 @@ class YouTubeService {
     final YoutubeExplode yte = YoutubeExplode();
     final Video metadata = await yte.videos.get(url);
     yte.close();
-    return AudioInfo(
-      id: metadata.id.value,
-      url: url,
-      title: metadata.title,
-      channel: metadata.author,
-      duration: metadata.duration ?? Duration.zero,
-      thumbnailUrl: metadata.thumbnails.maxResUrl,
-    );
+    return _mapVideoToInfo(metadata);
   }
 
   Future<List<int>> download(String videoId) async {
@@ -34,5 +27,25 @@ class YouTubeService {
       },
     );
     return completer.future;
+  }
+
+  Future<List<AudioInfo>> search(String query) async {
+    final YoutubeExplode yte = YoutubeExplode();
+    final VideoSearchList searchList = await yte.search.search(query);
+    yte.close();
+    List<AudioInfo> results =
+        searchList.map((Video metadata) => _mapVideoToInfo(metadata)).toList();
+    return results;
+  }
+
+  AudioInfo _mapVideoToInfo(Video metadata) {
+    return AudioInfo(
+      id: metadata.id.value,
+      url: metadata.url,
+      title: metadata.title,
+      channel: metadata.author,
+      duration: metadata.duration ?? Duration.zero,
+      thumbnailUrl: metadata.thumbnails.maxResUrl,
+    );
   }
 }
