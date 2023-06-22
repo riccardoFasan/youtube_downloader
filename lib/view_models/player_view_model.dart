@@ -1,17 +1,27 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:yuotube_downloader/models/audio_model.dart';
 import 'package:yuotube_downloader/services/player_service.dart';
+import 'package:yuotube_downloader/view_models/audios_view_model.dart';
 
 class PlayerViewModel extends GetxController {
+  final AudiosViewModel _audios = Get.find<AudiosViewModel>();
   final PlayerService _player = Get.find<PlayerService>();
+  final Random _random = Random();
 
   final Rx<Duration> _currentPosition = Duration.zero.obs;
   Duration get currentPosition => _currentPosition.value;
 
   final Rx<bool> _playing = false.obs;
   bool get playing => _playing.value;
+
+  final Rx<bool> _shuffle = false.obs;
+  bool get shuffle => _shuffle.value;
+
+  final Rx<bool> _loopOne = false.obs;
+  bool get loopOne => _loopOne.value;
 
   final Rx<Audio> _selectedAudio = _placeholderAudio.obs;
   Audio get audio => _selectedAudio.value;
@@ -61,7 +71,10 @@ class PlayerViewModel extends GetxController {
 
   void stop() {
     _player.stop();
-    _afterStopped();
+    _disposePosition();
+    _playing.value = false;
+    _selectedAudio.value = _placeholderAudio;
+    _currentPosition.value = Duration.zero;
   }
 
   void seekForward() {
@@ -82,13 +95,35 @@ class PlayerViewModel extends GetxController {
     seek(target);
   }
 
-  void playPrevious() {}
+  void playPrevious() {
+    if (!hasAudio) return;
+    if (_loopOne.isTrue) {
+      seek(0);
+      return;
+    }
+    final Audio? targetAudio =
+        _shuffle.isTrue ? _getRandomAudio() : _getPreviousAudio();
+    if (targetAudio != null) setCurrentAudioAndPlay(targetAudio);
+  }
 
-  void playNext() {}
+  void playNext() {
+    if (!hasAudio) return;
+    if (_loopOne.isTrue) {
+      seek(0);
+      return;
+    }
+    final Audio? targetAudio =
+        _shuffle.isTrue ? _getRandomAudio() : _getNextAudio();
+    if (targetAudio != null) setCurrentAudioAndPlay(targetAudio);
+  }
 
-  void switchShuffleMode() {}
+  void switchShuffle() {
+    _shuffle.toggle();
+  }
 
-  void switchLoopMode() {}
+  void switchLoop() {
+    _loopOne.toggle();
+  }
 
   bool isSelected(Audio audio) {
     return _selectedAudio.value.id == audio.id;
@@ -121,7 +156,7 @@ class PlayerViewModel extends GetxController {
         _playing.value = event.playing;
         return;
       }
-      _afterStopped();
+      playNext();
     });
   }
 
@@ -145,10 +180,26 @@ class PlayerViewModel extends GetxController {
     }
   }
 
-  void _afterStopped() {
-    _disposePosition();
-    _playing.value = false;
-    _selectedAudio.value = _placeholderAudio;
-    _currentPosition.value = Duration.zero;
+  Audio? _getPreviousAudio() {
+    if (!hasAudio) return null;
+    final int index = _audios.audios
+        .indexWhere((Audio audio) => audio.id == _selectedAudio.value.id);
+    return index == 0 ? _audios.audios.last : _audios.audios[index - 1];
+  }
+
+  Audio? _getNextAudio() {
+    if (!hasAudio) return null;
+    final int index = _audios.audios
+        .indexWhere((Audio audio) => audio.id == _selectedAudio.value.id);
+    return index == _audios.audios.length - 1
+        ? _audios.audios.first
+        : _audios.audios[index + 1];
+  }
+
+  Audio _getRandomAudio() {
+    final int width = _random.nextInt(_audios.audios.length);
+    final Audio randomAudio = _audios.audios[width];
+    if (randomAudio.id == _selectedAudio.value.id) return _getRandomAudio();
+    return randomAudio;
   }
 }

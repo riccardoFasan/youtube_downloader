@@ -3,10 +3,8 @@ import 'package:flutter/widgets.dart';
 class AppIcons {
   static const String _fontFamily = 'Coolicons';
   static const IconData home = IconData(0xe9ee, fontFamily: _fontFamily);
-  static const IconData arrowUndoUpLeft =
-      IconData(0xe92e, fontFamily: _fontFamily);
-  static const IconData arrowUndoUpRight =
-      IconData(0xe92f, fontFamily: _fontFamily);
+  static const IconData skipBack = IconData(0xea64, fontFamily: _fontFamily);
+  static const IconData skipForward = IconData(0xea65, fontFamily: _fontFamily);
   static const IconData chewronDown = IconData(0xe97c, fontFamily: _fontFamily);
   static const IconData download = IconData(0xe9af, fontFamily: _fontFamily);
   static const IconData cloudClose = IconData(0xe992, fontFamily: _fontFamily);

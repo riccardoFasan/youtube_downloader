@@ -20,6 +20,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: SeekerBar(
           searchCallback: (String query) =>
               _debouncer.run(() => _viewModel.search(query)),

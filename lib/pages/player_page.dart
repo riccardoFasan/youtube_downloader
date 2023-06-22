@@ -151,16 +151,19 @@ class PlayerPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              _buildPreviousTrackButton(),
-              _buildBackwardButton(),
+              _buildSkipBackButton(),
+              _buildRewindButton(),
               _buildPlayPauseButton(),
               _buildForwardButton(),
-              _buildNextTrackButton(),
+              _buildSkipForwardButton(),
             ],
           ),
           Container(
             margin: const EdgeInsets.only(
               top: 24,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 4,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -205,12 +208,12 @@ class PlayerPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBackwardButton() {
+  Widget _buildRewindButton() {
     return IconButton(
       color: AppColors.white,
       onPressed: () => _viewModel.seekBackward(),
       icon: const Icon(
-        AppIcons.arrowUndoUpLeft,
+        AppIcons.rewind,
         size: 30,
       ),
     );
@@ -221,52 +224,72 @@ class PlayerPage extends StatelessWidget {
       color: AppColors.white,
       onPressed: () => _viewModel.seekForward(),
       icon: const Icon(
-        AppIcons.arrowUndoUpRight,
-        size: 30,
-      ),
-    );
-  }
-
-  Widget _buildPreviousTrackButton() {
-    return IconButton(
-      color: AppColors.white,
-      onPressed: () => _viewModel.playPrevious(),
-      icon: const Icon(
-        AppIcons.rewind,
-        size: 30,
-      ),
-    );
-  }
-
-  Widget _buildNextTrackButton() {
-    return IconButton(
-      color: AppColors.white,
-      onPressed: () => _viewModel.playNext(),
-      icon: const Icon(
         AppIcons.forward,
         size: 30,
       ),
     );
   }
 
-  Widget _buildLoopButton() {
+  Widget _buildSkipBackButton() {
     return IconButton(
       color: AppColors.white,
-      onPressed: () => _viewModel.switchShuffleMode(),
+      onPressed: () => _viewModel.playPrevious(),
       icon: const Icon(
-        AppIcons.arrowReload,
-        size: 20,
+        AppIcons.skipBack,
+        size: 30,
+      ),
+    );
+  }
+
+  Widget _buildSkipForwardButton() {
+    return IconButton(
+      color: AppColors.white,
+      onPressed: () => _viewModel.playNext(),
+      icon: const Icon(
+        AppIcons.skipForward,
+        size: 30,
+      ),
+    );
+  }
+
+  Widget _buildLoopButton() {
+    return Obx(
+      () => Container(
+        height: 35,
+        width: 35,
+        decoration: BoxDecoration(
+          color: _viewModel.loopOne ? AppColors.gray : Colors.transparent,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: IconButton(
+          color: AppColors.white,
+          onPressed: () => _viewModel.switchLoop(),
+          icon: const Icon(
+            AppIcons.arrowReload,
+            size: 20,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildShuffleButton() {
-    return IconButton(
-      color: AppColors.white,
-      onPressed: () => _viewModel.playNext(),
-      icon: const Icon(
-        AppIcons.shuffle,
-        size: 20,
+    return Obx(
+      () => Container(
+        height: 35,
+        width: 35,
+        decoration: BoxDecoration(
+          color: _viewModel.shuffle ? AppColors.gray : Colors.transparent,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: IconButton(
+          color: AppColors.white,
+          onPressed: () => _viewModel.switchShuffle(),
+          icon: const Icon(
+            AppIcons.shuffle,
+            size: 20,
+          ),
+        ),
       ),
     );
   }

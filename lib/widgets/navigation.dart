@@ -69,7 +69,7 @@ class Navigation extends StatelessWidget {
     final Color backgroundColor =
         current ? AppColors.darkGray : Colors.transparent;
     return TextButton.icon(
-      onPressed: () => Get.offAllNamed(path),
+      onPressed: () => Get.toNamed(path),
       icon: Icon(
         icon,
         color: AppColors.white,
