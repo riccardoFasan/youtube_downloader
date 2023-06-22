@@ -48,12 +48,17 @@ class HomePage extends StatelessWidget {
     return AudioTile(
       key: ValueKey(audio.id),
       audio: audio,
-      removeCallback: _viewModel.delete,
+      removeCallback: _removeAudio,
       tapCallback: _playAudio,
     );
   }
 
   void _playAudio(Audio audio) {
     _player.setCurrentAudioAndPlay(audio);
+  }
+
+  void _removeAudio(Audio audio) {
+    _viewModel.delete(audio);
+    if (_player.isSelected(audio)) _player.stop();
   }
 }

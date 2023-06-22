@@ -17,7 +17,7 @@ Future<void> _injectServices() async {
   Get.put(SponsorblockService());
   Get.put(TrimmerService());
   Get.put(PlayerService());
-  Get.put(PlayerViewModel());
-  Get.put(AudiosViewModel());
   Get.put(SearchViewModel());
+  Get.put(AudiosViewModel());
+  Get.put(PlayerViewModel());
 }

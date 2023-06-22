@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
-import 'package:yuotube_downloader/view_models/player_view_model.dart';
 
 class AudiosViewModel extends GetxController {
   final StorageService _storage = Get.find<StorageService>();
@@ -11,7 +10,6 @@ class AudiosViewModel extends GetxController {
   final FileSystemService _fs = Get.find<FileSystemService>();
   final SponsorblockService _sponsorblock = Get.find<SponsorblockService>();
   final TrimmerService _trimmer = Get.find<TrimmerService>();
-  final PlayerViewModel _player = Get.find<PlayerViewModel>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -89,7 +87,6 @@ class AudiosViewModel extends GetxController {
   }
 
   void _removeAudio(Audio audio) {
-    if (_player.isSelected(audio)) _player.stop();
     _audios.removeWhere((Audio a) => a.id == audio.id);
     _update();
   }
