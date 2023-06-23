@@ -19,34 +19,36 @@ class MiniPlayer extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(_padding),
       onTap: () => Get.toNamed('/player'),
-      child: Ink(
-        height: _height,
-        padding: const EdgeInsets.all(_padding),
-        decoration: BoxDecoration(
-          color: AppColors.darkGray,
-          borderRadius: BorderRadius.circular(_padding),
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              height: _thumbnailSize,
-              width: _thumbnailSize,
-              margin: const EdgeInsets.only(right: _padding),
-              child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildAudioTitle(),
-                  _buildAudioChannelName(),
-                ],
+      child: Obx(
+        () => Ink(
+          height: _height,
+          padding: const EdgeInsets.all(_padding),
+          decoration: BoxDecoration(
+            color: _viewModel.backgroundColor,
+            borderRadius: BorderRadius.circular(_padding),
+          ),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: _thumbnailSize,
+                width: _thumbnailSize,
+                margin: const EdgeInsets.only(right: _padding),
+                child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
               ),
-            ),
-            _buildPlayPauseButton(),
-            _buildDismissButton(),
-          ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildAudioTitle(),
+                    _buildAudioChannelName(),
+                  ],
+                ),
+              ),
+              _buildPlayPauseButton(),
+              _buildDismissButton(),
+            ],
+          ),
         ),
       ),
     );

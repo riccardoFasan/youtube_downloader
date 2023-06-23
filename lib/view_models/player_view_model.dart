@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:yuotube_downloader/models/audio_model.dart';
-import 'package:yuotube_downloader/services/player_service.dart';
+import 'package:yuotube_downloader/services/services.dart';
+import 'package:yuotube_downloader/utils/colors.dart';
 import 'package:yuotube_downloader/view_models/audios_view_model.dart';
 
 class PlayerViewModel extends GetxController {
   final AudiosViewModel _audios = Get.find<AudiosViewModel>();
   final PlayerService _player = Get.find<PlayerService>();
+  final ColorService _colors = Get.find<ColorService>();
   final Random _random = Random();
 
   final Rx<Duration> _currentPosition = Duration.zero.obs;
@@ -25,6 +28,9 @@ class PlayerViewModel extends GetxController {
 
   final Rx<Audio> _selectedAudio = _placeholderAudio.obs;
   Audio get audio => _selectedAudio.value;
+
+  final Rx<Color> _backgroundColor = AppColors.darkGray.obs;
+  Color get backgroundColor => _backgroundColor.value;
 
   bool get hasAudio => _selectedAudio.value.id != '';
 
@@ -58,6 +64,8 @@ class PlayerViewModel extends GetxController {
     if (_selectedAudio.value.id != audio.id) {
       await _player.setSource(audio);
       _selectedAudio.value = audio;
+      _backgroundColor.value =
+          await _colors.generateColorFromImage(audio.thumbnailUrl);
     }
     if (_selectedAudio.value.id != audio.id || !_playing.value) {
       _play();
