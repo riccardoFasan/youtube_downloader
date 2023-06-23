@@ -7,7 +7,7 @@ class ColorService {
     if (imageUrl == null) return AppColors.darkGray;
     final PaletteGenerator paletteGenerator =
         await PaletteGenerator.fromImageProvider(
-      NetworkImage(imageUrl!),
+      NetworkImage(imageUrl),
     );
     return paletteGenerator.dominantColor?.color ?? AppColors.darkGray;
   }

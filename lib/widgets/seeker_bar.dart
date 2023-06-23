@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 
 class SeekerBar extends StatelessWidget {
@@ -12,8 +15,18 @@ class SeekerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
+    final FocusNode focusNode = FocusNode();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+
+    StreamSubscription<bool> keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool visible) {
+      if (!visible) focusNode.unfocus();
+    });
+
     return SearchBar(
       controller: controller,
+      focusNode: focusNode,
       onChanged: (String query) => _searchCallback(query),
       backgroundColor:
           const MaterialStatePropertyAll<Color>(AppColors.darkGray),
