@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,33 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: _buildBackBar(),
       body: _buildFullPlayer(),
+    );
+    return _buildBackground(scaffold);
+  }
+
+  Widget _buildBackground(Widget child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.black,
+        image: DecorationImage(
+          image: NetworkImage(
+            _viewModel.audio.thumbnailUrl!,
+          ),
+          fit: BoxFit.fill,
+          opacity: .25,
+        ),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 32,
+          sigmaY: 32,
+        ),
+        child: child,
+      ),
     );
   }
 
@@ -236,7 +261,7 @@ class PlayerPage extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-          color: _viewModel.loopOne ? AppColors.gray : Colors.transparent,
+          color: _getIconButtonBackground(_viewModel.loopOne),
           borderRadius: BorderRadius.circular(50),
         ),
         child: IconButton(
@@ -257,7 +282,7 @@ class PlayerPage extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-          color: _viewModel.shuffle ? AppColors.gray : Colors.transparent,
+          color: _getIconButtonBackground(_viewModel.shuffle),
           borderRadius: BorderRadius.circular(50),
         ),
         child: IconButton(
@@ -270,5 +295,9 @@ class PlayerPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getIconButtonBackground(bool active) {
+    return active ? AppColors.white.withOpacity(.15) : Colors.transparent;
   }
 }

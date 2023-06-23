@@ -59,11 +59,10 @@ class MiniPlayer extends StatelessWidget {
       () => Text(
         _viewModel.audio.title,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontWeight: FontWeight.w800,
-          fontSize: 15,
-          color: AppColors.white,
-        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 15,
+            color: _getDynamicColor(AppColors.darkGray, AppColors.white)),
       ),
     );
   }
@@ -73,42 +72,59 @@ class MiniPlayer extends StatelessWidget {
       () => Text(
         _viewModel.audio.channel,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 13,
-          color: AppColors.lightGray,
+          color: _getDynamicColor(
+            AppColors.gray,
+            AppColors.lightGray,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildPlayPauseButton() {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      color: AppColors.white,
-      onPressed: () => _viewModel.togglePlay(),
-      icon: _buildPlayPauseIcon(),
+    return Obx(
+      () => IconButton(
+        padding: const EdgeInsets.all(0),
+        color: _getDynamicColor(
+          AppColors.darkGray,
+          AppColors.white,
+        ),
+        onPressed: () => _viewModel.togglePlay(),
+        icon: _buildPlayPauseIcon(),
+      ),
     );
   }
 
   Widget _buildPlayPauseIcon() {
-    return Obx(
-      () => Icon(
-        _viewModel.playing == true ? AppIcons.pause : AppIcons.play,
-        size: 18,
-      ),
+    return Icon(
+      _viewModel.playing == true ? AppIcons.pause : AppIcons.play,
+      size: 18,
     );
   }
 
   Widget _buildDismissButton() {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      color: AppColors.white,
-      onPressed: () => _viewModel.stop(),
-      icon: const Icon(
-        AppIcons.dismiss,
-        size: 18,
+    return Obx(
+      () => IconButton(
+        padding: const EdgeInsets.all(0),
+        color: _getDynamicColor(
+          AppColors.darkGray,
+          AppColors.white,
+        ),
+        onPressed: () => _viewModel.stop(),
+        icon: const Icon(
+          AppIcons.dismiss,
+          size: 18,
+        ),
       ),
     );
+  }
+
+  Color _getDynamicColor(Color darkColor, Color lightColor) {
+    return _viewModel.backgroundColor.computeLuminance() > 0.4
+        ? darkColor
+        : lightColor;
   }
 }

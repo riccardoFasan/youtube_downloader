@@ -20,6 +20,8 @@ class YouTubeDownloaderApp extends StatelessWidget {
           foregroundColor: AppColors.white,
           elevation: 0,
           surfaceTintColor: null,
+          shadowColor: null,
+          systemOverlayStyle: null,
           titleTextStyle: TextStyle(fontWeight: FontWeight.w800, fontSize: 27),
         ),
         textSelectionTheme:
