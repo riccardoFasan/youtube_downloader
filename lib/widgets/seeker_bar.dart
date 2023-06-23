@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
@@ -19,8 +17,7 @@ class SeekerBar extends StatelessWidget {
 
     var keyboardVisibilityController = KeyboardVisibilityController();
 
-    StreamSubscription<bool> keyboardSubscription =
-        keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardVisibilityController.onChange.listen((bool visible) {
       if (!visible) focusNode.unfocus();
     });
 
