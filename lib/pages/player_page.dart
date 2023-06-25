@@ -22,23 +22,25 @@ class PlayerPage extends StatelessWidget {
   }
 
   Widget _buildBackground(Widget child) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        image: DecorationImage(
-          image: NetworkImage(
-            _viewModel.audio.thumbnailUrl!,
+    return Obx(
+      () => Container(
+        decoration: BoxDecoration(
+          color: AppColors.black,
+          image: DecorationImage(
+            image: NetworkImage(
+              _viewModel.audio.thumbnailUrl!,
+            ),
+            fit: BoxFit.fill,
+            opacity: .25,
           ),
-          fit: BoxFit.fill,
-          opacity: .25,
         ),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 32,
-          sigmaY: 32,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 32,
+            sigmaY: 32,
+          ),
+          child: child,
         ),
-        child: child,
       ),
     );
   }
