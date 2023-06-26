@@ -34,7 +34,10 @@ class DownloadTile extends StatelessWidget {
             SizedBox(
               height: 65,
               width: 65,
-              child: VideoThumbnail(url: _download.thumbnailUrl),
+              child: VideoThumbnail(
+                radius: 5,
+                url: _download.thumbnailUrl,
+              ),
             ),
             Expanded(
               child: Padding(

@@ -31,11 +31,11 @@ class AudiosViewModel extends GetxController {
 
   void cancelDownload(AudioInfo download) {
     final String url = download.url;
-    if (!_subscriptions.containsKey(url)) return;
-    final StreamSubscription<void> subscription = _subscriptions[url]!;
-    subscription.cancel();
-    _subscriptions.remove(url);
-    _removeDownload(url);
+    if (_subscriptions.containsKey(url)) {
+      _subscriptions[url]!.cancel();
+      _subscriptions.remove(url);
+      _removeDownload(url);
+    }
   }
 
   Future<void> delete(Audio audio) async {

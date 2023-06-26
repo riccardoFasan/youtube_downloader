@@ -8,7 +8,6 @@ class BlurredBackground extends StatelessWidget {
   final double _opacity;
   final Widget _child;
   final BoxFit _fit;
-  final double? _height;
   final String? _url;
 
   const BlurredBackground({
@@ -27,14 +26,12 @@ class BlurredBackground extends StatelessWidget {
         _opacity = opacity,
         _child = child,
         _fit = fit,
-        _height = height,
         _url = url;
 
   @override
   Widget build(BuildContext context) {
     if (_url == null) {
       return Container(
-        height: _height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_radius),
           color: _color,
@@ -44,7 +41,6 @@ class BlurredBackground extends StatelessWidget {
     }
 
     return Container(
-      height: _height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(_radius),
         color: _color,

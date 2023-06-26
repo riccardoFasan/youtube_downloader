@@ -38,7 +38,10 @@ class AudioTile extends StatelessWidget {
               SizedBox(
                 height: 65,
                 width: 65,
-                child: VideoThumbnail(url: _audio.thumbnailUrl),
+                child: VideoThumbnail(
+                  radius: 5,
+                  url: _audio.thumbnailUrl,
+                ),
               ),
               Expanded(
                 child: Padding(

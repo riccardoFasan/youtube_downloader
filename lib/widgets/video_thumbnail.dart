@@ -5,16 +5,19 @@ import 'package:yuotube_downloader/utils/utils.dart';
 class VideoThumbnail extends StatelessWidget {
   static const String _placeholderPath = 'assets/images/placeholder.png';
   final String? _url;
+  final double _radius;
 
   const VideoThumbnail({
     super.key,
     String? url,
-  }) : _url = url;
+    required double radius,
+  })  : _url = url,
+        _radius = radius;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(_radius),
       child: _buildImage(),
     );
   }

@@ -24,7 +24,10 @@ class ResultTile extends StatelessWidget {
           SizedBox(
             height: 65,
             width: 65,
-            child: VideoThumbnail(url: _result.thumbnailUrl),
+            child: VideoThumbnail(
+              radius: 5,
+              url: _result.thumbnailUrl,
+            ),
           ),
           Expanded(
             child: Padding(

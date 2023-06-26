@@ -46,9 +46,9 @@ class PlayerPage extends StatelessWidget {
           horizontal: 20,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _buildHero(),
-            _buildProgressBar(),
             _buildControls(),
           ],
         ),
@@ -60,26 +60,28 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: 300,
             width: 300,
-            margin: const EdgeInsets.only(
-              bottom: 24,
-            ),
-            child: VideoThumbnail(
-              url: _viewModel.audio.thumbnailUrl,
+            child: Hero(
+              tag: 'miniPlayer',
+              child: VideoThumbnail(
+                radius: 16,
+                url: _viewModel.audio.thumbnailUrl,
+              ),
             ),
           ),
           Container(
             margin: const EdgeInsets.only(
+              top: 24,
               bottom: 8,
             ),
             child: TextScroll(
               _viewModel.audio.title,
               velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
               delayBefore: const Duration(milliseconds: 300),
-              pauseBetween: const Duration(milliseconds: 50),
-              intervalSpaces: 50,
+              pauseBetween: const Duration(milliseconds: 40),
+              intervalSpaces: 40,
               fadedBorder: true,
               fadedBorderWidth: .1,
               style: const TextStyle(
@@ -103,42 +105,14 @@ class PlayerPage extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressBar() {
-    return Container(
-      margin: const EdgeInsets.only(
-        top: 50,
-      ),
-      child: Obx(
-        () => ProgressBar(
-          timeLabelLocation: TimeLabelLocation.above,
-          timeLabelTextStyle: const TextStyle(
-            color: AppColors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w300,
-          ),
-          timeLabelPadding: 10,
-          barHeight: 8,
-          thumbGlowRadius: 13,
-          thumbGlowColor: Colors.white,
-          progress: _viewModel.currentPosition,
-          total: _viewModel.audio.duration,
-          progressBarColor: Colors.white,
-          thumbColor: Colors.white,
-          baseBarColor: AppColors.mediumGray,
-          onSeek: (Duration duration) =>
-              _viewModel.seek(duration.inMilliseconds),
-        ),
-      ),
-    );
-  }
-
   Widget _buildControls() {
     return Container(
       margin: const EdgeInsets.only(
-        top: 35,
+        bottom: 50,
       ),
       child: Column(
         children: <Widget>[
+          _buildProgressBar(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -165,6 +139,36 @@ class PlayerPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProgressBar() {
+    return Container(
+      margin: const EdgeInsets.only(
+        top: 50,
+        bottom: 35,
+      ),
+      child: Obx(
+        () => ProgressBar(
+          timeLabelLocation: TimeLabelLocation.above,
+          timeLabelTextStyle: const TextStyle(
+            color: AppColors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w300,
+          ),
+          timeLabelPadding: 10,
+          barHeight: 8,
+          thumbGlowRadius: 13,
+          thumbGlowColor: Colors.white,
+          progress: _viewModel.currentPosition,
+          total: _viewModel.audio.duration,
+          progressBarColor: Colors.white,
+          thumbColor: Colors.white,
+          baseBarColor: AppColors.mediumGray,
+          onSeek: (Duration duration) =>
+              _viewModel.seek(duration.inMilliseconds),
+        ),
       ),
     );
   }

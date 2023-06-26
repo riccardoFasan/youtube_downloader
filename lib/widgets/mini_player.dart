@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -24,7 +22,6 @@ class MiniPlayer extends StatelessWidget {
       onTap: () => Get.toNamed('/player'),
       child: Obx(
         () => BlurredBackground(
-          height: _height,
           color: AppColors.darkGray,
           radius: _padding,
           url: _viewModel.audio.thumbnailUrl,
@@ -37,7 +34,13 @@ class MiniPlayer extends StatelessWidget {
                   height: _thumbnailSize,
                   width: _thumbnailSize,
                   margin: const EdgeInsets.only(right: _padding),
-                  child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
+                  child: Hero(
+                    tag: 'miniPlayer',
+                    child: VideoThumbnail(
+                      radius: 4,
+                      url: _viewModel.audio.thumbnailUrl,
+                    ),
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -63,9 +66,9 @@ class MiniPlayer extends StatelessWidget {
     return TextScroll(
       _viewModel.audio.title,
       velocity: const Velocity(pixelsPerSecond: Offset(35, 0)),
-      delayBefore: const Duration(milliseconds: 500),
+      delayBefore: const Duration(milliseconds: 400),
       pauseBetween: const Duration(milliseconds: 25),
-      intervalSpaces: 50,
+      intervalSpaces: 20,
       fadedBorder: true,
       fadedBorderWidth: .1,
       style: const TextStyle(
