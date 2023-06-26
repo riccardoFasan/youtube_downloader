@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/view_models/player_view_model.dart';
@@ -20,34 +22,36 @@ class MiniPlayer extends StatelessWidget {
       borderRadius: BorderRadius.circular(_padding),
       onTap: () => Get.toNamed('/player'),
       child: Obx(
-        () => Ink(
+        () => BlurredBackground(
           height: _height,
-          padding: const EdgeInsets.all(_padding),
-          decoration: BoxDecoration(
-            color: _viewModel.backgroundColor,
-            borderRadius: BorderRadius.circular(_padding),
-          ),
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: _thumbnailSize,
-                width: _thumbnailSize,
-                margin: const EdgeInsets.only(right: _padding),
-                child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _buildAudioTitle(),
-                    _buildAudioChannelName(),
-                  ],
+          color: AppColors.darkGray,
+          radius: _padding,
+          url: _viewModel.audio.thumbnailUrl,
+          fit: BoxFit.fitWidth,
+          child: Padding(
+            padding: const EdgeInsets.all(_padding),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  height: _thumbnailSize,
+                  width: _thumbnailSize,
+                  margin: const EdgeInsets.only(right: _padding),
+                  child: VideoThumbnail(url: _viewModel.audio.thumbnailUrl),
                 ),
-              ),
-              _buildPlayPauseButton(),
-              _buildDismissButton(),
-            ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _buildAudioTitle(),
+                      _buildAudioChannelName(),
+                    ],
+                  ),
+                ),
+                _buildPlayPauseButton(),
+                _buildDismissButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -55,46 +59,35 @@ class MiniPlayer extends StatelessWidget {
   }
 
   Widget _buildAudioTitle() {
-    return Obx(
-      () => Text(
-        _viewModel.audio.title,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 15,
-            color: _getDynamicColor(AppColors.darkGray, AppColors.white)),
+    return Text(
+      _viewModel.audio.title,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+        fontWeight: FontWeight.w800,
+        fontSize: 15,
+        color: AppColors.white,
       ),
     );
   }
 
   Widget _buildAudioChannelName() {
-    return Obx(
-      () => Text(
-        _viewModel.audio.channel,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 13,
-          color: _getDynamicColor(
-            AppColors.gray,
-            AppColors.lightGray,
-          ),
-        ),
+    return Text(
+      _viewModel.audio.channel,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 13,
+        color: AppColors.lightGray,
       ),
     );
   }
 
   Widget _buildPlayPauseButton() {
-    return Obx(
-      () => IconButton(
-        padding: const EdgeInsets.all(0),
-        color: _getDynamicColor(
-          AppColors.darkGray,
-          AppColors.white,
-        ),
-        onPressed: () => _viewModel.togglePlay(),
-        icon: _buildPlayPauseIcon(),
-      ),
+    return IconButton(
+      padding: const EdgeInsets.all(0),
+      color: AppColors.white,
+      onPressed: () => _viewModel.togglePlay(),
+      icon: _buildPlayPauseIcon(),
     );
   }
 
@@ -106,25 +99,14 @@ class MiniPlayer extends StatelessWidget {
   }
 
   Widget _buildDismissButton() {
-    return Obx(
-      () => IconButton(
-        padding: const EdgeInsets.all(0),
-        color: _getDynamicColor(
-          AppColors.darkGray,
-          AppColors.white,
-        ),
-        onPressed: () => _viewModel.stop(),
-        icon: const Icon(
-          AppIcons.dismiss,
-          size: 18,
-        ),
+    return IconButton(
+      padding: const EdgeInsets.all(0),
+      color: AppColors.white,
+      onPressed: () => _viewModel.stop(),
+      icon: const Icon(
+        AppIcons.dismiss,
+        size: 18,
       ),
     );
-  }
-
-  Color _getDynamicColor(Color darkColor, Color lightColor) {
-    return _viewModel.backgroundColor.computeLuminance() > 0.4
-        ? darkColor
-        : lightColor;
   }
 }

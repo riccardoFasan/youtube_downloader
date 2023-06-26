@@ -5,4 +5,3 @@ export 'snackbar_service.dart';
 export 'sponsorblock_service.dart';
 export 'trimmer_service.dart';
 export 'player_service.dart';
-export 'color_service.dart';
