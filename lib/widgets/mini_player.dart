@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:yuotube_downloader/view_models/player_view_model.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
@@ -59,9 +60,14 @@ class MiniPlayer extends StatelessWidget {
   }
 
   Widget _buildAudioTitle() {
-    return Text(
+    return TextScroll(
       _viewModel.audio.title,
-      overflow: TextOverflow.ellipsis,
+      velocity: const Velocity(pixelsPerSecond: Offset(35, 0)),
+      delayBefore: const Duration(milliseconds: 500),
+      pauseBetween: const Duration(milliseconds: 25),
+      intervalSpaces: 50,
+      fadedBorder: true,
+      fadedBorderWidth: .1,
       style: const TextStyle(
         fontWeight: FontWeight.w800,
         fontSize: 15,

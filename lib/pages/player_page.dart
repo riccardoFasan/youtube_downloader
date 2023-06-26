@@ -1,7 +1,7 @@
-import 'dart:ui';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
@@ -13,20 +13,15 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Scaffold scaffold = Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: _buildBackBar(),
-      body: _buildFullPlayer(),
-    );
-    return _buildBackground(scaffold);
-  }
-
-  Widget _buildBackground(Widget child) {
     return Obx(
       () => BlurredBackground(
         color: AppColors.black,
         url: _viewModel.audio.thumbnailUrl!,
-        child: child,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: _buildBackBar(),
+          body: _buildFullPlayer(),
+        ),
       ),
     );
   }
@@ -79,11 +74,16 @@ class PlayerPage extends StatelessWidget {
             margin: const EdgeInsets.only(
               bottom: 8,
             ),
-            child: Text(
+            child: TextScroll(
               _viewModel.audio.title,
+              velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+              delayBefore: const Duration(milliseconds: 300),
+              pauseBetween: const Duration(milliseconds: 50),
+              intervalSpaces: 50,
+              fadedBorder: true,
+              fadedBorderWidth: .1,
               style: const TextStyle(
                 color: AppColors.white,
-                overflow: TextOverflow.ellipsis,
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
               ),
