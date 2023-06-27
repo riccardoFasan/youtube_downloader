@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
@@ -18,17 +17,11 @@ class AudioTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String duration = printDuration(_audio.duration);
     final String channel = _audio.channel;
-    return Slidable(
-      endActionPane: ActionPane(
-        motion: const StretchMotion(),
-        children: <SlidableAction>[
-          SlidableAction(
-            backgroundColor: Colors.red,
-            icon: AppIcons.trash,
-            onPressed: (BuildContext _) => _removeCallback(_audio),
-          )
-        ],
-      ),
+    return Dismissible(
+      key: super.key!,
+      onDismissed: (DismissDirection _) => _removeCallback(_audio),
+      background: _buildSlideBackground(),
+      secondaryBackground: _buildSlideBackground(secondary: true),
       child: InkWell(
         onTap: () => _tapCallback(_audio),
         child: Padding(
@@ -84,6 +77,29 @@ class AudioTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSlideBackground({bool secondary = false}) {
+    final MainAxisAlignment alignment =
+        secondary ? MainAxisAlignment.end : MainAxisAlignment.start;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      color: AppColors.red,
+      child: Row(
+        mainAxisAlignment: alignment,
+        children: <Widget>[
+          _buildDismissableIcon(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDismissableIcon() {
+    return const Icon(
+      AppIcons.trash,
+      color: Colors.white,
+      size: 19,
     );
   }
 }

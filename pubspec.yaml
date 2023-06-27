@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_slidable: 3.0.0
   shared_preferences: 2.1.1
   get: ^4.6.5
   youtube_explode_dart: ^1.12.4

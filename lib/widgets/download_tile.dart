@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 import 'package:yuotube_downloader/models/models.dart';
@@ -16,17 +15,11 @@ class DownloadTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String duration = printDuration(_download.duration);
     final String channel = _download.channel;
-    return Slidable(
-      endActionPane: ActionPane(
-        motion: const StretchMotion(),
-        children: <SlidableAction>[
-          SlidableAction(
-            backgroundColor: Colors.red,
-            icon: Icons.close,
-            onPressed: (BuildContext _) => _cancelCallback(_download),
-          )
-        ],
-      ),
+    return Dismissible(
+      key: super.key!,
+      onDismissed: (direction) => _cancelCallback(_download),
+      background: _buildSlideBackground(),
+      secondaryBackground: _buildSlideBackground(secondary: true),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
         child: Row(
@@ -90,6 +83,29 @@ class DownloadTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSlideBackground({bool secondary = false}) {
+    final MainAxisAlignment alignment =
+        secondary ? MainAxisAlignment.end : MainAxisAlignment.start;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      color: AppColors.red,
+      child: Row(
+        mainAxisAlignment: alignment,
+        children: <Widget>[
+          _buildDismissableIcon(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDismissableIcon() {
+    return const Icon(
+      AppIcons.dismiss,
+      color: Colors.white,
+      size: 19,
     );
   }
 }
