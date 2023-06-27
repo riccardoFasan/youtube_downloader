@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_session.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/return_code.dart';
@@ -9,47 +10,49 @@ class TrimmerService {
   Future<Duration?> removeSegments(
     Audio audio,
     List<Segment> segmentsToRemove,
-  ) async {
-    if (segmentsToRemove.isEmpty) return null;
+  ) {
+    return Isolate.run(() async {
+      if (segmentsToRemove.isEmpty) return null;
 
-    final List<Segment> segmentsToSave = _getSegmentsToSave(segmentsToRemove);
+      final List<Segment> segmentsToSave = _getSegmentsToSave(segmentsToRemove);
 
-    final String localPath = await _localPath;
-    final String temporaryDir = "$localPath/ffmpeg_tmp/${audio.id}";
-    await Directory(temporaryDir).create(recursive: true);
+      final String localPath = await _localPath;
+      final String temporaryDir = "$localPath/ffmpeg_tmp/${audio.id}";
+      await Directory(temporaryDir).create(recursive: true);
 
-    String command =
-        _buildTrimmingCommand(segmentsToSave, temporaryDir, audio.id);
+      String command =
+          _buildTrimmingCommand(segmentsToSave, temporaryDir, audio.id);
 
-    final FFmpegSession session =
-        await FFmpegKit.execute('-i ${audio.path} $command');
-    final ReturnCode? code = await session.getReturnCode();
-
-    Duration? duration;
-
-    if (ReturnCode.isSuccess(code)) {
-      final String summaryPath =
-          await _writeSummary(segmentsToSave, temporaryDir, audio.id);
-
-      final String trimmedFilePath = "$temporaryDir/${audio.id}_trimmed.mp3";
-      final FFmpegSession session = await FFmpegKit.execute(
-        '-f concat -safe 0 -i $summaryPath -c copy $trimmedFilePath',
-      );
-
+      final FFmpegSession session =
+          await FFmpegKit.execute('-i ${audio.path} $command');
       final ReturnCode? code = await session.getReturnCode();
 
+      Duration? duration;
+
       if (ReturnCode.isSuccess(code)) {
-        final File trimmedFile = File(trimmedFilePath);
-        final File originalFile = File(audio.path);
-        await originalFile.delete();
-        await trimmedFile.rename(audio.path);
-        duration = _getNewDuration(audio, segmentsToRemove);
+        final String summaryPath =
+            await _writeSummary(segmentsToSave, temporaryDir, audio.id);
+
+        final String trimmedFilePath = "$temporaryDir/${audio.id}_trimmed.mp3";
+        final FFmpegSession session = await FFmpegKit.execute(
+          '-f concat -safe 0 -i $summaryPath -c copy $trimmedFilePath',
+        );
+
+        final ReturnCode? code = await session.getReturnCode();
+
+        if (ReturnCode.isSuccess(code)) {
+          final File trimmedFile = File(trimmedFilePath);
+          final File originalFile = File(audio.path);
+          await originalFile.delete();
+          await trimmedFile.rename(audio.path);
+          duration = _getNewDuration(audio, segmentsToRemove);
+        }
       }
-    }
 
-    await Directory(temporaryDir).delete(recursive: true);
+      await Directory(temporaryDir).delete(recursive: true);
 
-    return duration;
+      return duration;
+    });
   }
 
   Future<String> get _localPath async {

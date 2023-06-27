@@ -15,7 +15,10 @@ class SearchViewModel extends GetxController {
   final Rx<String> _query = ''.obs;
   String get query => _query.value;
 
+  static const int _minQueryLength = 3;
+
   Future<void> search(String query) async {
+    if (query.length < _minQueryLength) return;
     _query.value = query;
     _loading.value = true;
     try {

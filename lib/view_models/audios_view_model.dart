@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
@@ -55,9 +56,11 @@ class AudiosViewModel extends GetxController {
     _addDownload(info);
     try {
       final List<int> bytes = await _yt.download(info.id);
+
       final String path = await _fs.saveAudioFileFromBytes(info, bytes);
       final Sponsorships sponsorships =
           await _sponsorblock.getSponsorships(info.id);
+
       final Audio audio = Audio(
         id: info.id,
         url: info.url,
