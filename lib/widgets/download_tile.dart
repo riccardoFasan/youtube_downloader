@@ -87,16 +87,14 @@ class DownloadTile extends StatelessWidget {
   }
 
   Widget _buildSlideBackground({bool secondary = false}) {
-    final MainAxisAlignment alignment =
-        secondary ? MainAxisAlignment.end : MainAxisAlignment.start;
+    final Alignment alignment =
+        secondary ? Alignment.centerRight : Alignment.centerLeft;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       color: AppColors.red,
-      child: Row(
-        mainAxisAlignment: alignment,
-        children: <Widget>[
-          _buildDismissableIcon(),
-        ],
+      child: Align(
+        alignment: alignment,
+        child: _buildDismissableIcon(),
       ),
     );
   }
