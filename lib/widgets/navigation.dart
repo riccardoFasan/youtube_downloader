@@ -72,8 +72,6 @@ class Navigation extends StatelessWidget {
   Widget _buildButton(IconData icon, String label, String path) {
     final bool current = Get.currentRoute == path;
     final FontWeight fontWeight = current ? FontWeight.w900 : FontWeight.w300;
-    final Color backgroundColor =
-        current ? AppColors.darkGray : Colors.transparent;
     return TextButton.icon(
       onPressed: () => Get.toNamed(path),
       icon: Icon(
@@ -90,7 +88,8 @@ class Navigation extends StatelessWidget {
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor),
+        backgroundColor:
+            const MaterialStatePropertyAll<Color>(Colors.transparent),
         overlayColor: const MaterialStatePropertyAll<Color>(AppColors.darkGray),
         padding: MaterialStateProperty.all<EdgeInsets>(
           EdgeInsets.zero,
