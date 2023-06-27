@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/models/models.dart';
+import 'package:yuotube_downloader/pages/pages.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/view_models/view_models.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
@@ -18,23 +19,13 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: SeekerBar(
-          searchCallback: (String query) =>
-              _debouncer.run(() => _viewModel.search(query)),
-          clearCallback: _viewModel.clear,
-        ),
+    return ListPage(
+      barContent: SeekerBar(
+        searchCallback: (String query) =>
+            _debouncer.run(() => _viewModel.search(query)),
+        clearCallback: _viewModel.clear,
       ),
-      bottomNavigationBar: Navigation(),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: _buildList(),
-          ),
-        ],
-      ),
+      columnContent: _buildList(),
     );
   }
 

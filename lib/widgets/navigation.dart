@@ -41,22 +41,28 @@ class Navigation extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _buildButton(
-            AppIcons.home,
-            'Home',
-            '/home',
+          Expanded(
+            child: _buildButton(
+              AppIcons.home,
+              'Home',
+              '/home',
+            ),
           ),
-          _buildButton(
-            AppIcons.search,
-            'Search',
-            '/search',
+          Expanded(
+            child: _buildButton(
+              AppIcons.search,
+              'Search',
+              '/search',
+            ),
           ),
-          _buildButton(
-            AppIcons.download,
-            'Downloads',
-            '/downloads',
+          Expanded(
+            child: _buildButton(
+              AppIcons.download,
+              'Downloads',
+              '/downloads',
+            ),
           ),
         ],
       ),
@@ -86,6 +92,9 @@ class Navigation extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor),
         overlayColor: const MaterialStatePropertyAll<Color>(AppColors.darkGray),
+        padding: MaterialStateProperty.all<EdgeInsets>(
+          EdgeInsets.zero,
+        ),
       ),
     );
   }
