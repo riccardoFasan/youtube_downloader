@@ -15,11 +15,12 @@ class DownloadTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String duration = printDuration(_download.duration);
     final String channel = _download.channel;
-    return Dismissible(
+
+    return DismissableTile(
       key: super.key!,
-      onDismissed: (direction) => _cancelCallback(_download),
-      background: _buildSlideBackground(),
-      secondaryBackground: _buildSlideBackground(secondary: true),
+      dismissCallback: () => _cancelCallback(_download),
+      snackbarText: 'Are you sure you want to cancel this download?',
+      icon: AppIcons.dismiss,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
         child: Row(
@@ -83,27 +84,6 @@ class DownloadTile extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSlideBackground({bool secondary = false}) {
-    final Alignment alignment =
-        secondary ? Alignment.centerRight : Alignment.centerLeft;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      color: AppColors.red,
-      child: Align(
-        alignment: alignment,
-        child: _buildDismissableIcon(),
-      ),
-    );
-  }
-
-  Widget _buildDismissableIcon() {
-    return const Icon(
-      AppIcons.dismiss,
-      color: Colors.white,
-      size: 19,
     );
   }
 }

@@ -17,11 +17,11 @@ class AudioTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String duration = printDuration(_audio.duration);
     final String channel = _audio.channel;
-    return Dismissible(
+    return DismissableTile(
       key: super.key!,
-      onDismissed: (DismissDirection _) => _removeCallback(_audio),
-      background: _buildSlideBackground(),
-      secondaryBackground: _buildSlideBackground(secondary: true),
+      snackbarText: 'Are you sure you want to delete this file?',
+      dismissCallback: () => _removeCallback(_audio),
+      icon: AppIcons.trash,
       child: InkWell(
         onTap: () => _tapCallback(_audio),
         child: Padding(
@@ -77,27 +77,6 @@ class AudioTile extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSlideBackground({bool secondary = false}) {
-    final Alignment alignment =
-        secondary ? Alignment.centerRight : Alignment.centerLeft;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      color: AppColors.red,
-      child: Align(
-        alignment: alignment,
-        child: _buildDismissableIcon(),
-      ),
-    );
-  }
-
-  Widget _buildDismissableIcon() {
-    return const Icon(
-      AppIcons.trash,
-      color: Colors.white,
-      size: 20,
     );
   }
 }
