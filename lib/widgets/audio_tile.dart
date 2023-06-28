@@ -97,7 +97,7 @@ class AudioTile extends StatelessWidget {
     return const Icon(
       AppIcons.trash,
       color: Colors.white,
-      size: 19,
+      size: 20,
     );
   }
 }
