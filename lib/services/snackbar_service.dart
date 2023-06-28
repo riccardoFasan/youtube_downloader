@@ -14,7 +14,7 @@ class SnackbarService {
         AppIcons.cloudDownload,
         color: AppColors.white,
       ),
-      onTap: (GetSnackBar snack) => Get.toNamed('/home'),
+      duration: const Duration(milliseconds: 200),
     );
   }
 
@@ -28,6 +28,7 @@ class SnackbarService {
         AppIcons.cloudClose,
         color: AppColors.white,
       ),
+      duration: const Duration(milliseconds: 200),
     );
   }
 
@@ -41,6 +42,7 @@ class SnackbarService {
         AppIcons.cloudClose,
         color: AppColors.white,
       ),
+      duration: const Duration(milliseconds: 200),
     );
   }
 }

@@ -30,7 +30,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
           textSelectionTheme:
               const TextSelectionThemeData(cursorColor: AppColors.red),
         ),
-        initialRoute: '/home',
+        initialRoute: AppRoutes.home,
         getPages: appRoutes(),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:yuotube_downloader/routes.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 import 'package:yuotube_downloader/controllers/controllers.dart';
@@ -47,21 +48,21 @@ class Navigation extends StatelessWidget {
             child: _buildButton(
               AppIcons.home,
               'Home',
-              '/home',
+              AppRoutes.home,
             ),
           ),
           Expanded(
             child: _buildButton(
               AppIcons.search,
               'Search',
-              '/search',
+              AppRoutes.search,
             ),
           ),
           Expanded(
             child: _buildButton(
               AppIcons.download,
               'Downloads',
-              '/downloads',
+              AppRoutes.downloads,
             ),
           ),
         ],
