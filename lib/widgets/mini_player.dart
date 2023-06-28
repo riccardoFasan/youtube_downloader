@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:yuotube_downloader/view_models/player_view_model.dart';
+import 'package:yuotube_downloader/controllers/player_controller.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class MiniPlayer extends StatelessWidget {
-  final PlayerViewModel _viewModel = Get.find<PlayerViewModel>();
+  final PlayerController _playerController = Get.find<PlayerController>();
 
   static const double _height = 70;
   static const double _padding = 12;
@@ -24,7 +24,7 @@ class MiniPlayer extends StatelessWidget {
         () => BlurredBackground(
           color: AppColors.darkGray,
           radius: _padding,
-          url: _viewModel.audio.thumbnailUrl,
+          url: _playerController.audio.thumbnailUrl,
           fit: BoxFit.fitWidth,
           child: Padding(
             padding: const EdgeInsets.all(_padding),
@@ -38,7 +38,7 @@ class MiniPlayer extends StatelessWidget {
                     tag: 'miniPlayer',
                     child: VideoThumbnail(
                       radius: 4,
-                      url: _viewModel.audio.thumbnailUrl,
+                      url: _playerController.audio.thumbnailUrl,
                     ),
                   ),
                 ),
@@ -64,7 +64,7 @@ class MiniPlayer extends StatelessWidget {
 
   Widget _buildAudioTitle() {
     return TextScroll(
-      _viewModel.audio.title,
+      _playerController.audio.title,
       velocity: const Velocity(pixelsPerSecond: Offset(35, 0)),
       delayBefore: const Duration(milliseconds: 400),
       pauseBetween: const Duration(milliseconds: 25),
@@ -81,7 +81,7 @@ class MiniPlayer extends StatelessWidget {
 
   Widget _buildAudioChannelName() {
     return Text(
-      _viewModel.audio.channel,
+      _playerController.audio.channel,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontWeight: FontWeight.w400,
@@ -95,14 +95,14 @@ class MiniPlayer extends StatelessWidget {
     return IconButton(
       padding: const EdgeInsets.all(0),
       color: AppColors.white,
-      onPressed: () => _viewModel.togglePlay(),
+      onPressed: () => _playerController.togglePlay(),
       icon: _buildPlayPauseIcon(),
     );
   }
 
   Widget _buildPlayPauseIcon() {
     return Icon(
-      _viewModel.playing == true ? AppIcons.pause : AppIcons.play,
+      _playerController.playing == true ? AppIcons.pause : AppIcons.play,
       size: 18,
     );
   }
@@ -111,7 +111,7 @@ class MiniPlayer extends StatelessWidget {
     return IconButton(
       padding: const EdgeInsets.all(0),
       color: AppColors.white,
-      onPressed: () => _viewModel.stop(),
+      onPressed: () => _playerController.stop(),
       icon: const Icon(
         AppIcons.dismiss,
         size: 18,

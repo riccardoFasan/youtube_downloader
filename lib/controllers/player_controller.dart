@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:yuotube_downloader/models/audio_model.dart';
 import 'package:yuotube_downloader/services/services.dart';
-import 'package:yuotube_downloader/view_models/audios_view_model.dart';
+import 'package:yuotube_downloader/controllers/download_controller.dart';
 
-class PlayerViewModel extends GetxController {
-  final AudiosViewModel _audios = Get.find<AudiosViewModel>();
+class PlayerController extends GetxController {
+  final DownloadController _downloadController = Get.find<DownloadController>();
   final PlayerService _player = Get.find<PlayerService>();
   final Random _random = Random();
 
@@ -185,23 +185,25 @@ class PlayerViewModel extends GetxController {
 
   Audio? _getPreviousAudio() {
     if (!hasAudio) return null;
-    final int index = _audios.audios
+    final int index = _downloadController.audios
         .indexWhere((Audio audio) => audio.id == _selectedAudio.value.id);
-    return index == 0 ? _audios.audios.last : _audios.audios[index - 1];
+    return index == 0
+        ? _downloadController.audios.last
+        : _downloadController.audios[index - 1];
   }
 
   Audio? _getNextAudio() {
     if (!hasAudio) return null;
-    final int index = _audios.audios
+    final int index = _downloadController.audios
         .indexWhere((Audio audio) => audio.id == _selectedAudio.value.id);
-    return index == _audios.audios.length - 1
-        ? _audios.audios.first
-        : _audios.audios[index + 1];
+    return index == _downloadController.audios.length - 1
+        ? _downloadController.audios.first
+        : _downloadController.audios[index + 1];
   }
 
   Audio _getRandomAudio() {
-    final int width = _random.nextInt(_audios.audios.length);
-    final Audio randomAudio = _audios.audios[width];
+    final int width = _random.nextInt(_downloadController.audios.length);
+    final Audio randomAudio = _downloadController.audios[width];
     if (randomAudio.id == _selectedAudio.value.id) return _getRandomAudio();
     return randomAudio;
   }

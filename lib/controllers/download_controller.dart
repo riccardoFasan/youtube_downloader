@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:isolate';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
 
-class AudiosViewModel extends GetxController {
+class DownloadController extends GetxController {
   final StorageService _storage = Get.find<StorageService>();
   final SnackbarService _snackbar = Get.find<SnackbarService>();
   final YouTubeService _yt = Get.find<YouTubeService>();
@@ -20,7 +19,7 @@ class AudiosViewModel extends GetxController {
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
-  AudiosViewModel() {
+  DownloadController() {
     _init();
   }
 

@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/pages/pages.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class SearchPage extends StatelessWidget {
-  final SearchViewModel _viewModel = Get.find<SearchViewModel>();
-  final AudiosViewModel _audios = Get.find<AudiosViewModel>();
+  final VideoSearchController _searchController =
+      Get.find<VideoSearchController>();
+  final DownloadController _downloadController = Get.find<DownloadController>();
 
   final Debouncer _debouncer = Debouncer(milliseconds: 350);
 
@@ -22,8 +23,8 @@ class SearchPage extends StatelessWidget {
     return ListPage(
       barContent: SeekerBar(
         searchCallback: (String query) =>
-            _debouncer.run(() => _viewModel.search(query)),
-        clearCallback: _viewModel.clear,
+            _debouncer.run(() => _searchController.search(query)),
+        clearCallback: _searchController.clear,
       ),
       columnContent: _buildList(),
     );
@@ -35,17 +36,18 @@ class SearchPage extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          if (!_viewModel.loading)
-            ..._viewModel.results.map(
+          if (!_searchController.loading)
+            ..._searchController.results.map(
               (AudioInfo result) {
-                if (_audios.isDownloading(result)) {
+                if (_downloadController.isDownloading(result)) {
                   return _buildDownloadTile(result);
                 }
 
-                return _buildResultTile(result, _audios.isSaved(result));
+                return _buildResultTile(
+                    result, _downloadController.isSaved(result));
               },
             ),
-          if (_viewModel.loading) ..._buildSkeletonTiles()
+          if (_searchController.loading) ..._buildSkeletonTiles()
         ],
       ),
     );
@@ -56,7 +58,7 @@ class SearchPage extends StatelessWidget {
       key: ValueKey(result.id),
       result: result,
       saved: saved,
-      downloadCallback: () => _audios.download(result),
+      downloadCallback: () => _downloadController.download(result),
     );
   }
 
@@ -64,7 +66,7 @@ class SearchPage extends StatelessWidget {
     return DownloadTile(
       key: ValueKey(download.id),
       download: download,
-      cancelCallback: _audios.cancelDownload,
+      cancelCallback: _downloadController.cancelDownload,
     );
   }
 

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/services/services.dart';
 
-class SearchViewModel extends GetxController {
+class VideoSearchController extends GetxController {
   final YouTubeService _yt = Get.find<YouTubeService>();
   final SnackbarService _snackbar = Get.find<SnackbarService>();
 

@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/pages/pages.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class DownloadsPage extends StatelessWidget {
-  final AudiosViewModel _viewModel = Get.find<AudiosViewModel>();
+  final DownloadController _downloadController = Get.find<DownloadController>();
 
   DownloadsPage({super.key});
 
@@ -26,7 +26,7 @@ class DownloadsPage extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          ..._viewModel.downloads.map(
+          ..._downloadController.downloads.map(
             (AudioInfo download) => _buildDownloadTile(download),
           ),
         ],
@@ -38,7 +38,7 @@ class DownloadsPage extends StatelessWidget {
     return DownloadTile(
       key: ValueKey(download.id),
       download: download,
-      cancelCallback: _viewModel.cancelDownload,
+      cancelCallback: _downloadController.cancelDownload,
     );
   }
 }

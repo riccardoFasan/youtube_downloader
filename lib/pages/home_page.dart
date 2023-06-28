@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/models/models.dart';
 import 'package:yuotube_downloader/pages/pages.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
-  final AudiosViewModel _viewModel = Get.find<AudiosViewModel>();
-  final PlayerViewModel _player = Get.find<PlayerViewModel>();
+  final DownloadController _downloadController = Get.find<DownloadController>();
+  final PlayerController _playerController = Get.find<PlayerController>();
 
   HomePage({super.key});
 
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          ..._viewModel.audios.map(
+          ..._downloadController.audios.map(
             (Audio audio) => _buildAudioTile(audio),
           )
         ],
@@ -45,11 +45,11 @@ class HomePage extends StatelessWidget {
   }
 
   void _playAudio(Audio audio) {
-    _player.setCurrentAudioAndPlay(audio);
+    _playerController.setCurrentAudioAndPlay(audio);
   }
 
   void _removeAudio(Audio audio) {
-    _viewModel.delete(audio);
-    if (_player.isSelected(audio)) _player.stop();
+    _downloadController.delete(audio);
+    if (_playerController.isSelected(audio)) _playerController.stop();
   }
 }

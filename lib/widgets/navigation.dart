@@ -2,10 +2,10 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 
 class Navigation extends StatelessWidget {
-  final PlayerViewModel _viewModel = Get.find<PlayerViewModel>();
+  final PlayerController _playerController = Get.find<PlayerController>();
 
   static const double _navigationHeight = 70;
   static const double _playerHeight = 70;
@@ -13,7 +13,7 @@ class Navigation extends StatelessWidget {
 
   Navigation({super.key});
 
-  double get _barheight => _viewModel.hasAudio
+  double get _barheight => _playerController.hasAudio
       ? _navigationHeight + _playerHeight + _playerMargin
       : _navigationHeight;
 
@@ -25,8 +25,8 @@ class Navigation extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
-            if (_viewModel.hasAudio) MiniPlayer(),
-            if (_viewModel.hasAudio)
+            if (_playerController.hasAudio) MiniPlayer(),
+            if (_playerController.hasAudio)
               Container(
                 margin: const EdgeInsets.only(bottom: _playerMargin),
               ),

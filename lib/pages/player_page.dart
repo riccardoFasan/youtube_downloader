@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class PlayerPage extends StatelessWidget {
-  final PlayerViewModel _viewModel = Get.find<PlayerViewModel>();
+  final PlayerController _playerController = Get.find<PlayerController>();
 
   PlayerPage({super.key});
 
@@ -16,7 +16,7 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => BlurredBackground(
         color: AppColors.black,
-        url: _viewModel.audio.thumbnailUrl!,
+        url: _playerController.audio.thumbnailUrl!,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: _buildBackBar(),
@@ -67,7 +67,7 @@ class PlayerPage extends StatelessWidget {
               tag: 'miniPlayer',
               child: VideoThumbnail(
                 radius: 16,
-                url: _viewModel.audio.thumbnailUrl,
+                url: _playerController.audio.thumbnailUrl,
               ),
             ),
           ),
@@ -77,7 +77,7 @@ class PlayerPage extends StatelessWidget {
               bottom: 8,
             ),
             child: TextScroll(
-              _viewModel.audio.title,
+              _playerController.audio.title,
               velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
               delayBefore: const Duration(milliseconds: 300),
               pauseBetween: const Duration(milliseconds: 40),
@@ -92,7 +92,7 @@ class PlayerPage extends StatelessWidget {
             ),
           ),
           Text(
-            _viewModel.audio.channel,
+            _playerController.audio.channel,
             style: const TextStyle(
               fontSize: 16,
               overflow: TextOverflow.ellipsis,
@@ -161,13 +161,13 @@ class PlayerPage extends StatelessWidget {
           barHeight: 8,
           thumbGlowRadius: 13,
           thumbGlowColor: Colors.white,
-          progress: _viewModel.currentPosition,
-          total: _viewModel.audio.duration,
+          progress: _playerController.currentPosition,
+          total: _playerController.audio.duration,
           progressBarColor: Colors.white,
           thumbColor: Colors.white,
           baseBarColor: AppColors.mediumGray,
           onSeek: (Duration duration) =>
-              _viewModel.seek(duration.inMilliseconds),
+              _playerController.seek(duration.inMilliseconds),
         ),
       ),
     );
@@ -184,7 +184,7 @@ class PlayerPage extends StatelessWidget {
       child: IconButton(
         padding: const EdgeInsets.all(0),
         color: AppColors.darkGray,
-        onPressed: () => _viewModel.togglePlay(),
+        onPressed: () => _playerController.togglePlay(),
         icon: _buildPlayPauseIcon(),
       ),
     );
@@ -194,9 +194,10 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => Padding(
         // * play icon is a bit off center
-        padding: EdgeInsets.only(left: _viewModel.playing == true ? 0 : 4),
+        padding:
+            EdgeInsets.only(left: _playerController.playing == true ? 0 : 4),
         child: Icon(
-          _viewModel.playing == true ? AppIcons.pause : AppIcons.play,
+          _playerController.playing == true ? AppIcons.pause : AppIcons.play,
           size: 28,
         ),
       ),
@@ -206,7 +207,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildRewindButton() {
     return IconButton(
       color: AppColors.white,
-      onPressed: () => _viewModel.seekBackward(),
+      onPressed: () => _playerController.seekBackward(),
       icon: const Icon(
         AppIcons.rewind,
         size: 30,
@@ -217,7 +218,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildForwardButton() {
     return IconButton(
       color: AppColors.white,
-      onPressed: () => _viewModel.seekForward(),
+      onPressed: () => _playerController.seekForward(),
       icon: const Icon(
         AppIcons.forward,
         size: 30,
@@ -228,7 +229,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildSkipBackButton() {
     return IconButton(
       color: AppColors.white,
-      onPressed: () => _viewModel.playPrevious(),
+      onPressed: () => _playerController.playPrevious(),
       icon: const Icon(
         AppIcons.skipBack,
         size: 30,
@@ -239,7 +240,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildSkipForwardButton() {
     return IconButton(
       color: AppColors.white,
-      onPressed: () => _viewModel.playNext(),
+      onPressed: () => _playerController.playNext(),
       icon: const Icon(
         AppIcons.skipForward,
         size: 30,
@@ -253,12 +254,12 @@ class PlayerPage extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-          color: _getIconButtonBackground(_viewModel.loopOne),
+          color: _getIconButtonBackground(_playerController.loopOne),
           borderRadius: BorderRadius.circular(50),
         ),
         child: IconButton(
           color: AppColors.white,
-          onPressed: () => _viewModel.switchLoop(),
+          onPressed: () => _playerController.switchLoop(),
           icon: const Icon(
             AppIcons.arrowReload,
             size: 20,
@@ -274,12 +275,12 @@ class PlayerPage extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-          color: _getIconButtonBackground(_viewModel.shuffle),
+          color: _getIconButtonBackground(_playerController.shuffle),
           borderRadius: BorderRadius.circular(50),
         ),
         child: IconButton(
           color: AppColors.white,
-          onPressed: () => _viewModel.switchShuffle(),
+          onPressed: () => _playerController.switchShuffle(),
           icon: const Icon(
             AppIcons.shuffle,
             size: 20,

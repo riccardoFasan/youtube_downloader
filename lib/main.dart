@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yuotube_downloader/app.dart';
 import 'package:yuotube_downloader/services/services.dart';
-import 'package:yuotube_downloader/view_models/view_models.dart';
+import 'package:yuotube_downloader/controllers/controllers.dart';
 
 void main() {
   runApp(const YouTubeDownloaderApp());
@@ -17,7 +17,7 @@ Future<void> _injectServices() async {
   Get.put(SponsorblockService());
   Get.put(TrimmerService());
   Get.put(PlayerService());
-  Get.put(SearchViewModel());
-  Get.put(AudiosViewModel());
-  Get.put(PlayerViewModel());
+  Get.put(VideoSearchController());
+  Get.put(DownloadController());
+  Get.put(PlayerController());
 }
