@@ -14,7 +14,7 @@ class SnackbarService {
         AppIcons.cloudDownload,
         color: AppColors.white,
       ),
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 1500),
     );
   }
 
@@ -28,7 +28,7 @@ class SnackbarService {
         AppIcons.cloudClose,
         color: AppColors.white,
       ),
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 1500),
     );
   }
 
@@ -42,7 +42,7 @@ class SnackbarService {
         AppIcons.cloudClose,
         color: AppColors.white,
       ),
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 1500),
     );
   }
 }
