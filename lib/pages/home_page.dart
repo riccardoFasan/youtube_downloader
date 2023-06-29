@@ -35,12 +35,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  AudioTile _buildAudioTile(Audio audio) {
-    return AudioTile(
-      key: ValueKey(audio.id),
-      audio: audio,
-      removeCallback: _removeAudio,
-      tapCallback: _playAudio,
+  Widget _buildAudioTile(Audio audio) {
+    return Obx(
+      () => AudioTile(
+        key: ValueKey(audio.id),
+        audio: audio,
+        removeCallback: _removeAudio,
+        tapCallback: _playAudio,
+        current: _playerController.isSelected(audio),
+        playing:
+            _playerController.isSelected(audio) && _playerController.playing,
+      ),
     );
   }
 

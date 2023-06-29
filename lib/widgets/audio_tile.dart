@@ -7,11 +7,16 @@ class AudioTile extends StatelessWidget {
   final Audio _audio;
   final Function _removeCallback;
   final Function _tapCallback;
+  final bool _current;
+  final bool _playing;
 
-  const AudioTile({super.key, audio, removeCallback, tapCallback})
+  const AudioTile(
+      {super.key, audio, removeCallback, tapCallback, current, playing})
       : _audio = audio,
         _removeCallback = removeCallback,
-        _tapCallback = tapCallback;
+        _tapCallback = tapCallback,
+        _current = current,
+        _playing = playing;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +78,15 @@ class AudioTile extends StatelessWidget {
                   ),
                 ),
               ),
+              if (_current)
+                Container(
+                  width: 22.0,
+                  height: 22.0,
+                  margin: const EdgeInsets.fromLTRB(32.0, 0, 5.75, 0),
+                  child: Center(
+                    child: MusicVisualizer(active: _playing),
+                  ),
+                ),
             ],
           ),
         ),

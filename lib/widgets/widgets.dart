@@ -9,3 +9,4 @@ export 'seeker_bar.dart';
 export 'blurred_background.dart';
 export 'dismissable_tile.dart';
 export 'shimmer_wrapper.dart';
+export 'music_visualizer.dart';
