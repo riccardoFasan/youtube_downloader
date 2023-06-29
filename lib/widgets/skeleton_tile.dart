@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
+import 'package:yuotube_downloader/widgets/widgets.dart';
 
 class SkeletonTile extends StatelessWidget {
   final Random _random = Random();
@@ -13,12 +14,14 @@ class SkeletonTile extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
       child: Row(
         children: <Widget>[
-          Container(
-            height: 65,
-            width: 65,
-            decoration: const BoxDecoration(
-              color: AppColors.darkGray,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+          ShimmerWrapper(
+            child: Container(
+              height: 65,
+              width: 65,
+              decoration: const BoxDecoration(
+                color: AppColors.darkGray,
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
             ),
           ),
           Expanded(
@@ -42,14 +45,16 @@ class SkeletonTile extends StatelessWidget {
   Widget _buildSkeletonText(
       double height, int maxWidth, int minWidth, bool hasMargin) {
     final int width = minWidth + _random.nextInt(maxWidth - minWidth);
-    return Container(
-      height: height,
-      width: width.toDouble(),
-      margin: EdgeInsets.only(bottom: hasMargin ? 8 : 0),
-      decoration: const BoxDecoration(
-        color: AppColors.darkGray,
-        borderRadius: BorderRadius.all(
-          Radius.circular(2),
+    return ShimmerWrapper(
+      child: Container(
+        height: height,
+        width: width.toDouble(),
+        margin: EdgeInsets.only(bottom: hasMargin ? 8 : 0),
+        decoration: const BoxDecoration(
+          color: AppColors.darkGray,
+          borderRadius: BorderRadius.all(
+            Radius.circular(2),
+          ),
         ),
       ),
     );
