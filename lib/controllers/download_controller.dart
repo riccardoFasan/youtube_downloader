@@ -10,6 +10,8 @@ class DownloadController extends GetxController {
   final FileSystemService _fs = Get.find<FileSystemService>();
   final SponsorblockService _sponsorblock = Get.find<SponsorblockService>();
   final TrimmerService _trimmer = Get.find<TrimmerService>();
+  final NotificationsService _notifications = Get.find<NotificationsService>();
+  final LifecycleService _lifecycle = Get.find<LifecycleService>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -75,9 +77,8 @@ class DownloadController extends GetxController {
       if (newDuration != null) {
         audio.duration = newDuration;
       }
-
       _addAudio(audio);
-      _snackbar.showDownloadCompletd(audio.title);
+      _notifyDownloadCompleted(audio);
     } catch (e) {
       _snackbar.showDownloadError();
     } finally {
@@ -109,5 +110,13 @@ class DownloadController extends GetxController {
 
   Future<void> _update() async {
     await _storage.store(_audios);
+  }
+
+  Future<void> _notifyDownloadCompleted(Audio audio) async {
+    if (_lifecycle.active) {
+      _snackbar.showDownloadCompletd(audio.title);
+      return;
+    }
+    _notifications.showDownloadCompletd(audio.title);
   }
 }

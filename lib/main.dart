@@ -10,13 +10,15 @@ void main() {
 }
 
 Future<void> _injectServices() async {
-  Get.put(YouTubeService());
-  Get.put(StorageService());
-  Get.put(FileSystemService());
+  Get.put(LifecycleService());
+  Get.put(NotificationsService());
   Get.put(SnackbarService());
+  Get.put(FileSystemService());
+  Get.put(StorageService());
+  Get.put(PlayerService());
+  Get.put(YouTubeService());
   Get.put(SponsorblockService());
   Get.put(TrimmerService());
-  Get.put(PlayerService());
   Get.put(VideoSearchController());
   Get.put(DownloadController());
   Get.put(PlayerController());

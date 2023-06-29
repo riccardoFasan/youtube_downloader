@@ -10,9 +10,9 @@ class ShimmerWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 1500),
       color: AppColors.mediumGray,
-      colorOpacity: .125,
+      colorOpacity: .075,
       direction: const ShimmerDirection.fromLeftToRight(),
       child: _child,
     );

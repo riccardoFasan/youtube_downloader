@@ -48,6 +48,7 @@ class PlayerService {
       androidNotificationChannelId: 'com.richard.youtube_downloader.player',
       androidNotificationChannelName: 'YouTube Dowloader',
       androidNotificationOngoing: true,
+      preloadArtwork: true,
     );
   }
 }
