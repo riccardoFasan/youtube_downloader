@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yuotube_downloader/utils/utils.dart';
 
 class VideoThumbnail extends StatelessWidget {
-  static const String _placeholderPath = 'assets/images/placeholder.png';
+  static const String _placeholderPath = 'assets/images/placeholder.jpg';
   final String? _url;
   final double _radius;
 
