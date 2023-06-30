@@ -1,16 +1,16 @@
-# yuotube_downloader
+# Another YouTube Downloader
 
-A new Flutter project.
+A YouTube downloader integrated with [Sponsorblock](https://sponsor.ajay.app/) that allows you to download videos in audio format and skip sponsored segments.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Search for YouTube videos
+- Download videos in audio format
+- Cut sponsored segments from videos
+- Audio player
+- Dark theme (light theme is immoral 😂)
 
-A few resources to get you started if this is your first Flutter project:
+## Info
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project was built with Flutter and Dart. It uses the [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) package to interact with YouTube and the [flutter_ffmpeg](https://pub.dev/packages/flutter_ffmpeg) package to cut videos.
+I may have written some nonsense in the code, it is my first Flutter app.
