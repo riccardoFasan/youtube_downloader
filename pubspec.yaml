@@ -44,6 +44,7 @@ dependencies:
   text_scroll: ^0.2.0
   shimmer_animation: ^2.1.0+1
   flutter_local_notifications: ^14.1.1
+  icons_launcher: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/placeholder.jpg
+    - assets/images/logo.png
   fonts:
     - family: Sofia Sans
       fonts:
@@ -122,3 +124,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+icons_launcher:
+  image_path: "assets/images/logo.png"
+  platforms:
+    android:
+      enable: true

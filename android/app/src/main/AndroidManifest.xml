@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
 >
     <application
-        android:label="yuotube_downloader"
+        android:label="Youtube Downloader"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
