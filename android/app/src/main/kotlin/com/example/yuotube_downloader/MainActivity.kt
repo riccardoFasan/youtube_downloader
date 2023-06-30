@@ -1,4 +1,4 @@
-package com.example.yuotube_downloader
+package com.example.youtube_downloader
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yuotube_downloader/dtos/skip_segments_dto.dart';
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/dtos/skip_segments_dto.dart';
+import 'package:youtube_downloader/models/models.dart';
 
 class SponsorblockService {
   static const String _endpoint = 'https://sponsor.ajay.app';

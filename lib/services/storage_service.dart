@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {

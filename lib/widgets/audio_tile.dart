@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/models/models.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/utils/utils.dart';
 
 class AudioTile extends StatelessWidget {
   final Audio _audio;

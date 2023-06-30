@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/models/models.dart';
 
 class FileSystemService {
   static const String fileExtension = 'mp3';

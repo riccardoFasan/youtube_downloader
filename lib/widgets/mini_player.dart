@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:yuotube_downloader/controllers/player_controller.dart';
-import 'package:yuotube_downloader/routes.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/controllers/player_controller.dart';
+import 'package:youtube_downloader/routes.dart';
+import 'package:youtube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class MiniPlayer extends StatelessWidget {
   final PlayerController _playerController = Get.find<PlayerController>();

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/utils/utils.dart';
 
 class VideoThumbnail extends StatelessWidget {
   static const String _placeholderPath = 'assets/images/placeholder.jpg';

@@ -1,4 +1,4 @@
-import 'package:yuotube_downloader/models/segment_model.dart';
+import 'package:youtube_downloader/models/segment_model.dart';
 
 class Sponsorships {
   final String videoId;

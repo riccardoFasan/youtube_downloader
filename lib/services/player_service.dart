@@ -1,6 +1,6 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:yuotube_downloader/models/audio_model.dart';
+import 'package:youtube_downloader/models/audio_model.dart';
 
 class PlayerService {
   final AudioPlayer _player = AudioPlayer();

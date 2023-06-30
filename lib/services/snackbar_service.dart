@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/utils/colors.dart';
-import 'package:yuotube_downloader/utils/icons.dart';
+import 'package:youtube_downloader/utils/colors.dart';
+import 'package:youtube_downloader/utils/icons.dart';
 
 class SnackbarService {
   void showDownloadCompletd(String title) {

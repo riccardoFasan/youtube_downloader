@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/pages/pages.dart';
+import 'package:youtube_downloader/pages/pages.dart';
 
 class AppRoutes {
   static const String home = '/home';

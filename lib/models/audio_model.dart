@@ -1,4 +1,4 @@
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/models/models.dart';
 
 class Audio extends AudioInfo {
   String path;

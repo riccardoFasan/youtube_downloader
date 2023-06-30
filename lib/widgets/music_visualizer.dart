@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:yuotube_downloader/utils/utils.dart";
+import "package:youtube_downloader/utils/utils.dart";
 
 class MusicVisualizer extends StatelessWidget {
   final bool _active;

@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:yuotube_downloader/models/audio_model.dart';
-import 'package:yuotube_downloader/services/services.dart';
-import 'package:yuotube_downloader/controllers/download_controller.dart';
+import 'package:youtube_downloader/models/audio_model.dart';
+import 'package:youtube_downloader/services/services.dart';
+import 'package:youtube_downloader/controllers/download_controller.dart';
 
 class PlayerController extends GetxController {
   final DownloadController _downloadController = Get.find<DownloadController>();

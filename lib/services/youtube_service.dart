@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/models/models.dart';
 
 class YouTubeService {
   final int batchSize = 20;

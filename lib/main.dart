@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/app.dart';
-import 'package:yuotube_downloader/services/services.dart';
-import 'package:yuotube_downloader/controllers/controllers.dart';
+import 'package:youtube_downloader/app.dart';
+import 'package:youtube_downloader/services/services.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 
 void main() {
   runApp(const YouTubeDownloaderApp());

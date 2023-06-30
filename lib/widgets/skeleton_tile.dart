@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class SkeletonTile extends StatelessWidget {
   final Random _random = Random();

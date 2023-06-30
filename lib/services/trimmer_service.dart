@@ -4,7 +4,7 @@ import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_session.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/return_code.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:yuotube_downloader/models/models.dart';
+import 'package:youtube_downloader/models/models.dart';
 
 class TrimmerService {
   Future<Duration?> removeSegments(

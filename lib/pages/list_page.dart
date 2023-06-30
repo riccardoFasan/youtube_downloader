@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class ListPage extends StatelessWidget {
   final Widget _barContent;

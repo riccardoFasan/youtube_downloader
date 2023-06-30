@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:yuotube_downloader/utils/colors.dart';
+import 'package:youtube_downloader/utils/colors.dart';
 
 class ShimmerWrapper extends StatelessWidget {
   final Widget _child;

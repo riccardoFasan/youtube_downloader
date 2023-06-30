@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/models/models.dart';
-import 'package:yuotube_downloader/services/services.dart';
+import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_downloader/services/services.dart';
 
 class DownloadController extends GetxController {
   final StorageService _storage = Get.find<StorageService>();

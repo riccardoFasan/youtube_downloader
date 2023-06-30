@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/utils/colors.dart';
+import 'package:youtube_downloader/utils/colors.dart';
 
 class DismissableTile extends StatelessWidget {
   final Function _dismissCallback;

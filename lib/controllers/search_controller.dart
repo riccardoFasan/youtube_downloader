@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:yuotube_downloader/models/models.dart';
-import 'package:yuotube_downloader/services/services.dart';
+import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_downloader/services/services.dart';
 
 class VideoSearchController extends GetxController {
   final YouTubeService _yt = Get.find<YouTubeService>();

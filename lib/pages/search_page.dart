@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/models/models.dart';
-import 'package:yuotube_downloader/pages/pages.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
-import 'package:yuotube_downloader/controllers/controllers.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_downloader/pages/pages.dart';
+import 'package:youtube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class SearchPage extends StatelessWidget {
   final VideoSearchController _searchController =

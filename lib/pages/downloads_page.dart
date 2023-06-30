@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:yuotube_downloader/models/models.dart';
-import 'package:yuotube_downloader/pages/pages.dart';
-import 'package:yuotube_downloader/controllers/controllers.dart';
-import 'package:yuotube_downloader/widgets/widgets.dart';
+import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_downloader/pages/pages.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class DownloadsPage extends StatelessWidget {
   final DownloadController _downloadController = Get.find<DownloadController>();

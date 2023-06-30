@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:yuotube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/utils/utils.dart';
 
 class SeekerBar extends StatelessWidget {
   final Function _searchCallback;
