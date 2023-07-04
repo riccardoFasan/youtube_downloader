@@ -10,16 +10,17 @@ void main() {
 }
 
 Future<void> _injectServices() async {
-  Get.put(LifecycleService());
-  Get.put(NotificationsService());
-  Get.put(SnackbarService());
-  Get.put(FileSystemService());
-  Get.put(StorageService());
-  Get.put(PlayerService());
-  Get.put(YouTubeService());
-  Get.put(SponsorblockService());
-  Get.put(TrimmerService());
-  Get.put(VideoSearchController());
-  Get.put(DownloadController());
-  Get.put(PlayerController());
+  Get.lazyPut(() => LifecycleService());
+  Get.lazyPut(() => NotificationsService());
+  Get.lazyPut(() => SnackbarService());
+  Get.lazyPut(() => FileSystemService());
+  Get.lazyPut(() => StorageService());
+  Get.lazyPut(() => PlayerService());
+  Get.lazyPut(() => YouTubeService());
+  Get.lazyPut(() => SponsorblockService());
+  Get.lazyPut(() => TrimmerService());
+  Get.lazyPut(() => BackgroundService());
+  Get.lazyPut(() => VideoSearchController());
+  Get.lazyPut(() => DownloadController());
+  Get.lazyPut(() => PlayerController());
 }

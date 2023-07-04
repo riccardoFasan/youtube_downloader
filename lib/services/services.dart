@@ -7,3 +7,4 @@ export 'trimmer_service.dart';
 export 'player_service.dart';
 export 'notifications_service.dart';
 export 'lifecycle_service.dart';
+export 'background_service.dart';

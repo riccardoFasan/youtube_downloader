@@ -12,6 +12,7 @@ class DownloadController extends GetxController {
   final TrimmerService _trimmer = Get.find<TrimmerService>();
   final NotificationsService _notifications = Get.find<NotificationsService>();
   final LifecycleService _lifecycle = Get.find<LifecycleService>();
+  final BackgroundService _background = Get.find<BackgroundService>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -54,13 +55,22 @@ class DownloadController extends GetxController {
   }
 
   Future<void> _getAudioAndSave(AudioInfo info) async {
-    _addDownload(info);
-    try {
-      final List<int> bytes = await _yt.download(info.id);
+    final bool canEnableBackgroundExecution = _downloads.isEmpty;
+    if (canEnableBackgroundExecution) {
+      _background.enableBackgroundExecution();
+    }
 
-      final String path = await _fs.saveAudioFileFromBytes(info, bytes);
-      final Sponsorships sponsorships =
-          await _sponsorblock.getSponsorships(info.id);
+    _addDownload(info);
+    final int? notificationId =
+        await _notifications.showDownloadInProgress(info.title);
+    try {
+      final [bytes, sponsorships] = await Future.wait([
+        _yt.download(info.id),
+        _sponsorblock.getSponsorships(info.id),
+      ]);
+
+      final String path =
+          await _fs.saveAudioFileFromBytes(info, bytes as List<int>);
 
       final Audio audio = Audio(
         id: info.id,
@@ -71,18 +81,29 @@ class DownloadController extends GetxController {
         thumbnailUrl: info.thumbnailUrl,
         path: path,
       );
-      final Duration? newDuration =
-          await _trimmer.removeSegments(audio, sponsorships.segments);
+
+      final Duration? newDuration = await _trimmer.removeSegments(
+        audio,
+        (sponsorships as Sponsorships).segments,
+      );
 
       if (newDuration != null) {
         audio.duration = newDuration;
       }
       _addAudio(audio);
-      _notifyDownloadCompleted(audio);
+      _notifyDownloadCompleted(info);
     } catch (e) {
-      _snackbar.showDownloadError();
+      _notifyDownloadError(info);
     } finally {
-      _removeDownload(info.url);
+      if (notificationId != null) {
+        await _notifications.cancelNotification(notificationId);
+        _removeDownload(info.url);
+
+        final bool canDisableBackgroundExecution = _downloads.isEmpty;
+        if (canDisableBackgroundExecution) {
+          _background.disableBackgroundExecution();
+        }
+      }
     }
   }
 
@@ -112,11 +133,19 @@ class DownloadController extends GetxController {
     await _storage.store(_audios);
   }
 
-  Future<void> _notifyDownloadCompleted(Audio audio) async {
+  Future<void> _notifyDownloadCompleted(AudioInfo info) async {
     if (_lifecycle.active) {
-      _snackbar.showDownloadCompletd(audio.title);
+      _snackbar.showDownloadCompletd(info.title);
       return;
     }
-    _notifications.showDownloadCompletd(audio.title);
+    _notifications.showDownloadCompleted(info.title);
+  }
+
+  Future<void> _notifyDownloadError(AudioInfo info) async {
+    if (_lifecycle.active) {
+      _snackbar.showDownloadError();
+      return;
+    }
+    _notifications.showDownloadFailed(info.title);
   }
 }

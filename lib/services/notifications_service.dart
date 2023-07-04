@@ -2,16 +2,30 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationsService {
-  final FlutterLocalNotificationsPlugin _plugin =
+  final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
 
-  final AndroidNotificationDetails _androidDetails =
+  final AndroidNotificationDetails _downloadCompletedAndroidDetails =
       const AndroidNotificationDetails(
     'youtube_downloader_notification_channel',
     'YouTube Downloader',
     importance: Importance.max,
-    priority: Priority.high,
+    priority: Priority.max,
     playSound: true,
+    channelShowBadge: false,
+  );
+
+  final AndroidNotificationDetails _downloadInProgressAndroidDetails =
+      const AndroidNotificationDetails(
+    'youtube_downloader_notification_channel',
+    'YouTube Downloader',
+    importance: Importance.low,
+    priority: Priority.low,
+    playSound: false,
+    onlyAlertOnce: true,
+    showProgress: true,
+    indeterminate: true,
+    channelShowBadge: false,
   );
 
   bool _permissionsAccepted = false;
@@ -20,20 +34,53 @@ class NotificationsService {
     _init();
   }
 
-  NotificationDetails get _details => NotificationDetails(
-        android: _androidDetails,
+  NotificationDetails get _downloadCompletedDetails => NotificationDetails(
+        android: _downloadCompletedAndroidDetails,
       );
 
-  Future<void> showDownloadCompletd(String title) async {
-    await _showLocalNotification(
-      'YouTube Video Downloaded',
+  NotificationDetails get _downloadInProgressDetails => NotificationDetails(
+        android: _downloadInProgressAndroidDetails,
+      );
+
+  Future<int?> showDownloadCompleted(String title) async {
+    if (!_permissionsAccepted) return null;
+    final int id = UniqueKey().hashCode;
+    await _notifications.show(
+      id,
+      'Download completed',
       "\"$title\" has been downloaded.",
+      _downloadCompletedDetails,
     );
+    return id;
   }
 
-  Future<void> _showLocalNotification(String title, String text) async {
+  Future<int?> showDownloadFailed(String title) async {
+    if (!_permissionsAccepted) return null;
+    final int id = UniqueKey().hashCode;
+    await _notifications.show(
+      id,
+      'Download failed',
+      "\"$title\" failed to download.",
+      _downloadCompletedDetails,
+    );
+    return id;
+  }
+
+  Future<int?> showDownloadInProgress(String title) async {
+    if (!_permissionsAccepted) return null;
+    final int id = UniqueKey().hashCode;
+    await _notifications.show(
+      id,
+      'Download in progress',
+      "\"$title\" is being downloaded.",
+      _downloadInProgressDetails,
+    );
+    return id;
+  }
+
+  Future<void> cancelNotification(int id) async {
     if (!_permissionsAccepted) return;
-    return _plugin.show(UniqueKey().hashCode, title, text, _details);
+    return _notifications.cancel(id);
   }
 
   Future<void> _init() async {
@@ -41,12 +88,12 @@ class NotificationsService {
         InitializationSettings(
       android: AndroidInitializationSettings('mipmap/ic_launcher'),
     );
-    _plugin.initialize(initializationSettings);
+    _notifications.initialize(initializationSettings);
     _permissionsAccepted = await _requestPermissions();
   }
 
   Future<bool> _requestPermissions() async {
-    bool? accepted = await _plugin
+    bool? accepted = await _notifications
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
         .requestPermission();
