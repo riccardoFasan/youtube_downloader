@@ -35,8 +35,9 @@ class PlayerService {
         id: audio.id,
         album: audio.title,
         title: audio.title,
-        artUri:
-            audio.thumbnailUrl != null ? Uri.parse(audio.thumbnailUrl!) : null,
+        artUri: audio.thumbnailMaxResUrl != null
+            ? Uri.parse(audio.thumbnailMaxResUrl!)
+            : null,
       ),
     );
     await _player.setAudioSource(source);

@@ -16,7 +16,7 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => BlurredBackground(
         color: AppColors.black,
-        url: _playerController.audio.thumbnailUrl!,
+        url: _playerController.audio.thumbnailMinResUrl!,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: _buildBackBar(),
@@ -67,7 +67,7 @@ class PlayerPage extends StatelessWidget {
               tag: 'miniPlayer',
               child: VideoThumbnail(
                 radius: 16,
-                url: _playerController.audio.thumbnailUrl,
+                url: _playerController.audio.thumbnailMaxResUrl,
               ),
             ),
           ),

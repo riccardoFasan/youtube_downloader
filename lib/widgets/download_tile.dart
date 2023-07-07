@@ -30,7 +30,7 @@ class DownloadTile extends StatelessWidget {
               width: 65,
               child: VideoThumbnail(
                 radius: 5,
-                url: _download.thumbnailUrl,
+                url: _download.thumbnailMinResUrl,
               ),
             ),
             Expanded(

@@ -73,7 +73,8 @@ class DownloadController extends GetxController {
         title: info.title,
         channel: info.channel,
         duration: info.duration,
-        thumbnailUrl: info.thumbnailUrl,
+        thumbnailMaxResUrl: info.thumbnailMaxResUrl,
+        thumbnailMinResUrl: info.thumbnailMinResUrl,
         path: path,
         sponsorsedSegments: segments,
       );

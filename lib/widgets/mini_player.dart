@@ -25,7 +25,7 @@ class MiniPlayer extends StatelessWidget {
         () => BlurredBackground(
           color: AppColors.darkGray,
           radius: _padding,
-          url: _playerController.audio.thumbnailUrl,
+          url: _playerController.audio.thumbnailMinResUrl,
           fit: BoxFit.fitWidth,
           child: Padding(
             padding: const EdgeInsets.all(_padding),
@@ -39,7 +39,7 @@ class MiniPlayer extends StatelessWidget {
                     tag: 'miniPlayer',
                     child: VideoThumbnail(
                       radius: 4,
-                      url: _playerController.audio.thumbnailUrl,
+                      url: _playerController.audio.thumbnailMinResUrl,
                     ),
                   ),
                 ),

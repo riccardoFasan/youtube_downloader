@@ -68,7 +68,8 @@ class YouTubeService {
       title: metadata.title,
       channel: metadata.author,
       duration: metadata.duration ?? Duration.zero,
-      thumbnailUrl: metadata.thumbnails.maxResUrl,
+      thumbnailMaxResUrl: metadata.thumbnails.maxResUrl,
+      thumbnailMinResUrl: metadata.thumbnails.mediumResUrl,
     );
   }
 }

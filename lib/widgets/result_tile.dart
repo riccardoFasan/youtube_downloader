@@ -26,7 +26,7 @@ class ResultTile extends StatelessWidget {
             width: 65,
             child: VideoThumbnail(
               radius: 5,
-              url: _result.thumbnailUrl,
+              url: _result.thumbnailMinResUrl,
             ),
           ),
           Expanded(

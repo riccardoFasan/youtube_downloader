@@ -4,7 +4,8 @@ class AudioInfo {
   String title;
   String channel;
   Duration duration;
-  String? thumbnailUrl;
+  String? thumbnailMaxResUrl;
+  String? thumbnailMinResUrl;
 
   AudioInfo({
     required this.id,
@@ -12,7 +13,8 @@ class AudioInfo {
     required this.title,
     required this.channel,
     required this.duration,
-    this.thumbnailUrl,
+    this.thumbnailMaxResUrl,
+    this.thumbnailMinResUrl,
   });
 
   factory AudioInfo.fromJson(Map<String, dynamic> json) {
@@ -24,7 +26,8 @@ class AudioInfo {
       duration: json['duration'] != null
           ? Duration(milliseconds: json['duration'])
           : Duration.zero,
-      thumbnailUrl: json['thumbnailUrl'],
+      thumbnailMaxResUrl: json['thumbnailMaxResUrl'],
+      thumbnailMinResUrl: json['thumbnailMinResUrl'],
     );
   }
 
@@ -35,7 +38,8 @@ class AudioInfo {
       'title': title,
       'channel': channel,
       'duration': duration.inMilliseconds,
-      'thumbnailUrl': thumbnailUrl,
+      'thumbnailMaxResUrl': thumbnailMaxResUrl,
+      'thumbnailMinResUrl': thumbnailMinResUrl,
     };
   }
 }

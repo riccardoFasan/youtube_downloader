@@ -38,7 +38,7 @@ class AudioTile extends StatelessWidget {
                 width: 65,
                 child: VideoThumbnail(
                   radius: 5,
-                  url: _audio.thumbnailUrl,
+                  url: _audio.thumbnailMinResUrl,
                 ),
               ),
               Expanded(

@@ -12,7 +12,8 @@ class Audio extends AudioInfo {
     required String title,
     required String channel,
     required Duration duration,
-    String? thumbnailUrl,
+    String? thumbnailMaxResUrl,
+    String? thumbnailMinResUrl,
     required this.path,
     required this.sponsorsedSegments,
   }) : super(
@@ -21,7 +22,8 @@ class Audio extends AudioInfo {
           title: title,
           channel: channel,
           duration: duration,
-          thumbnailUrl: thumbnailUrl,
+          thumbnailMaxResUrl: thumbnailMaxResUrl,
+          thumbnailMinResUrl: thumbnailMinResUrl,
         );
 
   @override
@@ -34,7 +36,8 @@ class Audio extends AudioInfo {
       duration: json['duration'] != null
           ? Duration(milliseconds: json['duration'])
           : Duration.zero,
-      thumbnailUrl: json['thumbnailUrl'],
+      thumbnailMaxResUrl: json['thumbnailMaxResUrl'],
+      thumbnailMinResUrl: json['thumbnailMinResUrl'],
       path: json['path'],
       sponsorsedSegments: jsonDecode(json['sponsorsedSegments'])
           .map<Segment>((s) => Segment.fromJson(s))
@@ -50,7 +53,8 @@ class Audio extends AudioInfo {
       'title': title,
       'channel': channel,
       'duration': duration.inMilliseconds,
-      'thumbnailUrl': thumbnailUrl,
+      'thumbnailMaxResUrl': thumbnailMaxResUrl,
+      'thumbnailMinResUrl': thumbnailMinResUrl,
       'path': path,
       'sponsorsedSegments':
           jsonEncode(sponsorsedSegments.map((s) => s.toJson()).toList())
