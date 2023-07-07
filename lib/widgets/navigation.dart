@@ -72,20 +72,20 @@ class Navigation extends StatelessWidget {
 
   Widget _buildButton(IconData icon, String label, String path) {
     final bool current = Get.currentRoute == path;
-    final FontWeight fontWeight = current ? FontWeight.w900 : FontWeight.w300;
+    final Color color = current ? AppColors.white : AppColors.lightGray;
     return TextButton.icon(
       onPressed: () => Get.toNamed(path),
       icon: Icon(
         icon,
-        color: AppColors.white,
+        color: color,
         size: 20,
       ),
       label: Text(
         label,
         style: TextStyle(
-          color: AppColors.white,
+          color: color,
           fontSize: 14,
-          fontWeight: fontWeight,
+          fontWeight: FontWeight.w900,
         ),
       ),
       style: ButtonStyle(

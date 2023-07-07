@@ -14,16 +14,11 @@ class YouTubeService {
         await yte.videos.streamsClient.getManifest(videoId);
     final StreamInfo streamInfo = manifest.audioOnly.withHighestBitrate();
     final Stream<List<int>> stream = yte.videos.streamsClient.get(streamInfo);
-    final Completer<List<int>> completer = Completer<List<int>>();
     final List<int> bytes = [];
-    stream.listen(
-      (List<int> chunk) => bytes.addAll(chunk),
-      onDone: () {
-        completer.complete(bytes);
-        yte.close();
-      },
-    );
-    return completer.future;
+    await for (final List<int> chunk in stream) {
+      bytes.addAll(chunk);
+    }
+    return bytes;
   }
 
   void openSearchSession() {
