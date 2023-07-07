@@ -18,8 +18,6 @@ Future<void> _injectServices() async {
   Get.lazyPut(() => PlayerService());
   Get.lazyPut(() => YouTubeService());
   Get.lazyPut(() => SponsorblockService());
-  Get.lazyPut(() => TrimmerService());
-  Get.lazyPut(() => BackgroundService());
   Get.lazyPut(() => VideoSearchController());
   Get.lazyPut(() => DownloadController());
   Get.lazyPut(() => PlayerController());

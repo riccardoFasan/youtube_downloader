@@ -9,10 +9,8 @@ class DownloadController extends GetxController {
   final YouTubeService _yt = Get.find<YouTubeService>();
   final FileSystemService _fs = Get.find<FileSystemService>();
   final SponsorblockService _sponsorblock = Get.find<SponsorblockService>();
-  final TrimmerService _trimmer = Get.find<TrimmerService>();
   final NotificationsService _notifications = Get.find<NotificationsService>();
   final LifecycleService _lifecycle = Get.find<LifecycleService>();
-  final BackgroundService _background = Get.find<BackgroundService>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -55,11 +53,6 @@ class DownloadController extends GetxController {
   }
 
   Future<void> _getAudioAndSave(AudioInfo info) async {
-    final bool canEnableBackgroundExecution = _downloads.isEmpty;
-    if (canEnableBackgroundExecution) {
-      _background.enableBackgroundExecution();
-    }
-
     _addDownload(info);
     final int? notificationId =
         await _notifications.showDownloadInProgress(info.title);
@@ -72,6 +65,8 @@ class DownloadController extends GetxController {
       final String path =
           await _fs.saveAudioFileFromBytes(info, bytes as List<int>);
 
+      final List<Segment> segments = (sponsorships as Sponsorships).segments;
+
       final Audio audio = Audio(
         id: info.id,
         url: info.url,
@@ -80,29 +75,17 @@ class DownloadController extends GetxController {
         duration: info.duration,
         thumbnailUrl: info.thumbnailUrl,
         path: path,
+        sponsorsedSegments: segments,
       );
 
-      final Duration? newDuration = await _trimmer.removeSegments(
-        audio,
-        (sponsorships as Sponsorships).segments,
-      );
-
-      if (newDuration != null) {
-        audio.duration = newDuration;
-      }
       _addAudio(audio);
       _notifyDownloadCompleted(info);
     } catch (e) {
       _notifyDownloadError(info);
     } finally {
+      _removeDownload(info.url);
       if (notificationId != null) {
         await _notifications.cancelNotification(notificationId);
-        _removeDownload(info.url);
-
-        final bool canDisableBackgroundExecution = _downloads.isEmpty;
-        if (canDisableBackgroundExecution) {
-          _background.disableBackgroundExecution();
-        }
       }
     }
   }

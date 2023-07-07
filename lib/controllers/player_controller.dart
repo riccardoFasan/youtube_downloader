@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:youtube_downloader/models/audio_model.dart';
+import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/services/services.dart';
 import 'package:youtube_downloader/controllers/download_controller.dart';
 
@@ -32,13 +32,13 @@ class PlayerController extends GetxController {
   StreamSubscription<PlayerState>? _stateSinkSub;
 
   static final Audio _placeholderAudio = Audio(
-    id: '',
-    url: '',
-    title: '',
-    channel: '',
-    duration: Duration.zero,
-    path: '',
-  );
+      id: '',
+      url: '',
+      title: '',
+      channel: '',
+      duration: Duration.zero,
+      path: '',
+      sponsorsedSegments: []);
 
   static const int _seekDelta = 15000;
 
@@ -165,7 +165,16 @@ class PlayerController extends GetxController {
 
   void _sinkPosition() {
     _positionSinkSub = _player.position.listen((Duration event) {
-      if (_playing.isTrue) _currentPosition.value = event;
+      if (_playing.isTrue) {
+        final Segment? reachedSegment = _reachedASegment(event);
+
+        if (reachedSegment != null) {
+          seek(reachedSegment.endPosition.inMilliseconds);
+          return;
+        }
+
+        _currentPosition.value = event;
+      }
     });
   }
 
@@ -206,5 +215,13 @@ class PlayerController extends GetxController {
     final Audio randomAudio = _downloadController.audios[width];
     if (randomAudio.id == _selectedAudio.value.id) return _getRandomAudio();
     return randomAudio;
+  }
+
+  Segment? _reachedASegment(Duration position) {
+    return _selectedAudio.value.sponsorsedSegments
+        .firstWhereOrNull((Segment segment) {
+      return position.inMilliseconds >= segment.startPosition.inMilliseconds &&
+          position.inMilliseconds <= segment.endPosition.inMilliseconds;
+    });
   }
 }

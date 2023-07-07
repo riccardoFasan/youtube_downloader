@@ -24,8 +24,8 @@ class SponsorblockService {
       segments: segments
           .map(
             (SkipSegmentDTO segment) => Segment(
-              start: segment.segment[0].toInt(),
-              end: segment.segment[1].toInt(),
+              startPosition: Duration(seconds: segment.segment[0].toInt()),
+              endPosition: Duration(seconds: segment.segment[1].toInt()),
             ),
           )
           .toList(),
