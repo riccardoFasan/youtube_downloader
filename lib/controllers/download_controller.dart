@@ -15,8 +15,8 @@ class DownloadController extends GetxController {
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
 
-  final RxList<AudioInfo> _downloads = <AudioInfo>[].obs;
-  List<AudioInfo> get downloads => _downloads;
+  final RxList<Download> _downloads = <Download>[].obs;
+  List<Download> get downloads => _downloads;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -30,12 +30,12 @@ class DownloadController extends GetxController {
     });
   }
 
-  void cancelDownload(AudioInfo download) {
+  void cancelDownload(Download download) {
     final String url = download.url;
     if (_subscriptions.containsKey(url)) {
       _subscriptions[url]!.cancel();
       _subscriptions.remove(url);
-      _removeDownload(url);
+      _removeDownload(download);
     }
   }
 
@@ -53,12 +53,22 @@ class DownloadController extends GetxController {
   }
 
   Future<void> _getAudioAndSave(AudioInfo info) async {
-    _addDownload(info);
+    final Download download = Download(
+        id: info.id,
+        url: info.url,
+        title: info.title,
+        channel: info.channel,
+        duration: info.duration,
+        thumbnailMaxResUrl: info.thumbnailMaxResUrl,
+        thumbnailMinResUrl: info.thumbnailMinResUrl,
+        progress: 0.obs);
+
+    _addDownload(download);
     final int? notificationId =
         await _notifications.showDownloadInProgress(info.title);
     try {
       final [bytes, sponsorships] = await Future.wait([
-        _yt.download(info.id),
+        _getBytesAndUpdateProgress(download),
         _sponsorblock.getSponsorships(info.id),
       ]);
 
@@ -84,19 +94,19 @@ class DownloadController extends GetxController {
     } catch (e) {
       _notifyDownloadError(info);
     } finally {
-      _removeDownload(info.url);
+      _removeDownload(download);
       if (notificationId != null) {
         await _notifications.cancelNotification(notificationId);
       }
     }
   }
 
-  void _addDownload(AudioInfo download) {
+  void _addDownload(Download download) {
     _downloads.value = [download, ..._downloads];
   }
 
-  void _removeDownload(String url) {
-    _downloads.removeWhere((AudioInfo d) => d.url == url);
+  void _removeDownload(Download download) {
+    _downloads.removeWhere((Download d) => d.id == download.id);
   }
 
   void _addAudio(Audio audio) {
@@ -115,6 +125,18 @@ class DownloadController extends GetxController {
 
   Future<void> _update() async {
     await _storage.store(_audios);
+  }
+
+  Future<List<int>> _getBytesAndUpdateProgress(Download download) async {
+    final DownloadResult downloadResult = await _yt.download(download.id);
+    final List<int> bytes = [];
+    await for (final List<int> chunk in downloadResult.stream) {
+      bytes.addAll(chunk);
+      final int progress = ((bytes.length / downloadResult.size) * 100).ceil();
+
+      download.progress.value = progress;
+    }
+    return bytes;
   }
 
   Future<void> _notifyDownloadCompleted(AudioInfo info) async {

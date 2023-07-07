@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:youtube_downloader/models/models.dart';
 
 class Audio extends AudioInfo {

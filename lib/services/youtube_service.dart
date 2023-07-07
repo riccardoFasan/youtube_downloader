@@ -8,17 +8,15 @@ class YouTubeService {
   YoutubeExplode? _searchSession;
   VideoSearchList? _searchList;
 
-  Future<List<int>> download(String videoId) async {
+  Future<DownloadResult> download(String videoId) async {
     final YoutubeExplode yte = YoutubeExplode();
     final StreamManifest manifest =
         await yte.videos.streamsClient.getManifest(videoId);
     final StreamInfo streamInfo = manifest.audioOnly.withHighestBitrate();
-    final Stream<List<int>> stream = yte.videos.streamsClient.get(streamInfo);
-    final List<int> bytes = [];
-    await for (final List<int> chunk in stream) {
-      bytes.addAll(chunk);
-    }
-    return bytes;
+    return DownloadResult(
+      size: streamInfo.size.totalBytes,
+      stream: yte.videos.streamsClient.get(streamInfo),
+    );
   }
 
   void openSearchSession() {

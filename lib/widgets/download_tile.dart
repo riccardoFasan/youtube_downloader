@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 import 'package:youtube_downloader/models/models.dart';
 
 class DownloadTile extends StatelessWidget {
-  final AudioInfo _download;
+  final Download _download;
   final Function _cancelCallback;
 
   const DownloadTile({super.key, download, cancelCallback})
@@ -74,10 +75,13 @@ class DownloadTile extends StatelessWidget {
               width: 32.0,
               height: 32.0,
               margin: const EdgeInsets.fromLTRB(32.0, 0, 5.75, 0),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.red,
-                  strokeWidth: 2.75,
+              child: Center(
+                child: Obx(
+                  () => CircularProgressIndicator(
+                    value: _download.progress.value.toDouble() / 100,
+                    color: AppColors.red,
+                    strokeWidth: 2.75,
+                  ),
                 ),
               ),
             ),

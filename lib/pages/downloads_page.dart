@@ -27,14 +27,14 @@ class DownloadsPage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           ..._downloadController.downloads.map(
-            (AudioInfo download) => _buildDownloadTile(download),
+            (Download download) => _buildDownloadTile(download),
           ),
         ],
       ),
     );
   }
 
-  DownloadTile _buildDownloadTile(AudioInfo download) {
+  DownloadTile _buildDownloadTile(Download download) {
     return DownloadTile(
       key: ValueKey(download.id),
       download: download,

@@ -67,7 +67,9 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  DownloadTile _buildDownloadTile(AudioInfo download) {
+  DownloadTile _buildDownloadTile(AudioInfo audioInfo) {
+    final Download download = _downloadController.downloads
+        .firstWhere((Download d) => d.id == audioInfo.id);
     return DownloadTile(
       key: ValueKey(download.id),
       download: download,
