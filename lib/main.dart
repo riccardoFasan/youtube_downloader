@@ -14,10 +14,12 @@ Future<void> _injectServices() async {
   Get.lazyPut(() => NotificationsService());
   Get.lazyPut(() => SnackbarService());
   Get.lazyPut(() => FileSystemService());
-  Get.lazyPut(() => StorageService());
+  Get.lazyPut(() => AudiosStorageService());
+  Get.lazyPut(() => SettingsStorageService());
   Get.lazyPut(() => PlayerService());
   Get.lazyPut(() => YouTubeService());
   Get.lazyPut(() => SponsorblockService());
+  Get.lazyPut(() => SettingsController());
   Get.lazyPut(() => VideoSearchController());
   Get.lazyPut(() => DownloadController());
   Get.lazyPut(() => PlayerController());

@@ -82,7 +82,10 @@ class Navigation extends StatelessWidget {
             child: _buildButton(
               AppIcons.settingsCog,
               'Settings',
-              () => {},
+              () => Get.bottomSheet(
+                SettingsModalSheet(),
+                backgroundColor: AppColors.black,
+              ),
               false,
             ),
           ),
@@ -108,11 +111,12 @@ class Navigation extends StatelessWidget {
               color: color,
               size: 20,
             ),
+            const SizedBox(height: 2),
             Text(
               label,
               style: TextStyle(
                 color: color,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: FontWeight.w700,
               ),
             ),

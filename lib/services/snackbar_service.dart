@@ -45,4 +45,18 @@ class SnackbarService {
       duration: const Duration(milliseconds: 1500),
     );
   }
+
+  void showDownloadsQueueError() {
+    Get.snackbar(
+      'Error before download.',
+      'You have reached the maximum number of parallel downloads.',
+      colorText: Colors.white,
+      backgroundColor: AppColors.red,
+      icon: const Icon(
+        AppIcons.cloudClose,
+        color: AppColors.white,
+      ),
+      duration: const Duration(milliseconds: 1500),
+    );
+  }
 }

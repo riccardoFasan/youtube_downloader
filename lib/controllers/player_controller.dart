@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/services/services.dart';
-import 'package:youtube_downloader/controllers/download_controller.dart';
 
 class PlayerController extends GetxController {
   final DownloadController _downloadController = Get.find<DownloadController>();
+  final SettingsController _settingsController = Get.find<SettingsController>();
   final PlayerService _player = Get.find<PlayerService>();
   final Random _random = Random();
 
@@ -166,11 +167,12 @@ class PlayerController extends GetxController {
   void _sinkPosition() {
     _positionSinkSub = _player.position.listen((Duration event) {
       if (_playing.isTrue) {
-        final Segment? reachedSegment = _reachedASegment(event);
-
-        if (reachedSegment != null) {
-          seek(reachedSegment.endPosition.inMilliseconds);
-          return;
+        if (_settingsController.shouldSkipSponsors) {
+          final Segment? reachedSegment = _reachedASegment(event);
+          if (reachedSegment != null) {
+            seek(reachedSegment.endPosition.inMilliseconds);
+            return;
+          }
         }
 
         _currentPosition.value = event;

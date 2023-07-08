@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/services/services.dart';
 
 class DownloadController extends GetxController {
-  final StorageService _storage = Get.find<StorageService>();
+  final AudiosStorageService _audiosStorage = Get.find<AudiosStorageService>();
   final SnackbarService _snackbar = Get.find<SnackbarService>();
   final YouTubeService _yt = Get.find<YouTubeService>();
   final FileSystemService _fs = Get.find<FileSystemService>();
   final SponsorblockService _sponsorblock = Get.find<SponsorblockService>();
   final NotificationsService _notifications = Get.find<NotificationsService>();
   final LifecycleService _lifecycle = Get.find<LifecycleService>();
+  final SettingsController _settingsController = Get.find<SettingsController>();
 
   final RxList<Audio> _audios = <Audio>[].obs;
   List<Audio> get audios => _audios;
@@ -19,6 +21,9 @@ class DownloadController extends GetxController {
   List<Download> get downloads => _downloads;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
+
+  bool get _isQueueFull =>
+      _downloads.length >= _settingsController.downloadsQueueSize;
 
   DownloadController() {
     _init();
@@ -53,6 +58,11 @@ class DownloadController extends GetxController {
   }
 
   Future<void> _getAudioAndSave(AudioInfo info) async {
+    if (_isQueueFull) {
+      _snackbar.showDownloadsQueueError();
+      return;
+    }
+
     final Download download = Download(
         id: info.id,
         url: info.url,
@@ -120,11 +130,11 @@ class DownloadController extends GetxController {
   }
 
   Future<void> _init() async {
-    _audios.value = await _storage.load();
+    _audios.value = await _audiosStorage.loadAudios();
   }
 
   Future<void> _update() async {
-    await _storage.store(_audios);
+    await _audiosStorage.storeAudios(_audios);
   }
 
   Future<List<int>> _getBytesAndUpdateProgress(Download download) async {
@@ -133,7 +143,6 @@ class DownloadController extends GetxController {
     await for (final List<int> chunk in downloadResult.stream) {
       bytes.addAll(chunk);
       final int progress = ((bytes.length / downloadResult.size) * 100).ceil();
-
       download.progress.value = progress;
     }
     return bytes;
