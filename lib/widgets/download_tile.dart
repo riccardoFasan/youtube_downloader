@@ -90,7 +90,7 @@ class DownloadTile extends StatelessWidget {
                           style: const TextStyle(
                             color: AppColors.white,
                             fontSize: 12,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
