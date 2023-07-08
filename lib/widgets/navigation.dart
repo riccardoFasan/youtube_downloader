@@ -8,61 +8,82 @@ import 'package:youtube_downloader/controllers/controllers.dart';
 class Navigation extends StatelessWidget {
   final PlayerController _playerController = Get.find<PlayerController>();
 
-  static const double _navigationHeight = 70;
-  static const double _playerHeight = 70;
-  static const double _playerMargin = 5;
+  static const double _navigationHeight = 80;
+  static const double _playerHeight = 72;
+  static const double _margin = 5;
 
   Navigation({super.key});
 
   double get _barheight => _playerController.hasAudio
-      ? _navigationHeight + _playerHeight + _playerMargin
-      : _navigationHeight;
+      ? _navigationHeight + _margin + _playerHeight
+      : _navigationHeight + _margin;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        height: _barheight,
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            if (_playerController.hasAudio) MiniPlayer(),
-            if (_playerController.hasAudio)
-              Container(
-                margin: const EdgeInsets.only(bottom: _playerMargin),
+    return Obx(() => AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          height: _barheight,
+          padding: const EdgeInsets.all(_margin * 2),
+          child: Stack(
+            children: [
+              if (_playerController.hasAudio)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [MiniPlayer()],
+                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: _margin),
+                    child: _buildNavBar(),
+                  ),
+                ],
               ),
-            _buildNavBar(),
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 
   Widget _buildNavBar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: _margin * 2),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: _buildButton(
               AppIcons.home,
               'Home',
-              AppRoutes.home,
+              () => Get.toNamed(AppRoutes.home),
+              Get.currentRoute == AppRoutes.home,
             ),
           ),
           Expanded(
             child: _buildButton(
               AppIcons.search,
               'Search',
-              AppRoutes.search,
+              () => Get.toNamed(AppRoutes.search),
+              Get.currentRoute == AppRoutes.search,
             ),
           ),
           Expanded(
             child: _buildButton(
               AppIcons.download,
               'Downloads',
-              AppRoutes.downloads,
+              () => Get.toNamed(AppRoutes.downloads),
+              Get.currentRoute == AppRoutes.downloads,
+            ),
+          ),
+          Expanded(
+            child: _buildButton(
+              AppIcons.settingsCog,
+              'Settings',
+              () => {},
+              false,
             ),
           ),
         ],
@@ -70,30 +91,32 @@ class Navigation extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(IconData icon, String label, String path) {
-    final bool current = Get.currentRoute == path;
-    final Color color = current ? AppColors.white : AppColors.lightGray;
-    return TextButton.icon(
-      onPressed: () => Get.toNamed(path),
-      icon: Icon(
-        icon,
-        color: color,
-        size: 20,
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 14,
-          fontWeight: FontWeight.w900,
-        ),
-      ),
-      style: ButtonStyle(
-        backgroundColor:
-            const MaterialStatePropertyAll<Color>(Colors.transparent),
-        overlayColor: const MaterialStatePropertyAll<Color>(AppColors.darkGray),
-        padding: MaterialStateProperty.all<EdgeInsets>(
-          EdgeInsets.zero,
+  Widget _buildButton(
+      IconData icon, String label, Function onPressed, bool active) {
+    final Color color = active ? AppColors.white : AppColors.lightGray;
+    return InkWell(
+      onTap: () => onPressed(),
+      borderRadius: BorderRadius.circular(_margin * 2),
+      child: Padding(
+        padding: const EdgeInsets.all(_margin * 2),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 20,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
         ),
       ),
     );

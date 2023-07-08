@@ -20,6 +20,7 @@ class AppIcons {
   static const IconData rewind = IconData(0xea4e, fontFamily: _fontFamily);
   static const IconData dismiss = IconData(0xe98c, fontFamily: _fontFamily);
   static const IconData trash = IconData(0xea8b, fontFamily: _fontFamily);
+  static const IconData settingsCog = IconData(0xea55, fontFamily: _fontFamily);
 
   const AppIcons();
 }
