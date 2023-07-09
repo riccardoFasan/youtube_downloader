@@ -11,3 +11,4 @@ export 'dismissable_tile.dart';
 export 'shimmer_wrapper.dart';
 export 'music_visualizer.dart';
 export 'settings_modal_sheet.dart';
+export 'select_modal_sheet.dart';

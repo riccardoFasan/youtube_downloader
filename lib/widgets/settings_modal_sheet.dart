@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
+import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/utils/colors.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class SettingsModalSheet extends StatelessWidget {
   final SettingsController _settingsController = Get.find<SettingsController>();
+
+  final List<Option> _concurrentDownloadsOptions = [
+    Option<int>(label: '1', value: 1),
+    Option<int>(label: '2', value: 2),
+    Option<int>(label: '3', value: 3),
+    Option<int>(label: '4', value: 4),
+    Option<int>(label: '5', value: 5),
+    Option<int>(label: '6', value: 6),
+  ];
 
   SettingsModalSheet({super.key});
 
@@ -43,7 +54,17 @@ class SettingsModalSheet extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () => Get.bottomSheet(
+              SelectModalSheet(
+                title: 'Max concurrent downloads',
+                options: _concurrentDownloadsOptions,
+                onSelected: (int value) =>
+                    _settingsController.setDownloadsQueueSize(value),
+                selected: _settingsController.downloadsQueueSize,
+              ),
+              backgroundColor: AppColors.black,
+              exitBottomSheetDuration: const Duration(milliseconds: 250),
+              enterBottomSheetDuration: const Duration(milliseconds: 250)),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 12,
@@ -63,12 +84,14 @@ class SettingsModalSheet extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                Text(
-                  _settingsController.downloadsQueueSize.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
+                Obx(
+                  () => Text(
+                    _settingsController.downloadsQueueSize.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ],

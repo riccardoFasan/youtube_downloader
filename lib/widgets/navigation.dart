@@ -21,7 +21,7 @@ class Navigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 200),
           height: _barheight,
           padding: const EdgeInsets.all(_margin * 2),
           child: Stack(
@@ -82,10 +82,10 @@ class Navigation extends StatelessWidget {
             child: _buildButton(
               AppIcons.settingsCog,
               'Settings',
-              () => Get.bottomSheet(
-                SettingsModalSheet(),
-                backgroundColor: AppColors.black,
-              ),
+              () => Get.bottomSheet(SettingsModalSheet(),
+                  backgroundColor: AppColors.black,
+                  exitBottomSheetDuration: const Duration(milliseconds: 250),
+                  enterBottomSheetDuration: const Duration(milliseconds: 250)),
               false,
             ),
           ),

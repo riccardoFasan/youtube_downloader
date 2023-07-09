@@ -89,7 +89,7 @@ class DownloadTile extends StatelessWidget {
                           '${_download.progress.value}%',
                           style: const TextStyle(
                             color: AppColors.white,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
