@@ -32,9 +32,9 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.1.2
   get: ^4.6.5
-  youtube_explode_dart: ^1.12.4
+  youtube_explode_dart: ^2.0.2
   path_provider: ^2.0.15
-  http: ^0.13.6
+  http: ^1.0.0
   just_audio: ^0.9.34
   just_audio_background: ^0.0.1-beta.10
   cached_network_image: ^3.2.3
@@ -42,7 +42,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   text_scroll: ^0.2.0
   shimmer_animation: ^2.1.0+1
-  flutter_local_notifications: ^14.1.1
+  flutter_local_notifications: ^15.1.0+1
   icons_launcher: ^2.1.2
 
 dev_dependencies:
