@@ -38,7 +38,7 @@ class SettingsModalSheet extends StatelessWidget {
         Obx(
           () => SwitchListTile(
             activeTrackColor: AppColors.red,
-            trackOutlineColor: MaterialStateProperty.all(AppColors.red),
+            trackOutlineColor: WidgetStateProperty.all(AppColors.red),
             contentPadding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
             value: _settingsController.shouldSkipSponsors,
             onChanged: (bool value) =>

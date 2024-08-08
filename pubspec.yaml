@@ -2,7 +2,7 @@ name: youtube_downloader
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.2 <4.0.0"
+  sdk: '>=3.0.2 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,9 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.1.2
-  get: ^4.6.5
-  youtube_explode_dart: ^2.0.2
+  shared_preferences: ^2.3.1
+  get: ^4.6.6
+  youtube_explode_dart: ^2.2.1
   path_provider: ^2.0.15
   http: ^1.0.0
   just_audio: ^0.9.34
@@ -42,7 +42,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   text_scroll: ^0.2.0
   shimmer_animation: ^2.1.0+1
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^17.2.2
   icons_launcher: ^2.1.2
 
 dev_dependencies:
@@ -125,7 +125,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 icons_launcher:
-  image_path: "assets/images/logo.png"
+  image_path: 'assets/images/logo.png'
   platforms:
     android:
       enable: true
