@@ -23,4 +23,9 @@ class LifecycleService extends FullLifeCycleController with FullLifeCycleMixin {
   void onResumed() {
     _active.value = true;
   }
+
+  @override
+  void onHidden() {
+    _active.value = false;
+  }
 }

@@ -57,7 +57,7 @@ class DismissableTile extends StatelessWidget {
           TextButton(
             onPressed: () => Get.back(result: false),
             style: const ButtonStyle(
-              overlayColor: MaterialStatePropertyAll<Color>(AppColors.darkGray),
+              overlayColor: WidgetStatePropertyAll<Color>(AppColors.darkGray),
             ),
             child: const Text(
               'No',
@@ -67,7 +67,7 @@ class DismissableTile extends StatelessWidget {
           TextButton(
             onPressed: () => Get.back(result: true),
             style: const ButtonStyle(
-              overlayColor: MaterialStatePropertyAll<Color>(AppColors.darkGray),
+              overlayColor: WidgetStatePropertyAll<Color>(AppColors.darkGray),
             ),
             child: const Text(
               'Yes',

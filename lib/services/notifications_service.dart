@@ -96,7 +96,7 @@ class NotificationsService {
     bool? accepted = await _notifications
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
-        .requestPermission();
+        .requestNotificationsPermission();
     if (accepted == null || !accepted) return false;
     return true;
   }

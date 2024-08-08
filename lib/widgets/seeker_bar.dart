@@ -26,12 +26,12 @@ class SeekerBar extends StatelessWidget {
       focusNode: focusNode,
       onChanged: (String query) => _searchCallback(query),
       backgroundColor:
-          const MaterialStatePropertyAll<Color>(AppColors.darkGray),
-      overlayColor: const MaterialStatePropertyAll<Color>(AppColors.darkGray),
+          const WidgetStatePropertyAll<Color>(AppColors.darkGray),
+      overlayColor: const WidgetStatePropertyAll<Color>(AppColors.darkGray),
       surfaceTintColor:
-          const MaterialStatePropertyAll<Color>(AppColors.darkGray),
-      elevation: const MaterialStatePropertyAll<double>(0),
-      textStyle: const MaterialStatePropertyAll<TextStyle>(
+          const WidgetStatePropertyAll<Color>(AppColors.darkGray),
+      elevation: const WidgetStatePropertyAll<double>(0),
+      textStyle: const WidgetStatePropertyAll<TextStyle>(
         TextStyle(
           color: AppColors.white,
           fontSize: 16,
@@ -47,10 +47,10 @@ class SeekerBar extends StatelessWidget {
         minHeight: 40,
         maxHeight: 50,
       ),
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
         const EdgeInsets.only(left: 16),
       ),
-      side: MaterialStateProperty.all<BorderSide?>(
+      side: WidgetStateProperty.all<BorderSide?>(
         const BorderSide(
           color: AppColors.gray,
           width: 1,
