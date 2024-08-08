@@ -2,7 +2,7 @@ class SkipSegmentDTO {
   final String uuid;
   final List<num> segment;
   final String category;
-  final double videoDuration;
+  final num videoDuration;
   final String actionType;
   final int locked;
   final int votes;

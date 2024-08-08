@@ -40,10 +40,12 @@ class SponsorblockService {
   }
 
   List<SkipSegmentDTO> _parseBody(String body) {
-    return List<SkipSegmentDTO>.from(
-      jsonDecode(body).cast<Map<String, dynamic>>().map(
-            (dynamic json) => SkipSegmentDTO.fromJson(json),
-          ),
+    final List<dynamic> decodedJson = jsonDecode(body);
+    final List<SkipSegmentDTO> segments = List<SkipSegmentDTO>.from(
+      decodedJson.map(
+        (dynamic json) => SkipSegmentDTO.fromJson(json),
+      ),
     );
+    return segments;
   }
 }
