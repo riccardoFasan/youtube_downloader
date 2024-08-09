@@ -44,6 +44,7 @@ dependencies:
   shimmer_animation: ^2.2.1
   flutter_local_notifications: ^17.2.2
   icons_launcher: ^2.1.7
+  optimize_battery: ^0.0.4
 
 dev_dependencies:
   flutter_test:

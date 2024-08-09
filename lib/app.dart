@@ -2,6 +2,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_downloader/routes.dart';
+import 'package:youtube_downloader/services/services.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
@@ -9,6 +10,10 @@ class YouTubeDownloaderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BatteryOptimizationService batteryOptimizationService =
+        Get.find<BatteryOptimizationService>();
+    batteryOptimizationService.askToDisableOptimization();
+
     return KeyboardDismissOnTap(
       child: GetMaterialApp(
         title: 'Flutter YouTube Downloader & Converter',

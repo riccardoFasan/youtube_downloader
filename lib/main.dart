@@ -16,6 +16,8 @@ Future<void> _injectServices() async {
   Get.lazyPut(() => FileSystemService());
   Get.lazyPut(() => AudiosStorageService());
   Get.lazyPut(() => SettingsStorageService());
+  Get.lazyPut(() => DevicePermissionsStorageService());
+  Get.lazyPut(() => BatteryOptimizationService());
   Get.lazyPut(() => PlayerService());
   Get.lazyPut(() => YouTubeService());
   Get.lazyPut(() => SponsorblockService());
