@@ -47,7 +47,7 @@ class PlayerService {
   Future<void> _init() async {
     await JustAudioBackground.init(
       androidNotificationChannelId: 'com.richard.youtube_downloader.player',
-      androidNotificationChannelName: 'YouTube Dowloader',
+      androidNotificationChannelName: 'YouTube Downloader',
       androidNotificationOngoing: true,
       preloadArtwork: true,
     );

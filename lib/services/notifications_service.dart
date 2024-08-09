@@ -7,7 +7,7 @@ class NotificationsService {
 
   final AndroidNotificationDetails _downloadCompletedAndroidDetails =
       const AndroidNotificationDetails(
-    'youtube_downloader_notification_channel',
+    'com.richard.youtube_downloader.download_info',
     'YouTube Downloader',
     importance: Importance.max,
     priority: Priority.max,
@@ -17,7 +17,7 @@ class NotificationsService {
 
   final AndroidNotificationDetails _downloadInProgressAndroidDetails =
       const AndroidNotificationDetails(
-    'youtube_downloader_notification_channel',
+    'com.richard.youtube_downloader.download_info',
     'YouTube Downloader',
     importance: Importance.low,
     priority: Priority.low,

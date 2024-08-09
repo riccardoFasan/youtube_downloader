@@ -4,9 +4,9 @@ import 'package:youtube_downloader/app.dart';
 import 'package:youtube_downloader/services/services.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
 
-void main() {
+Future<void> main() async {
+  await _injectServices();
   runApp(const YouTubeDownloaderApp());
-  _injectServices();
 }
 
 Future<void> _injectServices() async {

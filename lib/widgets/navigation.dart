@@ -8,7 +8,7 @@ import 'package:youtube_downloader/controllers/controllers.dart';
 class Navigation extends StatelessWidget {
   final PlayerController _playerController = Get.find<PlayerController>();
 
-  static const double _navigationHeight = 80;
+  static const double _navigationHeight = 83;
   static const double _playerHeight = 72;
   static const double _margin = 5;
 
@@ -116,10 +116,19 @@ class Navigation extends StatelessWidget {
               label,
               style: TextStyle(
                 color: color,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
             ),
+            const SizedBox(height: 2),
+            Container(
+              height: 2,
+              width: 35,
+              decoration: BoxDecoration(
+                color: active ? AppColors.red : Colors.transparent,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            )
           ],
         ),
       ),
