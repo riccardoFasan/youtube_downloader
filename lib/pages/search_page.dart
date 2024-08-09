@@ -10,6 +10,9 @@ import 'package:youtube_downloader/widgets/widgets.dart';
 class SearchPage extends StatelessWidget {
   final VideoSearchController _searchController =
       Get.find<VideoSearchController>();
+
+  final PlayerController _playerController = Get.find<PlayerController>();
+
   final DownloadController _downloadController = Get.find<DownloadController>();
 
   final Debouncer _searchDebouncer = Debouncer(milliseconds: 200);
@@ -63,7 +66,8 @@ class SearchPage extends StatelessWidget {
       key: ValueKey(result.id),
       result: result,
       saved: saved,
-      downloadCallback: () => _downloadController.download(result),
+      tapCallback: () =>
+          saved ? _playResult(result) : _downloadController.download(result),
     );
   }
 
@@ -108,5 +112,14 @@ class SearchPage extends StatelessWidget {
         }
       }
     });
+  }
+
+  void _playResult(AudioInfo result) {
+    try {
+      final Audio audio = _downloadController.audios.firstWhere(
+        (Audio a) => a.id == result.id,
+      );
+      _playerController.setCurrentAudioAndPlay(audio);
+    } catch (e) {}
   }
 }
