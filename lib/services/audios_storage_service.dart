@@ -4,6 +4,7 @@ import 'package:youtube_downloader/models/models.dart';
 
 class AudiosStorageService {
   static const String _audioKey = 'audios';
+
   Future<void> storeAudios(List<Audio> audios) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final String json = jsonEncode(audios.map((a) => a.toJson()).toList());

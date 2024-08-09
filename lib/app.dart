@@ -2,6 +2,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_downloader/routes.dart';
+import 'package:youtube_downloader/services/services.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
@@ -9,6 +10,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _askDevicePermissions();
     return KeyboardDismissOnTap(
       child: GetMaterialApp(
         title: 'Flutter YouTube Downloader & Converter',
@@ -47,5 +49,17 @@ class YouTubeDownloaderApp extends StatelessWidget {
         getPages: appRoutes(),
       ),
     );
+  }
+
+  Future<void> _askDevicePermissions() async {
+    BatteryOptimizationService batteryOptimizationService =
+        Get.find<BatteryOptimizationService>();
+    NotificationsService notificationsService =
+        Get.find<NotificationsService>();
+    PlayerService playerService = Get.find<PlayerService>();
+
+    await notificationsService.init();
+    await playerService.init();
+    await batteryOptimizationService.askToDisableOptimization();
   }
 }

@@ -5,10 +5,6 @@ import 'package:youtube_downloader/models/audio_model.dart';
 class PlayerService {
   final AudioPlayer _player = AudioPlayer();
 
-  PlayerService() {
-    _init();
-  }
-
   Stream<Duration> get position => _player.positionStream;
   Stream<PlayerState> get state => _player.playerStateStream;
 
@@ -44,7 +40,7 @@ class PlayerService {
     await _player.pause(); // ! prevent auto play
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     await JustAudioBackground.init(
       androidNotificationChannelId: 'com.richard.youtube_downloader.player',
       androidNotificationChannelName: 'YouTube Downloader',

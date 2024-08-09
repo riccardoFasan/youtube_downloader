@@ -30,10 +30,6 @@ class NotificationsService {
 
   bool _permissionsAccepted = false;
 
-  NotificationsService() {
-    _init();
-  }
-
   NotificationDetails get _downloadCompletedDetails => NotificationDetails(
         android: _downloadCompletedAndroidDetails,
       );
@@ -83,7 +79,7 @@ class NotificationsService {
     return _notifications.cancel(id);
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: AndroidInitializationSettings('mipmap/ic_launcher'),
