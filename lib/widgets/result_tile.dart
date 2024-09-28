@@ -19,6 +19,7 @@ class ResultTile extends StatelessWidget {
     final String channel = _result.channel;
     return InkWell(
         onTap: () => _tapCallback(),
+        borderRadius: BorderRadius.circular(5),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
           child: Row(

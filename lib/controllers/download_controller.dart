@@ -29,6 +29,13 @@ class DownloadController extends GetxController {
     _init();
   }
 
+  Future<void> reorder(int oldIndex, int newIndex) async {
+    final Audio audio = _audios.removeAt(oldIndex);
+    final int targetIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
+    _audios.insert(targetIndex, audio);
+    _update();
+  }
+
   Future<void> download(AudioInfo info) async {
     _subscriptions[info.url] = _getAudioAndSave(info).asStream().listen((_) {
       _subscriptions.remove(info.url);

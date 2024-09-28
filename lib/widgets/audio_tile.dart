@@ -28,6 +28,7 @@ class AudioTile extends StatelessWidget {
       dismissCallback: () => _removeCallback(_audio),
       icon: AppIcons.trash,
       child: InkWell(
+        borderRadius: BorderRadius.circular(5),
         onTap: () => _tapCallback(_audio),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),

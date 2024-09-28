@@ -24,6 +24,13 @@ class SettingsModalSheet extends StatelessWidget {
     return Wrap(
       children: [
         Container(
+          decoration: BoxDecoration(
+            color: AppColors.black,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
           padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
           margin: const EdgeInsets.only(bottom: 12),
           child: const Text(
@@ -63,8 +70,8 @@ class SettingsModalSheet extends StatelessWidget {
                 selected: _settingsController.downloadsQueueSize,
               ),
               backgroundColor: AppColors.black,
-              exitBottomSheetDuration: const Duration(milliseconds: 250),
-              enterBottomSheetDuration: const Duration(milliseconds: 250)),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+              enterBottomSheetDuration: const Duration(milliseconds: 150)),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 12,

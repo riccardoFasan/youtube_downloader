@@ -29,6 +29,13 @@ class SelectModalSheet<T> extends StatelessWidget {
     return Wrap(
       children: [
         Container(
+          decoration: BoxDecoration(
+            color: AppColors.black,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
           padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
           margin: const EdgeInsets.only(bottom: 12),
           child: Text(

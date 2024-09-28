@@ -84,8 +84,8 @@ class Navigation extends StatelessWidget {
               'Settings',
               () => Get.bottomSheet(SettingsModalSheet(),
                   backgroundColor: AppColors.black,
-                  exitBottomSheetDuration: const Duration(milliseconds: 250),
-                  enterBottomSheetDuration: const Duration(milliseconds: 250)),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
+                  enterBottomSheetDuration: const Duration(milliseconds: 150)),
               false,
             ),
           ),
@@ -99,7 +99,7 @@ class Navigation extends StatelessWidget {
     final Color color = active ? AppColors.white : AppColors.lightGray;
     return InkWell(
       onTap: () => onPressed(),
-      borderRadius: BorderRadius.circular(_margin * 2),
+      borderRadius: BorderRadius.circular(_margin),
       child: Padding(
         padding: const EdgeInsets.all(_margin * 2),
         child: Column(

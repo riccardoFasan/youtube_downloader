@@ -29,8 +29,10 @@ class YouTubeDownloaderApp extends StatelessWidget {
             titleTextStyle:
                 TextStyle(fontWeight: FontWeight.w800, fontSize: 26),
           ),
-          textSelectionTheme:
-              const TextSelectionThemeData(cursorColor: AppColors.red),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: AppColors.red,
+            selectionHandleColor: AppColors.red,
+          ),
           dialogTheme: const DialogTheme(
             backgroundColor: AppColors.black,
             titleTextStyle: TextStyle(

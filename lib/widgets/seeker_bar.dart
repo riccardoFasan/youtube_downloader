@@ -25,11 +25,9 @@ class SeekerBar extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       onChanged: (String query) => _searchCallback(query),
-      backgroundColor:
-          const WidgetStatePropertyAll<Color>(AppColors.darkGray),
+      backgroundColor: const WidgetStatePropertyAll<Color>(AppColors.darkGray),
       overlayColor: const WidgetStatePropertyAll<Color>(AppColors.darkGray),
-      surfaceTintColor:
-          const WidgetStatePropertyAll<Color>(AppColors.darkGray),
+      surfaceTintColor: const WidgetStatePropertyAll<Color>(AppColors.darkGray),
       elevation: const WidgetStatePropertyAll<double>(0),
       textStyle: const WidgetStatePropertyAll<TextStyle>(
         TextStyle(
