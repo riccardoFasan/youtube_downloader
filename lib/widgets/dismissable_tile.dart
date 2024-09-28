@@ -31,7 +31,7 @@ class DismissableTile extends StatelessWidget {
         secondary ? Alignment.centerRight : Alignment.centerLeft;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      color: AppColors.red,
+      color: AppColors.darkRed,
       child: Align(
         alignment: alignment,
         child: Icon(
@@ -46,6 +46,8 @@ class DismissableTile extends StatelessWidget {
   Future<bool> _askConfirmation() async {
     final bool? confirmation = await Get.dialog<bool>(
       AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         title: const Text('Are you sure?'),
         content: Text(
           _snackbarText,
