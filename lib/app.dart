@@ -57,14 +57,15 @@ class YouTubeDownloaderApp extends StatelessWidget {
   }
 
   Future<void> _askDevicePermissions() async {
-    BatteryOptimizationService batteryOptimizationService =
+    FileSystemService fs = Get.find<FileSystemService>();
+    NotificationsService notifications = Get.find<NotificationsService>();
+    BatteryOptimizationService batteryOptimization =
         Get.find<BatteryOptimizationService>();
-    NotificationsService notificationsService =
-        Get.find<NotificationsService>();
-    PlayerService playerService = Get.find<PlayerService>();
+    PlayerService player = Get.find<PlayerService>();
 
-    await notificationsService.init();
-    await playerService.init();
-    await batteryOptimizationService.askToDisableOptimization();
+    await fs.init();
+    await notifications.init();
+    await batteryOptimization.askToDisableOptimization();
+    await player.init();
   }
 }
