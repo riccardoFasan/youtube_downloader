@@ -8,6 +8,7 @@ class FileSystemService {
   static const String _jsonFileExtension = 'json';
 
   static const String _audioListFileName = 'audios';
+  static const String _preferencesFileName = 'preferences';
 
   static const String _localPath = '/storage/emulated/0/YouTubeDownloader';
 
@@ -35,15 +36,57 @@ class FileSystemService {
     await File(path).delete();
   }
 
+  Future<int> readDownloadsQueueSize() async {
+    final dynamic preferences = await _readPreferences();
+    return preferences['downloadsQueueSize'];
+  }
+
+  Future<void> updateDownloadsQueueSize(int queueSize) async {
+    final bool shouldSkipSponsors = await readShouldSkipSponsors();
+    _updatePreferences({
+      'shouldSkipSponsors': shouldSkipSponsors,
+      'downloadsQueueSize': queueSize
+    });
+  }
+
+  Future<bool> readShouldSkipSponsors() async {
+    final dynamic preferences = await _readPreferences();
+    return preferences['shouldSkipSponsors'];
+  }
+
+  Future<void> updateShouldSkipSponsors(bool shouldSkipSponsors) async {
+    final int downloadsQueueSize = await readDownloadsQueueSize();
+    _updatePreferences({
+      'shouldSkipSponsors': shouldSkipSponsors,
+      'downloadsQueueSize': downloadsQueueSize
+    });
+  }
+
   Future<void> saveAudioList(List<Audio> audios) async {
     final String content = jsonEncode(audios.map((a) => a.toJson()).toList());
     await _createOrUpdateJsonFile(_audioListFileName, content);
   }
 
+  Future<dynamic> _readPreferences() async {
+    final String filePath =
+        _getFilePath(_preferencesFileName, _jsonFileExtension);
+    final bool exists = await _fileExists(filePath);
+    if (!exists) return {'shouldSkipSponsors': true, 'downloadsQueueSize': 3};
+    return await _readJsonFile(filePath);
+  }
+
+  Future<void> _updatePreferences(dynamic preferences) async {
+    final String filePath =
+        _getFilePath(_preferencesFileName, _jsonFileExtension);
+    await _writeJsonFile(filePath, preferences);
+  }
+
   Future<List<Audio>> readAudioList() async {
     final String filePath =
         _getFilePath(_audioListFileName, _jsonFileExtension);
-    if (!(await _fileExists(filePath))) return [];
+    final bool exists = await _fileExists(filePath);
+    if (!exists) return [];
+
     final dynamic content = await _readJsonFile(filePath);
     final List<Audio> audioList =
         List<Audio>.from(content.map((a) => Audio.fromJson(a)));
@@ -69,8 +112,7 @@ class FileSystemService {
     final String filePath = _getFilePath(fileName, _jsonFileExtension);
     final bool exists = await _fileExists(filePath);
     if (!exists) await _createFile(filePath);
-    final File file = File(filePath);
-    await file.writeAsString(content);
+    await _writeJsonFile(filePath, content);
     return filePath;
   }
 
