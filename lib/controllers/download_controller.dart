@@ -24,8 +24,8 @@ class DownloadController extends GetxController {
   bool get _isQueueFull =>
       _downloads.length >= _settingsController.downloadsQueueSize;
 
-  DownloadController() {
-    _init();
+  Future<void> init() async {
+    _audios.value = await _fs.readAudioList();
   }
 
   Future<void> reorder(int oldIndex, int newIndex) async {
@@ -133,10 +133,6 @@ class DownloadController extends GetxController {
   void _removeAudio(Audio audio) {
     _audios.removeWhere((Audio a) => a.id == audio.id);
     _update();
-  }
-
-  Future<void> _init() async {
-    _audios.value = await _fs.readAudioList();
   }
 
   Future<void> _update() async {

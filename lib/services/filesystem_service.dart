@@ -45,7 +45,23 @@ class FileSystemService {
         _getFilePath(_audioListFileName, _jsonFileExtension);
     if (!(await _fileExists(filePath))) return [];
     final dynamic content = await _readJsonFile(filePath);
-    return List<Audio>.from(content.map((a) => Audio.fromJson(a)));
+    final List<Audio> audioList =
+        List<Audio>.from(content.map((a) => Audio.fromJson(a)));
+
+    final Iterable<Future<Audio?>> validFilesFutures =
+        audioList.map((audio) async {
+      final bool valid = await _isValidAudioFile(audio);
+      if (valid) return audio;
+      return null;
+    });
+
+    final Iterable<Audio?> validFiles = await Future.wait(validFilesFutures);
+    return validFiles.whereType<Audio>().toList();
+  }
+
+  Future<bool> _isValidAudioFile(Audio audio) async {
+    final String path = _getFilePath(audio.id, _audioFileExtension);
+    return await _fileExists(path);
   }
 
   Future<String> _createOrUpdateJsonFile(
