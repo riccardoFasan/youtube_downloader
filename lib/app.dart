@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_downloader/routes.dart';
 import 'package:youtube_downloader/services/services.dart';
+import 'package:youtube_downloader/utils/to_material_color.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
@@ -14,7 +15,9 @@ class YouTubeDownloaderApp extends StatelessWidget {
     return KeyboardDismissOnTap(
       child: GetMaterialApp(
         title: 'Flutter YouTube Downloader & Converter',
+        color: AppColors.white,
         theme: ThemeData(
+          primarySwatch: toMaterialColor(Colors.white),
           fontFamily: 'Sofia Sans',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.black,
