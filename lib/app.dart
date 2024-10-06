@@ -1,8 +1,11 @@
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_downloader/controllers/download_controller.dart';
+import 'package:youtube_downloader/controllers/settings_controller.dart';
 import 'package:youtube_downloader/routes.dart';
 import 'package:youtube_downloader/services/services.dart';
+import 'package:youtube_downloader/utils/to_material_color.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 
 class YouTubeDownloaderApp extends StatelessWidget {
@@ -14,7 +17,9 @@ class YouTubeDownloaderApp extends StatelessWidget {
     return KeyboardDismissOnTap(
       child: GetMaterialApp(
         title: 'Flutter YouTube Downloader & Converter',
+        color: AppColors.white,
         theme: ThemeData(
+          primarySwatch: toMaterialColor(Colors.white),
           fontFamily: 'Sofia Sans',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.black,
@@ -54,14 +59,19 @@ class YouTubeDownloaderApp extends StatelessWidget {
   }
 
   Future<void> _askDevicePermissions() async {
-    BatteryOptimizationService batteryOptimizationService =
+    FileSystemService fs = Get.find<FileSystemService>();
+    SettingsController settings = Get.find<SettingsController>();
+    NotificationsService notifications = Get.find<NotificationsService>();
+    BatteryOptimizationService batteryOptimization =
         Get.find<BatteryOptimizationService>();
-    NotificationsService notificationsService =
-        Get.find<NotificationsService>();
-    PlayerService playerService = Get.find<PlayerService>();
+    PlayerService player = Get.find<PlayerService>();
+    DownloadController downloadController = Get.find<DownloadController>();
 
-    await notificationsService.init();
-    await playerService.init();
-    await batteryOptimizationService.askToDisableOptimization();
+    await fs.init();
+    await settings.init();
+    await notifications.init();
+    await batteryOptimization.askToDisableOptimization();
+    await player.init();
+    await downloadController.init();
   }
 }

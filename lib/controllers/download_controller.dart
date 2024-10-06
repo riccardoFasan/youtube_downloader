@@ -5,7 +5,6 @@ import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/services/services.dart';
 
 class DownloadController extends GetxController {
-  final AudiosStorageService _audiosStorage = Get.find<AudiosStorageService>();
   final SnackbarService _snackbar = Get.find<SnackbarService>();
   final YouTubeService _yt = Get.find<YouTubeService>();
   final FileSystemService _fs = Get.find<FileSystemService>();
@@ -25,8 +24,8 @@ class DownloadController extends GetxController {
   bool get _isQueueFull =>
       _downloads.length >= _settingsController.downloadsQueueSize;
 
-  DownloadController() {
-    _init();
+  Future<void> init() async {
+    _audios.value = await _fs.readAudioList();
   }
 
   Future<void> reorder(int oldIndex, int newIndex) async {
@@ -136,12 +135,8 @@ class DownloadController extends GetxController {
     _update();
   }
 
-  Future<void> _init() async {
-    _audios.value = await _audiosStorage.loadAudios();
-  }
-
   Future<void> _update() async {
-    await _audiosStorage.storeAudios(_audios);
+    await _fs.saveAudioList(_audios);
   }
 
   Future<List<int>> _getBytesAndUpdateProgress(Download download) async {
