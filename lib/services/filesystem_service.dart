@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:youtube_downloader/models/models.dart';
@@ -5,6 +6,9 @@ import 'package:youtube_downloader/models/models.dart';
 class FileSystemService {
   static const String _audioFileExtension = 'mp3';
   static const String _jsonFileExtension = 'json';
+
+  static const String _audioListFileName = 'audios';
+
   static const String _localPath = '/storage/emulated/0/YouTubeDownloader';
 
   bool _authorized = false;
@@ -31,7 +35,21 @@ class FileSystemService {
     await File(path).delete();
   }
 
-  Future<String> createOrUpdateJsonFile(String fileName, String content) async {
+  Future<void> saveAudioList(List<Audio> audios) async {
+    final String content = jsonEncode(audios.map((a) => a.toJson()).toList());
+    await _createOrUpdateJsonFile(_audioListFileName, content);
+  }
+
+  Future<List<Audio>> readAudioList() async {
+    final String filePath =
+        _getFilePath(_audioListFileName, _jsonFileExtension);
+    if (!(await _fileExists(filePath))) return [];
+    final dynamic content = await _readJsonFile(filePath);
+    return List<Audio>.from(content.map((a) => Audio.fromJson(a)));
+  }
+
+  Future<String> _createOrUpdateJsonFile(
+      String fileName, String content) async {
     final String filePath = _getFilePath(fileName, _jsonFileExtension);
     final bool exists = await _fileExists(filePath);
     if (!exists) await _createFile(filePath);
@@ -62,6 +80,17 @@ class FileSystemService {
   Future<void> _createFile(String path) async {
     final File file = File(path);
     await file.create();
+  }
+
+  Future<dynamic> _readJsonFile(String path) async {
+    final File file = File(path);
+    final String content = await file.readAsString();
+    return jsonDecode(content);
+  }
+
+  Future<void> _writeJsonFile(String path, dynamic content) async {
+    final File file = File(path);
+    await file.writeAsString(jsonEncode(content));
   }
 
   Future<bool> _hasStoragePermission() async {
