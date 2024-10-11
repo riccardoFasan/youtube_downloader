@@ -35,7 +35,7 @@ dependencies:
   youtube_explode_dart: ^2.3.0
   path_provider: ^2.1.4
   http: ^1.2.2
-  just_audio: ^0.9.40
+  just_audio: ^0.9.41
   just_audio_background: ^0.0.1-beta.13
   cached_network_image: ^3.4.1
   audio_video_progress_bar: ^2.0.3
