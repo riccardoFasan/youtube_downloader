@@ -16,6 +16,7 @@ class FileSystemService {
 
   Future<void> init() async {
     _authorized = await _hasStoragePermission();
+
     if (_authorized) return;
     _authorized = await _requestStoragePermission();
 
@@ -63,11 +64,36 @@ class FileSystemService {
   }
 
   Future<void> saveAudioList(List<Audio> audios) async {
-    final String content = jsonEncode(audios.map((a) => a.toJson()).toList());
+    final Map<String, dynamic> content = {
+      'audios': audios.map((a) => a.toJson()).toList()
+    };
     await _createOrUpdateJsonFile(_audioListFileName, content);
   }
 
-  Future<dynamic> _readPreferences() async {
+  Future<List<Audio>> readAudioList() async {
+    final String filePath =
+        _getFilePath(_audioListFileName, _jsonFileExtension);
+
+    final bool exists = await _fileExists(filePath);
+    if (!exists) return [];
+
+    final dynamic content = await _readJsonFile(filePath);
+
+    final List<Audio> audioList =
+        List<Audio>.from(content['audios'].map((a) => Audio.fromJson(a)));
+
+    final Iterable<Future<Audio?>> validFilesFutures =
+        audioList.map((audio) async {
+      final bool valid = await _isValidAudioFile(audio);
+      if (valid) return audio;
+      return null;
+    });
+
+    final Iterable<Audio?> validFiles = await Future.wait(validFilesFutures);
+    return validFiles.whereType<Audio>().toList();
+  }
+
+  Future<Map<String, dynamic>> _readPreferences() async {
     final String filePath =
         _getFilePath(_preferencesFileName, _jsonFileExtension);
     final bool exists = await _fileExists(filePath);
@@ -81,34 +107,13 @@ class FileSystemService {
     await _writeJsonFile(filePath, preferences);
   }
 
-  Future<List<Audio>> readAudioList() async {
-    final String filePath =
-        _getFilePath(_audioListFileName, _jsonFileExtension);
-    final bool exists = await _fileExists(filePath);
-    if (!exists) return [];
-
-    final dynamic content = await _readJsonFile(filePath);
-    final List<Audio> audioList =
-        List<Audio>.from(content.map((a) => Audio.fromJson(a)));
-
-    final Iterable<Future<Audio?>> validFilesFutures =
-        audioList.map((audio) async {
-      final bool valid = await _isValidAudioFile(audio);
-      if (valid) return audio;
-      return null;
-    });
-
-    final Iterable<Audio?> validFiles = await Future.wait(validFilesFutures);
-    return validFiles.whereType<Audio>().toList();
-  }
-
   Future<bool> _isValidAudioFile(Audio audio) async {
     final String path = _getFilePath(audio.id, _audioFileExtension);
     return await _fileExists(path);
   }
 
   Future<String> _createOrUpdateJsonFile(
-      String fileName, String content) async {
+      String fileName, Map<String, dynamic> content) async {
     final String filePath = _getFilePath(fileName, _jsonFileExtension);
     final bool exists = await _fileExists(filePath);
     if (!exists) await _createFile(filePath);
@@ -140,13 +145,13 @@ class FileSystemService {
     await file.create();
   }
 
-  Future<dynamic> _readJsonFile(String path) async {
+  Future<Map<String, dynamic>> _readJsonFile(String path) async {
     final File file = File(path);
     final String content = await file.readAsString();
     return jsonDecode(content);
   }
 
-  Future<void> _writeJsonFile(String path, dynamic content) async {
+  Future<void> _writeJsonFile(String path, Map<String, dynamic> content) async {
     final File file = File(path);
     await file.writeAsString(jsonEncode(content));
   }
