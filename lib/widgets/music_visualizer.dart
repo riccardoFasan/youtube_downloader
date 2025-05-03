@@ -39,9 +39,9 @@ class _VisualComponent extends StatefulWidget {
   final int? duration;
 
   const _VisualComponent({
-    Key? key,
+    super.key,
     @required this.duration,
-  }) : super(key: key);
+  });
 
   @override
   _VisualComponentState createState() => _VisualComponentState();

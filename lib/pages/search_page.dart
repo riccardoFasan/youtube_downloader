@@ -1,10 +1,11 @@
 import 'dart:math';
-import 'package:get/get.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/pages/pages.dart';
 import 'package:youtube_downloader/utils/utils.dart';
-import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 
 class SearchPage extends StatelessWidget {
@@ -15,8 +16,8 @@ class SearchPage extends StatelessWidget {
 
   final DownloadController _downloadController = Get.find<DownloadController>();
 
-  final Debouncer _searchDebouncer = Debouncer(milliseconds: 200);
-  final Debouncer _scrollDebouncer = Debouncer(milliseconds: 100);
+  final Debouncer _searchDebouncer = Debouncer(milliseconds: 300);
+  final Debouncer _scrollDebouncer = Debouncer(milliseconds: 200);
   final Random _random = Random();
   final ScrollController _scrollController = ScrollController();
 

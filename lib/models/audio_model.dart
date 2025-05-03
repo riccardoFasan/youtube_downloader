@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:youtube_downloader/models/models.dart';
 
 class Audio extends AudioInfo {
@@ -6,24 +7,16 @@ class Audio extends AudioInfo {
   List<Segment> sponsorsedSegments;
 
   Audio({
-    required String id,
-    required String url,
-    required String title,
-    required String channel,
-    required Duration duration,
-    String? thumbnailMaxResUrl,
-    String? thumbnailMinResUrl,
+    required super.id,
+    required super.url,
+    required super.title,
+    required super.channel,
+    required super.duration,
+    super.thumbnailMaxResUrl,
+    super.thumbnailMinResUrl,
     required this.path,
     required this.sponsorsedSegments,
-  }) : super(
-          id: id,
-          url: url,
-          title: title,
-          channel: channel,
-          duration: duration,
-          thumbnailMaxResUrl: thumbnailMaxResUrl,
-          thumbnailMinResUrl: thumbnailMinResUrl,
-        );
+  });
 
   @override
   factory Audio.fromJson(Map<String, dynamic> json) {
