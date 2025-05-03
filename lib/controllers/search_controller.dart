@@ -42,8 +42,6 @@ class VideoSearchController extends GetxController {
     try {
       final List<AudioInfo> results = await _yt.search(query.trim());
       _results.value = results;
-    } catch (e) {
-      _results.value = [];
     } finally {
       _loadingFirstBatch.value = false;
     }
