@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/richard/flutter/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/richard/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/richard/Projects/youtube_downloader/android/app/.cxx/Debug/2m2n5x5u/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/richard/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/richard/Projects/youtube_downloader/android/app/.cxx/Debug/2m2n5x5u/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
