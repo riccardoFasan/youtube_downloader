@@ -1,6 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:youtube_downloader/controllers/download_controller.dart';
 import 'package:youtube_downloader/controllers/settings_controller.dart';
 import 'package:youtube_downloader/routes.dart';
@@ -13,7 +15,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _askDevicePermissions();
+    _askDevicePermissionsAndInitServices();
     return KeyboardDismissOnTap(
       child: GetMaterialApp(
         title: 'Flutter YouTube Downloader & Converter',
@@ -58,7 +60,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
     );
   }
 
-  Future<void> _askDevicePermissions() async {
+  Future<void> _askDevicePermissionsAndInitServices() async {
     FileSystemService fs = Get.find<FileSystemService>();
     SettingsController settings = Get.find<SettingsController>();
     NotificationsService notifications = Get.find<NotificationsService>();
@@ -66,6 +68,8 @@ class YouTubeDownloaderApp extends StatelessWidget {
         Get.find<BatteryOptimizationService>();
     PlayerService player = Get.find<PlayerService>();
     DownloadController downloadController = Get.find<DownloadController>();
+
+    sleep(Duration(milliseconds: 500));
 
     await fs.init();
     await settings.init();

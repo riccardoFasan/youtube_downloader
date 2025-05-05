@@ -1,8 +1,8 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/pages/pages.dart';
-import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 
 class DownloadsPage extends StatelessWidget {
@@ -36,7 +36,7 @@ class DownloadsPage extends StatelessWidget {
 
   DownloadTile _buildDownloadTile(Download download) {
     return DownloadTile(
-      key: ValueKey(download.id),
+      key: UniqueKey(),
       download: download,
       cancelCallback: _downloadController.cancelDownload,
     );

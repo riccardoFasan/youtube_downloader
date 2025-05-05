@@ -1,9 +1,9 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/routes.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
-import 'package:youtube_downloader/controllers/controllers.dart';
 
 class Navigation extends StatelessWidget {
   final PlayerController _playerController = Get.find<PlayerController>();
@@ -15,8 +15,8 @@ class Navigation extends StatelessWidget {
   Navigation({super.key});
 
   double get _barheight => _playerController.hasAudio
-      ? _navigationHeight + _margin + _playerHeight
-      : _navigationHeight + _margin;
+      ? _navigationHeight + (_margin * 3) + _playerHeight
+      : _navigationHeight + (_margin * 3);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,8 @@ class Navigation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: _margin),
+                    margin: const EdgeInsets.only(
+                        top: _margin, bottom: _margin * 2),
                     child: _buildNavBar(),
                   ),
                 ],
