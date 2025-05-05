@@ -5,6 +5,8 @@ import 'package:youtube_downloader/models/audio_model.dart';
 class PlayerService {
   final AudioPlayer _player = AudioPlayer();
 
+  bool _initialized = false;
+
   Stream<Duration> get position => _player.positionStream;
   Stream<PlayerState> get state => _player.playerStateStream;
 
@@ -41,11 +43,13 @@ class PlayerService {
   }
 
   Future<void> init() async {
+    if (_initialized) return;
     await JustAudioBackground.init(
       androidNotificationChannelId: 'com.richard.youtube_downloader.player',
       androidNotificationChannelName: 'YouTube Downloader',
       androidNotificationOngoing: true,
       preloadArtwork: true,
     );
+    _initialized = true;
   }
 }
