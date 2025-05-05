@@ -39,6 +39,7 @@ class PlayerService {
       ),
     );
     await _player.setAudioSource(source);
+    await _player.seek(Duration(milliseconds: 0));
     await _player.pause(); // ! prevent auto play
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
