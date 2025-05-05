@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
@@ -80,8 +81,10 @@ class DownloadController extends GetxController {
         progress: 0.obs);
 
     _addDownload(download);
+
     final int? notificationId =
         await _notifications.showDownloadInProgress(info.title);
+
     try {
       final [bytes, sponsorships] = await Future.wait([
         _getBytesAndUpdateProgress(download),
