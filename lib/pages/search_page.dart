@@ -64,7 +64,7 @@ class SearchPage extends StatelessWidget {
 
   ResultTile _buildResultTile(AudioInfo result, bool saved) {
     return ResultTile(
-      key: ValueKey(result.id),
+      key: UniqueKey(),
       result: result,
       saved: saved,
       tapCallback: () =>
@@ -75,8 +75,9 @@ class SearchPage extends StatelessWidget {
   DownloadTile _buildDownloadTile(AudioInfo audioInfo) {
     final Download download = _downloadController.downloads
         .firstWhere((Download d) => d.id == audioInfo.id);
+
     return DownloadTile(
-      key: ValueKey(download.id),
+      key: UniqueKey(),
       download: download,
       cancelCallback: _downloadController.cancelDownload,
     );

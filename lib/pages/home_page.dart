@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildAudioTile(Audio audio) {
     return AudioTile(
-      key: ValueKey(audio.id),
+      key: UniqueKey(),
       audio: audio,
       removeCallback: _removeAudio,
       tapCallback: _playAudio,
