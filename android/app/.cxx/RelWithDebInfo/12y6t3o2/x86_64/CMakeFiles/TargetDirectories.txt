@@ -1,0 +1,2 @@
+/Users/richard/Projects/youtube_downloader/android/app/.cxx/RelWithDebInfo/12y6t3o2/x86_64/CMakeFiles/edit_cache.dir
+/Users/richard/Projects/youtube_downloader/android/app/.cxx/RelWithDebInfo/12y6t3o2/x86_64/CMakeFiles/rebuild_cache.dir

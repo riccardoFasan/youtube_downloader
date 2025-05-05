@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/pages/pages.dart';
@@ -15,27 +14,14 @@ class HomePage extends StatelessWidget {
 
   HomePage({super.key});
 
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    await _downloadController.init();
-    _refreshController.refreshCompleted();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        child: ListPage(
-          barContent: const Text(
-            'YouTube Downloader',
-          ),
-          columnContent: _buildList(),
-        ));
+    return ListPage(
+      barContent: const Text(
+        'YouTube Downloader',
+      ),
+      columnContent: _buildList(),
+    );
   }
 
   Widget _buildList() {
