@@ -69,7 +69,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
     PlayerService player = Get.find<PlayerService>();
     DownloadController downloadController = Get.find<DownloadController>();
 
-    sleep(Duration(milliseconds: 500));
+    sleep(Duration(milliseconds: 1000));
 
     await fs.init();
     await settings.init();
