@@ -75,20 +75,23 @@ class DownloadTile extends StatelessWidget {
                   () => Stack(
                     children: <Widget>[
                       CircularProgressIndicator(
-                        value: _download.progress.value.toDouble() / 100,
+                        value: _download.progress.value > 0
+                            ? _download.progress.value.toDouble() / 100
+                            : null,
                         color: AppColors.red,
                         strokeWidth: 2.75,
                       ),
-                      Center(
-                        child: Text(
-                          '${_download.progress.value}%',
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
+                      if (_download.progress.value > 0)
+                        Center(
+                          child: Text(
+                            '${_download.progress.value}%',
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
