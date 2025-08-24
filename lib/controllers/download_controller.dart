@@ -141,6 +141,7 @@ class DownloadController extends GetxController {
       final int progress = ((bytes.length / downloadResult.size) * 100).ceil();
       download.progress.value = progress;
     }
+    if (_downloads.isEmpty) _yt.closeDownloadSession();
     return bytes;
   }
 
