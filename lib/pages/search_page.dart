@@ -79,7 +79,6 @@ class SearchPage extends StatelessWidget {
     return DownloadTile(
       key: UniqueKey(),
       download: download,
-      cancelCallback: _downloadController.cancelDownload,
     );
   }
 
