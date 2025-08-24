@@ -42,15 +42,6 @@ class DownloadController extends GetxController {
     });
   }
 
-  void cancelDownload(Download download) {
-    final String url = download.url;
-    if (_subscriptions.containsKey(url)) {
-      _subscriptions[url]!.cancel();
-      _subscriptions.remove(url);
-      _removeDownload(download);
-    }
-  }
-
   Future<void> delete(Audio audio) async {
     await _fs.removeAudioFile(audio);
     _removeAudio(audio);

@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
-import 'package:youtube_downloader/models/models.dart';
 
 class DownloadTile extends StatelessWidget {
   final Download _download;
-  final Function _cancelCallback;
 
-  const DownloadTile({super.key, download, cancelCallback})
-      : _download = download,
-        _cancelCallback = cancelCallback;
+  const DownloadTile({super.key, download}) : _download = download;
 
   @override
   Widget build(BuildContext context) {
     final String duration = printDuration(_download.duration);
     final String channel = _download.channel;
 
-    return DismissableTile(
+    return InkWell(
       key: super.key!,
-      dismissCallback: () => _cancelCallback(_download),
-      snackbarText: 'Are you sure you want to cancel this download?',
-      icon: AppIcons.dismiss,
+      borderRadius: BorderRadius.circular(5),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
         child: Row(

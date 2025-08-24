@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
 import 'package:youtube_downloader/models/models.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YouTubeService {
   final int batchSize = 20;
@@ -12,7 +13,12 @@ class YouTubeService {
     final YoutubeExplode yte = YoutubeExplode();
     final StreamManifest manifest =
         await yte.videos.streamsClient.getManifest(videoId);
+
+    final List<AudioOnlyStreamInfo> streamInfos =
+        manifest.audioOnly.sortByBitrate();
+
     final StreamInfo streamInfo = manifest.audioOnly.withHighestBitrate();
+
     return DownloadResult(
       size: streamInfo.size.totalBytes,
       stream: yte.videos.streamsClient.get(streamInfo),
