@@ -7,12 +7,14 @@ class YouTubeService {
   final int batchSize = 20;
 
   YoutubeExplode? _searchSession;
+  YoutubeExplode? _downloadSession;
   VideoSearchList? _searchList;
 
   Future<DownloadResult> download(String videoId) async {
-    final YoutubeExplode yte = YoutubeExplode();
+    _downloadSession ??= YoutubeExplode();
+
     final StreamManifest manifest =
-        await yte.videos.streamsClient.getManifest(videoId);
+        await _downloadSession!.videos.streamsClient.getManifest(videoId);
 
     StreamInfo streamInfo =
         _getOriginalAudioStreamWithHighestBitrate(manifest) ??
@@ -20,27 +22,8 @@ class YouTubeService {
 
     return DownloadResult(
       size: streamInfo.size.totalBytes,
-      stream: yte.videos.streamsClient.get(streamInfo),
+      stream: _downloadSession!.videos.streamsClient.get(streamInfo),
     );
-  }
-
-  AudioStreamInfo? _getOriginalAudioStreamWithHighestBitrate(
-      StreamManifest manifest) {
-    final List<AudioStreamInfo> streamInfos =
-        manifest.audioOnly.sortByBitrate();
-
-    final List<AudioStreamInfo> originalStreams =
-        streamInfos.where((streamInfo) {
-      final audioTrack = streamInfo.audioTrack;
-      if (audioTrack == null) return false;
-
-      final displayName = audioTrack.displayName.toLowerCase();
-      return displayName.contains('original');
-    }).toList();
-
-    if (originalStreams.isEmpty) return null;
-
-    return originalStreams.first;
   }
 
   void openSearchSession() {
@@ -48,8 +31,13 @@ class YouTubeService {
   }
 
   void closeSearchSession() {
-    _searchSession!.close();
+    _searchSession?.close();
     _searchSession = null;
+  }
+
+  void closeDownloadSession() {
+    _downloadSession?.close();
+    _downloadSession = null;
   }
 
   Future<List<AudioInfo>> search(String query) async {
@@ -88,5 +76,24 @@ class YouTubeService {
       thumbnailMaxResUrl: metadata.thumbnails.maxResUrl,
       thumbnailMinResUrl: metadata.thumbnails.mediumResUrl,
     );
+  }
+
+  AudioStreamInfo? _getOriginalAudioStreamWithHighestBitrate(
+      StreamManifest manifest) {
+    final List<AudioStreamInfo> streamInfos =
+        manifest.audioOnly.sortByBitrate();
+
+    final List<AudioStreamInfo> originalStreams =
+        streamInfos.where((streamInfo) {
+      final audioTrack = streamInfo.audioTrack;
+      if (audioTrack == null) return false;
+
+      final displayName = audioTrack.displayName.toLowerCase();
+      return displayName.toLowerCase().contains('original');
+    }).toList();
+
+    if (originalStreams.isEmpty) return null;
+
+    return originalStreams.first;
   }
 }
