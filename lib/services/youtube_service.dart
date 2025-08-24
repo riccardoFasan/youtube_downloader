@@ -14,15 +14,33 @@ class YouTubeService {
     final StreamManifest manifest =
         await yte.videos.streamsClient.getManifest(videoId);
 
-    final List<AudioOnlyStreamInfo> streamInfos =
-        manifest.audioOnly.sortByBitrate();
-
-    final StreamInfo streamInfo = manifest.audioOnly.withHighestBitrate();
+    StreamInfo streamInfo =
+        _getOriginalAudioStreamWithHighestBitrate(manifest) ??
+            manifest.audioOnly.withHighestBitrate();
 
     return DownloadResult(
       size: streamInfo.size.totalBytes,
       stream: yte.videos.streamsClient.get(streamInfo),
     );
+  }
+
+  AudioStreamInfo? _getOriginalAudioStreamWithHighestBitrate(
+      StreamManifest manifest) {
+    final List<AudioStreamInfo> streamInfos =
+        manifest.audioOnly.sortByBitrate();
+
+    final List<AudioStreamInfo> originalStreams =
+        streamInfos.where((streamInfo) {
+      final audioTrack = streamInfo.audioTrack;
+      if (audioTrack == null) return false;
+
+      final displayName = audioTrack.displayName.toLowerCase();
+      return displayName.contains('original');
+    }).toList();
+
+    if (originalStreams.isEmpty) return null;
+
+    return originalStreams.first;
   }
 
   void openSearchSession() {
