@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 MaterialColor toMaterialColor(Color color) {
-  final int red = color.red;
-  final int green = color.green;
-  final int blue = color.blue;
+  final int red = (color.r * 255.0).round() & 0xff;
+  final int green = (color.g * 255.0).round() & 0xff;
+  final int blue = (color.b * 255.0).round() & 0xff;
 
   final Map<int, Color> shades = {
     50: Color.fromRGBO(red, green, blue, .1),
@@ -18,5 +18,5 @@ MaterialColor toMaterialColor(Color color) {
     900: Color.fromRGBO(red, green, blue, 1),
   };
 
-  return MaterialColor(color.value, shades);
+  return MaterialColor(color.toARGB32(), shades);
 }

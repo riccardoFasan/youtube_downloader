@@ -40,7 +40,7 @@ class YouTubeDownloaderApp extends StatelessWidget {
             cursorColor: AppColors.red,
             selectionHandleColor: AppColors.red,
           ),
-          dialogTheme: const DialogTheme(
+          dialogTheme: const DialogThemeData(
             backgroundColor: AppColors.black,
             titleTextStyle: TextStyle(
               color: AppColors.white,

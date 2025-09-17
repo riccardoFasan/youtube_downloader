@@ -3,15 +3,13 @@ import 'package:get/get.dart';
 import 'package:youtube_downloader/models/models.dart';
 import 'package:youtube_downloader/utils/colors.dart';
 
-class SelectModalSheet<T> extends StatelessWidget {
+class SelectModalSheet<T> extends StatefulWidget {
   final String _title;
   final List<Option<T>> _options;
   final Function _onSelected;
   final T _selected;
 
-  late Rx<Option> _option;
-
-  SelectModalSheet({
+  const SelectModalSheet({
     super.key,
     required title,
     required options,
@@ -23,9 +21,20 @@ class SelectModalSheet<T> extends StatelessWidget {
         _selected = selected;
 
   @override
-  Widget build(BuildContext context) {
-    _option = _getSelectedOption(_selected).obs;
+  State<SelectModalSheet<T>> createState() => _SelectModalSheetState<T>();
+}
 
+class _SelectModalSheetState<T> extends State<SelectModalSheet<T>> {
+  late Rx<Option> _option;
+
+  @override
+  void initState() {
+    super.initState();
+    _option = _getSelectedOption(widget._selected).obs;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Wrap(
       children: [
         Container(
@@ -39,7 +48,7 @@ class SelectModalSheet<T> extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
           margin: const EdgeInsets.only(bottom: 12),
           child: Text(
-            _title,
+            widget._title,
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -47,20 +56,30 @@ class SelectModalSheet<T> extends StatelessWidget {
             ),
           ),
         ),
-        ..._options.map((Option option) => _buildOption(option))
+        ...widget._options.map((Option option) => _buildOption(option))
       ],
     );
   }
 
   Option _getSelectedOption(T value) {
-    return _options.firstWhere((option) => option.value == value);
+    return widget._options.firstWhere((option) => option.value == value);
   }
 
   Widget _buildOption(Option option) {
     return Obx(
-      () => RadioListTile(
-        activeColor: AppColors.red,
-        selected: _option.value.value == option.value,
+      () => ListTile(
+        // ignore: deprecated_member_use
+        leading: Radio<dynamic>(
+          activeColor: AppColors.red,
+          value: option.value,
+          // ignore: deprecated_member_use
+          groupValue: _option.value.value,
+          // ignore: deprecated_member_use
+          onChanged: (dynamic value) {
+            _option.value = option;
+            widget._onSelected(value);
+          },
+        ),
         title: Text(
           option.label,
           style: const TextStyle(
@@ -69,11 +88,10 @@ class SelectModalSheet<T> extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        groupValue: _option.value.value,
-        value: option.value,
-        onChanged: (dynamic value) {
+        selected: _option.value.value == option.value,
+        onTap: () {
           _option.value = option;
-          _onSelected(value);
+          widget._onSelected(option.value);
         },
       ),
     );

@@ -8,7 +8,7 @@ class AppRoutes {
   static const String player = '/player';
 }
 
-appRoutes() => [
+List<GetPage> appRoutes() => [
       GetPage(
         name: AppRoutes.home,
         page: () => HomePage(),
