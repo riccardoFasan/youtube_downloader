@@ -121,6 +121,8 @@ class SearchPage extends StatelessWidget {
         (Audio a) => a.id == result.id,
       );
       _playerController.setCurrentAudioAndPlay(audio);
-    } catch (e) {}
+    } catch (e) {
+      // Audio not found in downloaded audios, ignore silently
+    }
   }
 }

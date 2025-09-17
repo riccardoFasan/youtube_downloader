@@ -21,21 +21,20 @@ class PlayerPage extends StatelessWidget {
 
   AppBar _buildBackBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
-      leading: IconButton(
-        icon: const Icon(
-          AppIcons.chewronDown,
-          size: 24,
-        ),
-        onPressed: () => Get.back(),
-      ),
-    );
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(
+            AppIcons.chewronDown,
+            size: 24,
+          ),
+          onPressed: () => Get.back(),
+        ));
   }
 
   Widget _buildFullPlayer() {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 20,
+        horizontal: 32,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
