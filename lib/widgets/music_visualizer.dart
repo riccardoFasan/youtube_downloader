@@ -13,6 +13,7 @@ class MusicVisualizer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         if (_active) ...[
           const _VisualComponent(
@@ -26,9 +27,9 @@ class MusicVisualizer extends StatelessWidget {
           ),
         ],
         if (!_active) ...[
-          const WaveBar(height: 1),
-          const WaveBar(height: 1),
-          const WaveBar(height: 1),
+          const WaveBar(height: 2),
+          const WaveBar(height: 2),
+          const WaveBar(height: 2),
         ]
       ],
     );

@@ -1,5 +1,5 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:youtube_downloader/controllers/player_controller.dart';
 import 'package:youtube_downloader/routes.dart';
@@ -19,28 +19,24 @@ class MiniPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(_padding),
       onTap: () => Get.toNamed(AppRoutes.player),
-      child: Obx(
-        () => BlurredBackground(
+      child: Container(
+        decoration: BoxDecoration(
           color: AppColors.darkGray,
-          radius: _padding,
-          url: _playerController.audio.thumbnailMinResUrl,
-          fit: BoxFit.fitWidth,
-          child: Padding(
-            padding: const EdgeInsets.all(_padding),
-            child: Row(
+          borderRadius: BorderRadius.circular(_padding),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(_padding),
+          child: Obx(
+            () => Row(
               children: <Widget>[
                 Container(
                   height: _thumbnailSize,
                   width: _thumbnailSize,
                   margin: const EdgeInsets.only(right: _padding),
-                  child: Hero(
-                    tag: 'miniPlayer',
-                    child: VideoThumbnail(
-                      radius: 4,
-                      url: _playerController.audio.thumbnailMinResUrl,
-                    ),
+                  child: VideoThumbnail(
+                    radius: 4,
+                    url: _playerController.audio.thumbnailMinResUrl,
                   ),
                 ),
                 Expanded(

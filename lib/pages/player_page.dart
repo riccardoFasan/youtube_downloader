@@ -1,9 +1,8 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:text_scroll/text_scroll.dart';
-import 'package:youtube_downloader/utils/utils.dart';
+import 'package:get/get.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
+import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 
 class PlayerPage extends StatelessWidget {
@@ -13,16 +12,10 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => BlurredBackground(
-        color: AppColors.black,
-        url: _playerController.audio.thumbnailMinResUrl!,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: _buildBackBar(),
-          body: _buildFullPlayer(),
-        ),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: _buildBackBar(),
+      body: _buildFullPlayer(),
     );
   }
 
@@ -40,18 +33,16 @@ class PlayerPage extends StatelessWidget {
   }
 
   Widget _buildFullPlayer() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            _buildHero(),
-            _buildControls(),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          _buildHero(),
+          _buildControls(),
+        ],
       ),
     );
   }
@@ -59,16 +50,14 @@ class PlayerPage extends StatelessWidget {
   Widget _buildHero() {
     return Obx(
       () => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
-            height: 300,
-            width: 300,
-            child: Hero(
-              tag: 'miniPlayer',
-              child: VideoThumbnail(
-                radius: 16,
-                url: _playerController.audio.thumbnailMaxResUrl,
-              ),
+          AspectRatio(
+            aspectRatio: 1 / 1,
+            child: VideoThumbnail(
+              radius: 16,
+              url: _playerController.audio.thumbnailMaxResUrl,
             ),
           ),
           Container(
@@ -76,14 +65,8 @@ class PlayerPage extends StatelessWidget {
               top: 24,
               bottom: 8,
             ),
-            child: TextScroll(
+            child: Text(
               _playerController.audio.title,
-              velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
-              delayBefore: const Duration(milliseconds: 300),
-              pauseBetween: const Duration(milliseconds: 40),
-              intervalSpaces: 40,
-              fadedBorder: true,
-              fadedBorderWidth: .1,
               style: const TextStyle(
                 color: AppColors.white,
                 fontSize: 20,
@@ -107,9 +90,7 @@ class PlayerPage extends StatelessWidget {
 
   Widget _buildControls() {
     return Container(
-      margin: const EdgeInsets.only(
-        bottom: 50,
-      ),
+      margin: const EdgeInsets.only(top: 48),
       child: Column(
         children: <Widget>[
           _buildProgressBar(),
@@ -146,8 +127,7 @@ class PlayerPage extends StatelessWidget {
   Widget _buildProgressBar() {
     return Container(
       margin: const EdgeInsets.only(
-        top: 50,
-        bottom: 35,
+        bottom: 24,
       ),
       child: Obx(
         () => ProgressBar(
@@ -291,6 +271,6 @@ class PlayerPage extends StatelessWidget {
   }
 
   Color _getIconButtonBackground(bool active) {
-    return active ? AppColors.white.withOpacity(.15) : Colors.transparent;
+    return active ? AppColors.white.withValues(alpha: .15) : Colors.transparent;
   }
 }

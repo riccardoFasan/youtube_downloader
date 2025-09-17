@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_downloader/models/models.dart';
-import 'package:youtube_downloader/widgets/widgets.dart';
 import 'package:youtube_downloader/utils/utils.dart';
+import 'package:youtube_downloader/widgets/widgets.dart';
 
 class AudioTile extends StatelessWidget {
   final Audio _audio;
@@ -48,14 +48,30 @@ class AudioTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        _audio.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 16,
-                        ),
+                      Row(
+                        children: [
+                          if (_current)
+                            Container(
+                              width: 18,
+                              height: 12,
+                              margin: EdgeInsets.only(right: 4),
+                              child: Center(
+                                  child: MusicVisualizer(active: _playing)),
+                            ),
+                          Expanded(
+                            child: Text(
+                              _audio.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: _current && _playing
+                                    ? AppColors.red
+                                    : AppColors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         channel,
@@ -79,15 +95,6 @@ class AudioTile extends StatelessWidget {
                   ),
                 ),
               ),
-              if (_current)
-                Container(
-                  width: 22.0,
-                  height: 22.0,
-                  margin: const EdgeInsets.fromLTRB(32.0, 0, 5.75, 0),
-                  child: Center(
-                    child: MusicVisualizer(active: _playing),
-                  ),
-                ),
             ],
           ),
         ),

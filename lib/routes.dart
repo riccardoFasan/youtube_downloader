@@ -27,6 +27,6 @@ appRoutes() => [
       GetPage(
         name: AppRoutes.player,
         page: () => PlayerPage(),
-        transition: Transition.noTransition,
+        transition: Transition.fade,
       ),
     ];
