@@ -1,6 +1,7 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:youtube_downloader/controllers/controllers.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
@@ -49,8 +50,6 @@ class PlayerPage extends StatelessWidget {
   Widget _buildHero() {
     return Obx(
       () => Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           AspectRatio(
             aspectRatio: 1 / 1,
@@ -64,8 +63,14 @@ class PlayerPage extends StatelessWidget {
               top: 24,
               bottom: 8,
             ),
-            child: Text(
+            child: TextScroll(
               _playerController.audio.title,
+              velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+              delayBefore: const Duration(milliseconds: 300),
+              pauseBetween: const Duration(milliseconds: 40),
+              intervalSpaces: 40,
+              fadedBorder: true,
+              fadedBorderWidth: .1,
               style: const TextStyle(
                 color: AppColors.white,
                 fontSize: 20,
@@ -89,7 +94,7 @@ class PlayerPage extends StatelessWidget {
 
   Widget _buildControls() {
     return Container(
-      margin: const EdgeInsets.only(top: 48),
+      margin: const EdgeInsets.only(top: 64),
       child: Column(
         children: <Widget>[
           _buildProgressBar(),
