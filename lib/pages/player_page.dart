@@ -13,10 +13,16 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: _buildBackBar(),
-      body: _buildFullPlayer(),
+    return Obx(
+      () => BlurredBackground(
+        color: AppColors.black,
+        url: _playerController.audio.thumbnailMinResUrl!,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: _buildBackBar(),
+          body: _buildFullPlayer(),
+        ),
+      ),
     );
   }
 
@@ -51,11 +57,14 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => Column(
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1 / 1,
-            child: VideoThumbnail(
-              radius: 16,
-              url: _playerController.audio.thumbnailMaxResUrl,
+          Hero(
+            tag: 'miniPlayer',
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: VideoThumbnail(
+                radius: 16,
+                url: _playerController.audio.thumbnailMaxResUrl,
+              ),
             ),
           ),
           Container(

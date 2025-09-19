@@ -19,24 +19,28 @@ class MiniPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(_padding),
       onTap: () => Get.toNamed(AppRoutes.player),
-      child: Container(
-        decoration: BoxDecoration(
+      child: Obx(
+        () => BlurredBackground(
           color: AppColors.darkGray,
-          borderRadius: BorderRadius.circular(_padding),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(_padding),
-          child: Obx(
-            () => Row(
+          radius: _padding,
+          url: _playerController.audio.thumbnailMinResUrl,
+          fit: BoxFit.fitWidth,
+          child: Padding(
+            padding: const EdgeInsets.all(_padding),
+            child: Row(
               children: <Widget>[
                 Container(
                   height: _thumbnailSize,
                   width: _thumbnailSize,
                   margin: const EdgeInsets.only(right: _padding),
-                  child: VideoThumbnail(
-                    radius: 4,
-                    url: _playerController.audio.thumbnailMinResUrl,
+                  child: Hero(
+                    tag: 'miniPlayer',
+                    child: VideoThumbnail(
+                      radius: 4,
+                      url: _playerController.audio.thumbnailMinResUrl,
+                    ),
                   ),
                 ),
                 Expanded(
