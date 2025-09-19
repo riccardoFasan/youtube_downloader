@@ -29,12 +29,13 @@ class PlayerPage extends StatelessWidget {
   AppBar _buildBackBar() {
     return AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
+        leading: AnimatedPressButton(
+          onPressed: () => Get.back(),
+          child: const Icon(
             AppIcons.chewronDown,
             size: 24,
+            color: AppColors.white,
           ),
-          onPressed: () => Get.back(),
         ));
   }
 
