@@ -6,56 +6,102 @@ import 'package:youtube_downloader/routes.dart';
 import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 
-class MiniPlayer extends StatelessWidget {
+class MiniPlayer extends StatefulWidget {
+  const MiniPlayer({super.key});
+
+  @override
+  State<MiniPlayer> createState() => _MiniPlayerState();
+}
+
+class _MiniPlayerState extends State<MiniPlayer>
+    with SingleTickerProviderStateMixin {
   final PlayerController _playerController = Get.find<PlayerController>();
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
 
   static const double _height = 70;
-  static const double _padding = 12;
+  static const double _padding = 10;
 
-  MiniPlayer({super.key});
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   double get _thumbnailSize => _height - (_padding * 2);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Get.toNamed(AppRoutes.player),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.darkGray,
-          borderRadius: BorderRadius.circular(_padding),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(_padding),
-          child: Obx(
-            () => Row(
-              children: <Widget>[
-                Container(
-                  height: _thumbnailSize,
-                  width: _thumbnailSize,
-                  margin: const EdgeInsets.only(right: _padding),
-                  child: VideoThumbnail(
-                    radius: 4,
-                    url: _playerController.audio.thumbnailMinResUrl,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return AnimatedBuilder(
+      animation: _scaleAnimation,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(_padding),
+            onTapDown: (_) => _animationController.forward(),
+            onTapUp: (_) => _animationController.reverse(),
+            onTapCancel: () => _animationController.reverse(),
+            onTap: () => Get.toNamed(AppRoutes.player),
+            child: Obx(
+              () => BlurredBackground(
+                color: AppColors.darkGray,
+                radius: _padding * 1.75,
+                url: _playerController.audio.thumbnailMinResUrl,
+                fit: BoxFit.fitWidth,
+                child: Container(
+                  color: AppColors.darkGray.withValues(alpha: .66),
+                  padding: const EdgeInsets.all(_padding),
+                  child: Row(
                     children: <Widget>[
-                      _buildAudioTitle(),
-                      _buildAudioChannelName(),
+                      Container(
+                        height: _thumbnailSize,
+                        width: _thumbnailSize,
+                        margin: const EdgeInsets.only(right: _padding),
+                        child: Hero(
+                          tag: 'miniPlayer',
+                          child: VideoThumbnail(
+                            radius: _padding * 1.25,
+                            url: _playerController.audio.thumbnailMinResUrl,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _buildAudioTitle(),
+                            _buildAudioChannelName(),
+                          ],
+                        ),
+                      ),
+                      _buildPlayPauseButton(),
+                      _buildDismissButton(),
                     ],
                   ),
                 ),
-                _buildPlayPauseButton(),
-                _buildDismissButton(),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -89,29 +135,53 @@ class MiniPlayer extends StatelessWidget {
   }
 
   Widget _buildPlayPauseButton() {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      color: AppColors.white,
-      onPressed: () => _playerController.togglePlay(),
-      icon: _buildPlayPauseIcon(),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => _playerController.togglePlay(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: _buildPlayPauseIcon(),
+        ),
+      ),
     );
   }
 
   Widget _buildPlayPauseIcon() {
-    return Icon(
-      _playerController.playing == true ? AppIcons.pause : AppIcons.play,
-      size: 18,
+    return Obx(
+      () => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+        child: Icon(
+          key: ValueKey(_playerController.playing),
+          _playerController.playing == true ? AppIcons.pause : AppIcons.play,
+          size: 18,
+          color: AppColors.white,
+        ),
+      ),
     );
   }
 
   Widget _buildDismissButton() {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      color: AppColors.white,
-      onPressed: () => _playerController.stop(),
-      icon: const Icon(
-        AppIcons.dismiss,
-        size: 18,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => _playerController.stop(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: const Icon(
+            AppIcons.dismiss,
+            size: 18,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }

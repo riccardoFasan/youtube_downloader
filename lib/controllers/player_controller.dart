@@ -47,7 +47,17 @@ class PlayerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _sinkState();
+
+    _player.onSkipToNext = () async => playNext();
+    _player.onSkipToPrevious = () async => playPrevious();
+
+    _player.initialized.listen((bool initialized) {
+      if (!initialized) {
+        _disposeState();
+        return;
+      }
+      _sinkState();
+    });
   }
 
   @override
@@ -64,9 +74,7 @@ class PlayerController extends GetxController {
       _selectedAudio.value = audio;
     }
 
-    if (isNotSame || !_playing.value) {
-      _play();
-    }
+    _play();
   }
 
   void togglePlay() {
@@ -122,12 +130,20 @@ class PlayerController extends GetxController {
     if (targetAudio != null) setCurrentAudioAndPlay(targetAudio);
   }
 
-  void switchShuffle() {
-    _shuffle.toggle();
+  void enableShuffle() {
+    _shuffle.value = true;
   }
 
-  void switchLoop() {
-    _loopOne.toggle();
+  void enableLoop() {
+    _loopOne.value = true;
+  }
+
+  void disableShuffle() {
+    _shuffle.value = false;
+  }
+
+  void disableLoop() {
+    _loopOne.value = false;
   }
 
   bool isSelected(Audio audio) {
@@ -143,20 +159,20 @@ class PlayerController extends GetxController {
 
   void _play() {
     if (_playing.isTrue) return;
-    _playing.toggle();
+    _playing.value = true;
     _player.play();
     _sinkPosition();
   }
 
   void _pause() {
     if (_playing.isFalse) return;
-    _playing.toggle();
+    _playing.value = false;
     _player.pause();
     _disposePosition();
   }
 
   void _sinkState() {
-    _stateSinkSub = _player.state.listen((PlayerState event) {
+    _stateSinkSub = _player.state?.listen((PlayerState event) {
       if (event.processingState != ProcessingState.completed) {
         _playing.value = event.playing;
         return;
@@ -166,7 +182,7 @@ class PlayerController extends GetxController {
   }
 
   void _sinkPosition() {
-    _positionSinkSub = _player.position.listen((Duration event) {
+    _positionSinkSub = _player.position?.listen((Duration event) {
       if (_playing.isTrue) {
         if (_settingsController.shouldSkipSponsors) {
           final Segment? reachedSegment = _reachedASegment(event);

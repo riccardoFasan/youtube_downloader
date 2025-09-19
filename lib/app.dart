@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:youtube_downloader/controllers/download_controller.dart';
+import 'package:youtube_downloader/controllers/info_controller.dart';
 import 'package:youtube_downloader/controllers/settings_controller.dart';
 import 'package:youtube_downloader/routes.dart';
 import 'package:youtube_downloader/services/services.dart';
@@ -64,18 +65,17 @@ class YouTubeDownloaderApp extends StatelessWidget {
     FileSystemService fs = Get.find<FileSystemService>();
     SettingsController settings = Get.find<SettingsController>();
     NotificationsService notifications = Get.find<NotificationsService>();
-    BatteryOptimizationService batteryOptimization =
-        Get.find<BatteryOptimizationService>();
     PlayerService player = Get.find<PlayerService>();
     DownloadController downloadController = Get.find<DownloadController>();
+    InfoController infoController = Get.find<InfoController>();
 
     sleep(Duration(milliseconds: 1000));
 
     await fs.init();
     await settings.init();
     await notifications.init();
-    await batteryOptimization.askToDisableOptimization();
     await player.init();
     await downloadController.init();
+    await infoController.init();
   }
 }

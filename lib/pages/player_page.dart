@@ -7,35 +7,42 @@ import 'package:youtube_downloader/utils/utils.dart';
 import 'package:youtube_downloader/widgets/widgets.dart';
 
 class PlayerPage extends StatelessWidget {
-  final PlayerController _playerController = Get.find<PlayerController>();
-
   PlayerPage({super.key});
+
+  final PlayerController _playerController = Get.find<PlayerController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: _buildBackBar(),
-      body: _buildFullPlayer(),
+    return Obx(
+      () => BlurredBackground(
+        color: AppColors.black,
+        url: _playerController.audio.thumbnailMaxResUrl,
+        child: Scaffold(
+          backgroundColor: AppColors.black.withValues(alpha: .66),
+          appBar: _buildBackBar(),
+          body: _buildFullPlayer(),
+        ),
+      ),
     );
   }
 
   AppBar _buildBackBar() {
     return AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
+        leading: AnimatedPressButton(
+          onPressed: () => Get.back(),
+          child: const Icon(
             AppIcons.chewronDown,
             size: 24,
+            color: AppColors.white,
           ),
-          onPressed: () => Get.back(),
         ));
   }
 
   Widget _buildFullPlayer() {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 32,
+        horizontal: 22,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -51,11 +58,14 @@ class PlayerPage extends StatelessWidget {
     return Obx(
       () => Column(
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1 / 1,
-            child: VideoThumbnail(
-              radius: 16,
-              url: _playerController.audio.thumbnailMaxResUrl,
+          Hero(
+            tag: 'miniPlayer',
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: VideoThumbnail(
+                radius: 24,
+                url: _playerController.audio.thumbnailMaxResUrl,
+              ),
             ),
           ),
           Container(
@@ -93,188 +103,278 @@ class PlayerPage extends StatelessWidget {
   }
 
   Widget _buildControls() {
-    return Container(
-      margin: const EdgeInsets.only(top: 64),
-      child: Column(
-        children: <Widget>[
-          _buildProgressBar(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              _buildSkipBackButton(),
-              _buildRewindButton(),
-              _buildPlayPauseButton(),
-              _buildForwardButton(),
-              _buildSkipForwardButton(),
-            ],
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 800),
+      tween: Tween<double>(begin: 50.0, end: 0.0),
+      curve: Curves.easeOutCubic,
+      builder: (context, slideValue, child) {
+        return Transform.translate(
+          offset: Offset(0, slideValue),
+          child: Opacity(
+            opacity: 1.0 - (slideValue / 50.0),
+            child: Container(
+              margin: const EdgeInsets.only(top: 64),
+              child: Column(
+                children: <Widget>[
+                  _buildProgressBar(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _buildSkipBackButton(),
+                      _buildRewindButton(),
+                      _buildPlayPauseButton(),
+                      _buildForwardButton(),
+                      _buildSkipForwardButton(),
+                    ],
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(
+                        top: 32,
+                      ),
+                      child: _buildModeButton()),
+                ],
+              ),
+            ),
           ),
-          Container(
-            margin: const EdgeInsets.only(
-              top: 24,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _buildLoopButton(),
-                _buildShuffleButton(),
-              ],
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildProgressBar() {
-    return Container(
-      margin: const EdgeInsets.only(
-        bottom: 24,
-      ),
-      child: Obx(
-        () => ProgressBar(
-          timeLabelLocation: TimeLabelLocation.above,
-          timeLabelTextStyle: const TextStyle(
-            color: AppColors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w300,
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 600),
+      tween: Tween<double>(begin: 0.0, end: 1.0),
+      curve: Curves.easeOutCubic,
+      builder: (context, opacity, child) {
+        return Opacity(
+          opacity: opacity,
+          child: Transform.scale(
+            scale: 0.8 + (0.2 * opacity),
+            child: Container(
+              margin: const EdgeInsets.only(
+                bottom: 24,
+              ),
+              child: Obx(
+                () => ProgressBar(
+                  timeLabelLocation: TimeLabelLocation.above,
+                  timeLabelTextStyle: const TextStyle(
+                    color: AppColors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  timeLabelPadding: 10,
+                  barHeight: 8,
+                  thumbGlowRadius: 13,
+                  thumbGlowColor: Colors.white,
+                  progress: _playerController.currentPosition,
+                  total: _playerController.audio.duration,
+                  progressBarColor: Colors.white,
+                  thumbColor: Colors.white,
+                  baseBarColor: AppColors.mediumGray,
+                  onSeek: (Duration duration) =>
+                      _playerController.seek(duration.inMilliseconds),
+                ),
+              ),
+            ),
           ),
-          timeLabelPadding: 10,
-          barHeight: 8,
-          thumbGlowRadius: 13,
-          thumbGlowColor: Colors.white,
-          progress: _playerController.currentPosition,
-          total: _playerController.audio.duration,
-          progressBarColor: Colors.white,
-          thumbColor: Colors.white,
-          baseBarColor: AppColors.mediumGray,
-          onSeek: (Duration duration) =>
-              _playerController.seek(duration.inMilliseconds),
-        ),
-      ),
+        );
+      },
     );
   }
 
   Widget _buildPlayPauseButton() {
-    return Ink(
-      height: 60,
-      width: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: IconButton(
-        padding: const EdgeInsets.all(0),
-        color: AppColors.darkGray,
-        onPressed: () => _playerController.togglePlay(),
-        icon: _buildPlayPauseIcon(),
+    return AnimatedPressButton(
+      onPressed: () => _playerController.togglePlay(),
+      child: Container(
+        height: 75,
+        width: 75,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Center(
+          child: _buildPlayPauseIcon(),
+        ),
       ),
     );
   }
 
   Widget _buildPlayPauseIcon() {
     return Obx(
-      () => Padding(
-        // * play icon is a bit off center
-        padding:
-            EdgeInsets.only(left: _playerController.playing == true ? 0 : 4),
-        child: Icon(
-          _playerController.playing == true ? AppIcons.pause : AppIcons.play,
-          size: 28,
+      () => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+        child: Padding(
+          key: ValueKey(_playerController.playing),
+          padding:
+              // * play icon is a bit off center
+              EdgeInsets.only(left: _playerController.playing == true ? 0 : 4),
+          child: Icon(
+            _playerController.playing == true ? AppIcons.pause : AppIcons.play,
+            size: 32,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildRewindButton() {
-    return IconButton(
-      color: AppColors.white,
-      onPressed: () => _playerController.seekBackward(),
-      icon: const Icon(
-        AppIcons.rewind,
-        size: 30,
-      ),
-    );
+    return AnimatedPressButton(
+        onPressed: () => _playerController.seekBackward(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: 48,
+          width: 48,
+          decoration: BoxDecoration(
+            color: AppColors.white.withValues(alpha: .25),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Padding(
+            key: ValueKey(_playerController.playing),
+            padding:
+                // * icon is a bit off center
+                EdgeInsets.only(right: 4),
+            child: const Icon(
+              AppIcons.rewind,
+              size: 30,
+              color: AppColors.white,
+            ),
+          ),
+        ));
   }
 
   Widget _buildForwardButton() {
-    return IconButton(
-      color: AppColors.white,
-      onPressed: () => _playerController.seekForward(),
-      icon: const Icon(
-        AppIcons.forward,
-        size: 30,
-      ),
-    );
+    return AnimatedPressButton(
+        onPressed: () => _playerController.seekForward(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: 48,
+          width: 48,
+          decoration: BoxDecoration(
+            color: AppColors.white.withValues(alpha: .25),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Padding(
+            key: ValueKey(_playerController.playing),
+            padding:
+                // * icon is a bit off center
+                EdgeInsets.only(left: 4),
+            child: const Icon(
+              AppIcons.forward,
+              size: 30,
+              color: AppColors.white,
+            ),
+          ),
+        ));
   }
 
   Widget _buildSkipBackButton() {
-    return IconButton(
-      color: AppColors.white,
+    return AnimatedPressButton(
       onPressed: () => _playerController.playPrevious(),
-      icon: const Icon(
-        AppIcons.skipBack,
-        size: 30,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 38,
+        width: 38,
+        decoration: BoxDecoration(
+          color: AppColors.white.withValues(alpha: .25),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: const Icon(
+          AppIcons.skipBack,
+          size: 24,
+          color: AppColors.white,
+        ),
       ),
     );
   }
 
   Widget _buildSkipForwardButton() {
-    return IconButton(
-      color: AppColors.white,
+    return AnimatedPressButton(
       onPressed: () => _playerController.playNext(),
-      icon: const Icon(
-        AppIcons.skipForward,
-        size: 30,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 38,
+        width: 38,
+        decoration: BoxDecoration(
+          color: AppColors.white.withValues(alpha: .25),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: const Icon(
+          AppIcons.skipForward,
+          size: 24,
+          color: AppColors.white,
+        ),
       ),
     );
   }
 
-  Widget _buildLoopButton() {
-    return Obx(
-      () => Container(
-        height: 35,
-        width: 35,
+  Widget _buildModeButton() {
+    return AnimatedPressButton(
+      onPressed: () {
+        if (!_playerController.shuffle && !_playerController.loopOne) {
+          _playerController.enableShuffle();
+          return;
+        }
+        if (!_playerController.loopOne && _playerController.shuffle) {
+          _playerController.disableShuffle();
+          _playerController.enableLoop();
+          return;
+        }
+
+        _playerController.disableLoop();
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 32,
+        width: 100,
         decoration: BoxDecoration(
-          color: _getIconButtonBackground(_playerController.loopOne),
+          color: AppColors.white.withValues(alpha: .25),
           borderRadius: BorderRadius.circular(50),
         ),
-        child: IconButton(
-          color: AppColors.white,
-          onPressed: () => _playerController.switchLoop(),
-          icon: const Icon(
-            AppIcons.arrowReload,
-            size: 20,
+        child: Obx(
+          () => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return ScaleTransition(
+                scale: animation,
+                child: child,
+              );
+            },
+            child: Row(
+              key: ValueKey(
+                  '${_playerController.shuffle}_${_playerController.loopOne}_btn'),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                    _playerController.shuffle
+                        ? AppIcons.shuffle
+                        : _playerController.loopOne
+                            ? AppIcons.arrowReload
+                            : AppIcons.arrowForward,
+                    size: 18,
+                    color: AppColors.white),
+                Container(
+                  margin: EdgeInsets.only(left: 4),
+                  child: Text(
+                      _playerController.shuffle
+                          ? 'Shuffle'
+                          : _playerController.loopOne
+                              ? 'Infinite'
+                              : 'Regular',
+                      style: TextStyle(color: AppColors.white)),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
-
-  Widget _buildShuffleButton() {
-    return Obx(
-      () => Container(
-        height: 35,
-        width: 35,
-        decoration: BoxDecoration(
-          color: _getIconButtonBackground(_playerController.shuffle),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: IconButton(
-          color: AppColors.white,
-          onPressed: () => _playerController.switchShuffle(),
-          icon: const Icon(
-            AppIcons.shuffle,
-            size: 20,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Color _getIconButtonBackground(bool active) {
-    return active ? AppColors.white.withValues(alpha: .15) : Colors.transparent;
   }
 }
