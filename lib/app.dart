@@ -65,8 +65,6 @@ class YouTubeDownloaderApp extends StatelessWidget {
     FileSystemService fs = Get.find<FileSystemService>();
     SettingsController settings = Get.find<SettingsController>();
     NotificationsService notifications = Get.find<NotificationsService>();
-    BatteryOptimizationService batteryOptimization =
-        Get.find<BatteryOptimizationService>();
     PlayerService player = Get.find<PlayerService>();
     DownloadController downloadController = Get.find<DownloadController>();
     InfoController infoController = Get.find<InfoController>();
@@ -76,7 +74,6 @@ class YouTubeDownloaderApp extends StatelessWidget {
     await fs.init();
     await settings.init();
     await notifications.init();
-    await batteryOptimization.askToDisableOptimization();
     await player.init();
     await downloadController.init();
     await infoController.init();
