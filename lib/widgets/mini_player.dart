@@ -178,7 +178,7 @@ class _MiniPlayerState extends State<MiniPlayer>
           padding: const EdgeInsets.all(8),
           child: const Icon(
             AppIcons.dismiss,
-            size: 18,
+            size: 16,
             color: AppColors.white,
           ),
         ),

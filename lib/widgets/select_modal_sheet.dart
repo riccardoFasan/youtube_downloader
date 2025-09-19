@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_downloader/models/models.dart';
@@ -35,29 +37,36 @@ class _SelectModalSheetState<T> extends State<SelectModalSheet<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.black,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+      child: Wrap(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.black,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+            ),
+            padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
+            margin: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              widget._title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+              ),
             ),
           ),
-          padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
-          margin: const EdgeInsets.only(bottom: 12),
-          child: Text(
-            widget._title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        ...widget._options.map((Option option) => _buildOption(option))
-      ],
+          Container(
+              margin: EdgeInsets.only(bottom: 32),
+              child: Column(children: [
+                ...widget._options.map((Option option) => _buildOption(option))
+              ]))
+        ],
+      ),
     );
   }
 
