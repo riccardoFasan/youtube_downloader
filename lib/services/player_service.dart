@@ -60,11 +60,13 @@ class PlayerService {
         androidNotificationChannelName: 'YouTube Downloader',
         androidNotificationOngoing: false,
         preloadArtwork: true,
-        androidStopForegroundOnPause: true,
-        androidNotificationChannelDescription: 'Music playback controls',
+        androidStopForegroundOnPause: false,
+        androidNotificationChannelDescription: 'YouTube Downloader controls',
         androidNotificationIcon: 'mipmap/ic_launcher',
         fastForwardInterval: const Duration(seconds: 15),
         rewindInterval: const Duration(seconds: 15),
+        androidResumeOnClick: true,
+        androidNotificationClickStartsActivity: true,
       ),
     );
 
