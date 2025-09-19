@@ -130,12 +130,20 @@ class PlayerController extends GetxController {
     if (targetAudio != null) setCurrentAudioAndPlay(targetAudio);
   }
 
-  void switchShuffle() {
-    _shuffle.toggle();
+  void enableShuffle() {
+    _shuffle.value = true;
   }
 
-  void switchLoop() {
-    _loopOne.toggle();
+  void enableLoop() {
+    _loopOne.value = true;
+  }
+
+  void disableShuffle() {
+    _shuffle.value = false;
+  }
+
+  void disableLoop() {
+    _loopOne.value = false;
   }
 
   bool isSelected(Audio audio) {
