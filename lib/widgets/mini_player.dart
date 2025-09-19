@@ -66,7 +66,7 @@ class _MiniPlayerState extends State<MiniPlayer>
                 url: _playerController.audio.thumbnailMinResUrl,
                 fit: BoxFit.fitWidth,
                 child: Container(
-                  color: AppColors.darkGray.withValues(alpha: .66),
+                  color: AppColors.darkGray.withValues(alpha: .5),
                   padding: const EdgeInsets.all(_padding),
                   child: Row(
                     children: <Widget>[

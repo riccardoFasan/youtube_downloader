@@ -18,7 +18,7 @@ class PlayerPage extends StatelessWidget {
         color: AppColors.black,
         url: _playerController.audio.thumbnailMaxResUrl,
         child: Scaffold(
-          backgroundColor: AppColors.black.withValues(alpha: .66),
+          backgroundColor: AppColors.black.withValues(alpha: .5),
           appBar: _buildBackBar(),
           body: _buildFullPlayer(),
         ),
@@ -113,7 +113,7 @@ class PlayerPage extends StatelessWidget {
           child: Opacity(
             opacity: 1.0 - (slideValue / 50.0),
             child: Container(
-              margin: const EdgeInsets.only(top: 64),
+              margin: const EdgeInsets.only(top: 58),
               child: Column(
                 children: <Widget>[
                   _buildProgressBar(),
