@@ -21,16 +21,10 @@ class VideoThumbnail extends StatelessWidget {
         borderRadius: BorderRadius.circular(_radius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 32,
             offset: const Offset(0, 8),
-            spreadRadius: 2,
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-            spreadRadius: 0,
+            spreadRadius: 8,
           ),
         ],
       ),

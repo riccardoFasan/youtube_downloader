@@ -20,7 +20,7 @@ class _MiniPlayerState extends State<MiniPlayer>
   late Animation<double> _scaleAnimation;
 
   static const double _height = 70;
-  static const double _padding = 12;
+  static const double _padding = 10;
 
   @override
   void initState() {
@@ -62,10 +62,11 @@ class _MiniPlayerState extends State<MiniPlayer>
             child: Obx(
               () => BlurredBackground(
                 color: AppColors.darkGray,
-                radius: _padding,
+                radius: _padding * 1.75,
                 url: _playerController.audio.thumbnailMinResUrl,
                 fit: BoxFit.fitWidth,
-                child: Padding(
+                child: Container(
+                  color: AppColors.darkGray.withValues(alpha: .66),
                   padding: const EdgeInsets.all(_padding),
                   child: Row(
                     children: <Widget>[
@@ -76,7 +77,7 @@ class _MiniPlayerState extends State<MiniPlayer>
                         child: Hero(
                           tag: 'miniPlayer',
                           child: VideoThumbnail(
-                            radius: 4,
+                            radius: _padding * 1.25,
                             url: _playerController.audio.thumbnailMinResUrl,
                           ),
                         ),

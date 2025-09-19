@@ -18,7 +18,7 @@ class PlayerPage extends StatelessWidget {
         color: AppColors.black,
         url: _playerController.audio.thumbnailMaxResUrl,
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.black.withValues(alpha: .66),
           appBar: _buildBackBar(),
           body: _buildFullPlayer(),
         ),
@@ -63,7 +63,7 @@ class PlayerPage extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1 / 1,
               child: VideoThumbnail(
-                radius: 16,
+                radius: 24,
                 url: _playerController.audio.thumbnailMaxResUrl,
               ),
             ),
