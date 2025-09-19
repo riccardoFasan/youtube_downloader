@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_downloader/utils/colors.dart';
@@ -47,69 +45,66 @@ class DismissableTile extends StatelessWidget {
 
   Future<bool> _askConfirmation() async {
     final bool? confirmation = await Get.dialog<bool>(
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            title: const Text('Are you sure?', style: TextStyle(fontSize: 22)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 24),
-                  child: Text(
-                    _snackbarText,
-                    style: const TextStyle(height: 1.5, fontSize: 16),
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          title: const Text('Are you sure?', style: TextStyle(fontSize: 22)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 24),
+                child: Text(
+                  _snackbarText,
+                  style: const TextStyle(height: 1.5, fontSize: 16),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 4),
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () => Get.back(result: true),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(AppColors.red),
+                    overlayColor:
+                        WidgetStatePropertyAll<Color>(AppColors.darkGray),
+                    padding: WidgetStateProperty.all(
+                        const EdgeInsets.symmetric(vertical: 16)),
+                  ),
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 4),
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () => Get.back(result: true),
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(AppColors.red),
-                      overlayColor:
-                          WidgetStatePropertyAll<Color>(AppColors.darkGray),
-                      padding: WidgetStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 16)),
-                    ),
-                    child: const Text(
-                      'Yes',
-                      style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () => Get.back(result: false),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(Colors.transparent),
+                    overlayColor:
+                        WidgetStatePropertyAll<Color>(AppColors.darkGray),
+                    padding: WidgetStateProperty.all(
+                        const EdgeInsets.symmetric(vertical: 16)),
+                  ),
+                  child: const Text(
+                    'No',
+                    style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () => Get.back(result: false),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(Colors.transparent),
-                      overlayColor:
-                          WidgetStatePropertyAll<Color>(AppColors.darkGray),
-                      padding: WidgetStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 16)),
-                    ),
-                    child: const Text(
-                      'No',
-                      style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        barrierColor: AppColors.black.withValues(alpha: .5));
+        barrierColor: AppColors.black.withValues(alpha: .85));
     return confirmation ?? false;
   }
 }
