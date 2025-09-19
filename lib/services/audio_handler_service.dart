@@ -11,15 +11,11 @@ class AudioHandlerService extends BaseAudioHandler with SeekHandler {
     playbackState.add(PlaybackState(
       controls: [
         MediaControl.skipToPrevious,
-        MediaControl.rewind,
         MediaControl.play,
-        MediaControl.fastForward,
         MediaControl.skipToNext,
       ],
       systemActions: const {
         MediaAction.seek,
-        MediaAction.seekForward,
-        MediaAction.seekBackward,
         MediaAction.skipToPrevious,
         MediaAction.skipToNext,
       },
@@ -32,15 +28,11 @@ class AudioHandlerService extends BaseAudioHandler with SeekHandler {
       playbackState.add(playbackState.value.copyWith(
         controls: [
           MediaControl.skipToPrevious,
-          MediaControl.rewind,
           if (playerState.playing) MediaControl.pause else MediaControl.play,
-          MediaControl.fastForward,
           MediaControl.skipToNext,
         ],
         systemActions: const {
           MediaAction.seek,
-          MediaAction.seekForward,
-          MediaAction.seekBackward,
           MediaAction.skipToPrevious,
           MediaAction.skipToNext,
         },

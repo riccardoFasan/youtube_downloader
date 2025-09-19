@@ -100,7 +100,7 @@ class Navigation extends StatelessWidget {
     final Color color = active ? AppColors.white : AppColors.lightGray;
     return InkWell(
       onTap: () => onPressed(),
-      borderRadius: BorderRadius.circular(_margin),
+      borderRadius: BorderRadius.circular(_margin * 3),
       child: Padding(
         padding: const EdgeInsets.all(_margin * 2),
         child: Column(
