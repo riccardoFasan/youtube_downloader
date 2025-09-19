@@ -84,6 +84,7 @@ class Navigation extends StatelessWidget {
               AppIcons.settingsCog,
               'Settings',
               () => Get.bottomSheet(SettingsModalSheet(),
+                  barrierColor: Colors.black.withValues(alpha: .85),
                   backgroundColor: AppColors.black,
                   exitBottomSheetDuration: const Duration(milliseconds: 150),
                   enterBottomSheetDuration: const Duration(milliseconds: 150)),
