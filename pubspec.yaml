@@ -36,7 +36,7 @@ dependencies:
   path_provider: ^2.1.5
   http: ^1.5.0
   just_audio: ^0.10.5
-  just_audio_background: ^0.0.1-beta.17
+  audio_service: ^0.18.15
   cached_network_image: ^3.4.1
   audio_video_progress_bar: ^2.0.3
   flutter_keyboard_visibility: ^6.0.0
