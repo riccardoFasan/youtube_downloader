@@ -337,38 +337,42 @@ class PlayerPage extends StatelessWidget {
           color: AppColors.white.withValues(alpha: .25),
           borderRadius: BorderRadius.circular(50),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Obx(() => AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) {
-                    return ScaleTransition(
-                      scale: animation,
-                      child: child,
-                    );
-                  },
-                  child: Icon(
-                      _playerController.shuffle
-                          ? AppIcons.shuffle
-                          : _playerController.loopOne
-                              ? AppIcons.arrowReload
-                              : AppIcons.arrowForward,
-                      size: 20,
-                      color: AppColors.white),
-                )),
-            Container(
-                margin: EdgeInsets.only(left: 4),
-                child: Obx(() => Text(
+        child: Obx(
+          () => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return ScaleTransition(
+                scale: animation,
+                child: child,
+              );
+            },
+            child: Row(
+              key: ValueKey(
+                  '${_playerController.shuffle}_${_playerController.loopOne}_btn'),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
                     _playerController.shuffle
-                        ? 'Shuffle'
+                        ? AppIcons.shuffle
                         : _playerController.loopOne
-                            ? 'Infinite'
-                            : 'Regular',
-                    style: TextStyle(color: AppColors.white))))
-          ],
+                            ? AppIcons.arrowReload
+                            : AppIcons.arrowForward,
+                    size: 18,
+                    color: AppColors.white),
+                Container(
+                  margin: EdgeInsets.only(left: 4),
+                  child: Text(
+                      _playerController.shuffle
+                          ? 'Shuffle'
+                          : _playerController.loopOne
+                              ? 'Infinite'
+                              : 'Regular',
+                      style: TextStyle(color: AppColors.white)),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
