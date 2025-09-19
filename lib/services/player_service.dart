@@ -36,8 +36,10 @@ class PlayerService {
       Uri.parse(audio.path),
       tag: MediaItem(
         id: audio.id,
-        album: audio.title,
+        album: audio.channel,
         title: audio.title,
+        artist: audio.channel,
+        duration: audio.duration,
         artUri: audio.thumbnailMaxResUrl != null
             ? Uri.parse(audio.thumbnailMaxResUrl!)
             : null,
@@ -56,9 +58,11 @@ class PlayerService {
       config: AudioServiceConfig(
         androidNotificationChannelId: 'com.richard.youtube_downloader.player',
         androidNotificationChannelName: 'YouTube Downloader',
-        androidNotificationOngoing: true,
+        androidNotificationOngoing: false,
         preloadArtwork: true,
         androidStopForegroundOnPause: true,
+        androidNotificationChannelDescription: 'Music playback controls',
+        androidNotificationIcon: 'mipmap/ic_launcher',
         fastForwardInterval: const Duration(seconds: 15),
         rewindInterval: const Duration(seconds: 15),
       ),

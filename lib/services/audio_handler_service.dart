@@ -23,11 +23,7 @@ class AudioHandlerService extends BaseAudioHandler with SeekHandler {
         MediaAction.skipToPrevious,
         MediaAction.skipToNext,
       },
-      androidCompactActionIndices: const [
-        1,
-        2,
-        3
-      ], // rewind, play/pause, fastForward
+      androidCompactActionIndices: const [1, 2, 3],
       processingState: AudioProcessingState.idle,
       playing: false,
     ));
@@ -67,7 +63,14 @@ class AudioHandlerService extends BaseAudioHandler with SeekHandler {
         playbackState.add(playbackState.value.copyWith(
           updatePosition: _player.position,
           bufferedPosition: _player.bufferedPosition,
+          speed: _player.speed,
         ));
+
+        // Update MediaItem with duration if not already set
+        final currentMediaItem = mediaItem.value;
+        if (currentMediaItem != null && currentMediaItem.duration != duration) {
+          mediaItem.add(currentMediaItem.copyWith(duration: duration));
+        }
       }
     });
   }
@@ -133,6 +136,15 @@ class AudioHandlerService extends BaseAudioHandler with SeekHandler {
       if (source is UriAudioSource && source.tag is MediaItem) {
         final mediaItem = source.tag as MediaItem;
         this.mediaItem.add(mediaItem);
+
+        // Update playback state with duration when available
+        if (_player.duration != null) {
+          playbackState.add(playbackState.value.copyWith(
+            updatePosition: _player.position,
+            bufferedPosition: _player.bufferedPosition,
+            speed: _player.speed,
+          ));
+        }
       }
     } catch (e) {
       playbackState.add(playbackState.value.copyWith(
