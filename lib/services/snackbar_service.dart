@@ -27,7 +27,7 @@ class SnackbarService {
       backgroundColor: AppColors.darkGray,
       icon: const Icon(
         AppIcons.cloudClose,
-        color: AppColors.white,
+        color: AppColors.red,
       ),
       duration: const Duration(milliseconds: 1500),
       borderRadius: 12,
@@ -42,7 +42,7 @@ class SnackbarService {
       backgroundColor: AppColors.darkGray,
       icon: const Icon(
         AppIcons.cloudClose,
-        color: AppColors.white,
+        color: AppColors.red,
       ),
       duration: const Duration(milliseconds: 1500),
       borderRadius: 12,
@@ -57,7 +57,7 @@ class SnackbarService {
       backgroundColor: AppColors.darkGray,
       icon: const Icon(
         AppIcons.cloudClose,
-        color: AppColors.white,
+        color: AppColors.red,
       ),
       duration: const Duration(milliseconds: 1500),
       borderRadius: 12,
