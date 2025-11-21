@@ -448,6 +448,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+<<<<<<< Updated upstream
   objective_c:
     dependency: transitive
     description:
@@ -456,6 +457,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.1.0"
+=======
+>>>>>>> Stashed changes
   octo_image:
     dependency: transitive
     description:
